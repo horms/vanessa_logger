@@ -11,7 +11,7 @@ XXX
    - Set flag to VANESSA_LOGGER_F_NO_IDENT_PID when opening a syslog
      logger to avoid duplicate perdition[PID] in log entries.
      This value was previously uninitialised for syslog loggers,
-     so the behaviour varied.
+     so the behaviour varied. Brendan O'Dea
 
 ----------------------------------------------------------------------
 
