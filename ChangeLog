@@ -5,6 +5,15 @@ Generic logging layer
 Copyright (C) 2000-2003  Horms
 ----------------------------------------------------------------------
 
+XXX
+(Horms)
+
+     * XXX
+     - ERR convenience macros do not log the function name.
+
+
+----------------------------------------------------------------------
+
 8th January 2003
 (Horms)
 

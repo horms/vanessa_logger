@@ -380,16 +380,13 @@ extern int errno;
 	vanessa_logger_log(__vanessa_logger_vl, LOG_INFO, "%s", str);
 
 #define VANESSA_LOGGER_ERR_UNSAFE(fmt, args...) \
-	_vanessa_logger_log_prefix(__vanessa_logger_vl, LOG_ERR, \
-		__FUNCTION__, fmt, ## args);
+	vanessa_logger_log(__vanessa_logger_vl, LOG_ERR, fmt, ## args);
 
 #define VANESSA_LOGGER_ERR_RAW_UNSAFE(fmt, args...) \
-	vanessa_logger_log(__vanessa_logger_vl, LOG_ERR, \
-		fmt, ## args);
+	vanessa_logger_log(__vanessa_logger_vl, LOG_ERR, fmt, ## args);
 
 #define VANESSA_LOGGER_ERR(str) \
-	_vanessa_logger_log_prefix(__vanessa_logger_vl, LOG_ERR, \
-		__FUNCTION__, "%s", str);
+	vanessa_logger_log(__vanessa_logger_vl, LOG_ERR, "%s", str);
 
 #define VANESSA_LOGGER_RAW_ERR(str) \
 	vanessa_logger_log(__vanessa_logger_vl, LOG_ERR, "%s", str);
