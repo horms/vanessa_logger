@@ -474,6 +474,7 @@ static int __vanessa_logger_reopen(__vanessa_logger_t * vl)
 #define __VANESSA_LOGGER_DO_FH(_vl, _fmt, _fh, _ap) \
   { \
     int len; \
+    memset(_vl->buffer, 0, _vl->buffer_len); \
     if(snprintf( \
       _vl->buffer, \
       _vl->buffer_len-1, \
@@ -491,6 +492,7 @@ static int __vanessa_logger_reopen(__vanessa_logger_t * vl)
       *((_vl->buffer)+len+1)='\0'; \
     } \
     vfprintf(_fh, _vl->buffer, _ap); \
+    fflush(_fh); \
   }
 
 static void __vanessa_logger_log(__vanessa_logger_t * vl,

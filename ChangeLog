@@ -12,6 +12,10 @@ xxx
      - Added ability to log to a function
      - Fixed minor .spec file errors 
        Scot W. Hetzel <scot@genroco.com> & Horms
+     - Flush output if writing to a file descriptor.
+       Fixes weirdness if a file descriptor gets shared between
+       children.
+
 
 
 ----------------------------------------------------------------------
