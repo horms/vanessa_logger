@@ -51,7 +51,7 @@ CFLAGS="${RPM_OPT_FLAGS}" make
 %install
 rm -rf ${RPM_BUILD_ROOT}
 mkdir -p ${RPM_BUILD_ROOT}/{etc,%{prefix}/{lib,bin,doc}}
-make prefix=$RPM_BUILD_ROOT%{prefix} install
+make DESTDIR=$RPM_BUILD_ROOT install
 
 
 %clean
@@ -82,5 +82,8 @@ rm -rf $RPM_BUILD_ROOT
 %doc sample/*.c sample/*.h
 
 %changelog
+* Thu Apr 26 2001 Horms <horms@vergenet.net>
+  Updated to "work" with Red Hat 7
+
 * Sat Sep 15 2000 Horms <horms@vergenet.net>
 - created for version 0.0.0

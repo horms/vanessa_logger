@@ -1,12 +1,13 @@
 Source: vanessa-logger
 Build-Depends: debhelper
-Section: devel
+Section: libs
 Priority: optional
 Maintainer: Simon Horman <horms@vergenet.net>
 Standards-Version: 3.5.2
 
 Package: libvanessa-logger0
 Architecture: any
+Section: libs
 Depends: ${shlibs:Depends}
 Description: Generic Logging Library
  Generic loging layer that may be used to log to one or more of syslog, an
@@ -17,12 +18,14 @@ Description: Generic Logging Library
 
 Package: libvanessa-logger-dev
 Architecture: any
+Section: devel
 Depends: libvanessa-logger0 (= ${Source-Version}), libc6-dev
 Description: Headers and static libraries required to develop against vanessa-logger.
  Headers and static libraries required to develop against vanessa-logger.
 
 Package: libvanessa-logger-sample
 Architecture: any
+Section: devel
 Depends: libvanessa-logger0 (= ${Source-Version}), libvanessa-logger-dev (= ${Source-Version}), libc6-dev
 Description: Sample programme.
  Sample programme with source that demonstrates various features of
