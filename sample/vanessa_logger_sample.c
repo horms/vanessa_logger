@@ -39,6 +39,7 @@ int main (int argc, char **argv){
   vanessa_logger_t *log_fh=NULL;
   vanessa_logger_t *log_fn=NULL;
   vanessa_logger_t *log_sl=NULL;
+  vanessa_logger_t *log_sl_bn=NULL;
 
   printf("vanessa_logger_sample version %s Copyright Horms\n", VERSION);
 
@@ -107,6 +108,20 @@ int main (int argc, char **argv){
     exit(-1);
   }
 
+  /* 
+   * Open logger to syslog facility "mail" by name
+   */
+  log_sl_bn=vanessa_logger_openlog_syslog_byname(
+    "mailstix",
+    "vanessa_logger_sample", 
+    LOG_DEBUG, 
+    0
+  );
+  if(log_sl==NULL){
+    fprintf(stderr, "Error: vanessa_logger_openlog_syslog\n");
+    exit(-1);
+  }
+
   /*
    * Send a message to each logger
    */
@@ -132,6 +147,19 @@ int main (int argc, char **argv){
     log_sl, 
     LOG_DEBUG,
     "This should log to syslog facility LOG_USER, priority LOG_DEBUG: %d",
+    7
+  );
+
+  printf(
+    "Logging message to syslog facility LOG_MAIL (\"mail\"), priority\n"
+    "LOG_DEBUG, If the message is not logged to syslog then you may need\n"
+    "to add the following to /etc/syslog.conf and restart syslogd:\n"
+    "user.mail                                     /var/log/mail\n"
+  );
+  vanessa_logger_log(
+    log_sl_bn, 
+    LOG_DEBUG,
+    "This should log to syslog facility LOG_MAIL, priority LOG_DEBUG: %d",
     7
   );
 
@@ -169,6 +197,15 @@ int main (int argc, char **argv){
     "This should also log to syslog facility LOG_USER, priority LOG_INFO"
   );
 
+  printf(
+    "Logging another message to syslog facility LOG_MAIL, priority LOG_INFO\n"
+  );
+  vanessa_logger_log(
+    log_sl_bn, 
+    LOG_INFO,
+    "This should also log to syslog facility LOG_MAIL, priority LOG_INFO"
+  );
+
   fflush(stderr);
 
 
@@ -180,6 +217,7 @@ int main (int argc, char **argv){
   vanessa_logger_change_max_priority(log_fh, LOG_INFO);
   vanessa_logger_change_max_priority(log_fn, LOG_INFO);
   vanessa_logger_change_max_priority(log_sl, LOG_INFO);
+  vanessa_logger_change_max_priority(log_sl_bn, LOG_INFO);
 
   /*
    * These messages should not get logged as their priority,
@@ -200,6 +238,11 @@ int main (int argc, char **argv){
     LOG_DEBUG,
     "This should not log to syslog facility LOG_USER, priority LOG_INFO"
   );
+  vanessa_logger_log(
+    log_sl_bn, 
+    LOG_DEBUG,
+    "This should not log to syslog facility LOG_MAIL, priority LOG_INFO"
+  );
 
   /*
    * Close each logger
@@ -207,6 +250,7 @@ int main (int argc, char **argv){
   vanessa_logger_closelog(log_fh);
   vanessa_logger_closelog(log_fn);
   vanessa_logger_closelog(log_sl);
+  vanessa_logger_closelog(log_sl_bn);
 
   return(0);
 }

@@ -29,6 +29,9 @@
 #include <stdarg.h>
 #include <unistd.h>
 
+#define SYSLOG_NAMES
+#include <syslog.h>
+
 #include "vanessa_logger.h"
 
 
@@ -475,6 +478,10 @@ static int __vanessa_logger_get_facility_byname(const char *facility_name){
   extern CODE facilitynames[];
   
   if(facility_name==NULL){
+    fprintf(
+      stderr, 
+      "__vanessa_logger_get_facility_byname: facility_name is NULL\n"
+    );
     return(-1);
   }
 
@@ -484,6 +491,11 @@ static int __vanessa_logger_get_facility_byname(const char *facility_name){
     }
   }
 
+  fprintf(
+    stderr, 
+    "__vanessa_logger_get_facility_byname: facility \"%s\" not found\n",
+    facility_name
+  );
   return(-1);
 }
 
@@ -561,6 +573,7 @@ vanessa_logger_t *vanessa_logger_openlog_syslog_byname(
       "vanessa_logger_open_syslog_byname: "
       "__vanessa_logger_get_facility_byname\n"
     );
+    return(NULL);
   }
 
   vl=vanessa_logger_openlog_syslog(facility,ident,max_priority,option);

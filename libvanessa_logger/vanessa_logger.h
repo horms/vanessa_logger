@@ -25,7 +25,6 @@
 
 #include <stdio.h>
 
-#define SYSLOG_NAMES
 #include <syslog.h>
 
 #ifndef VANESSA_LOGGER_FLIM

@@ -87,11 +87,9 @@ host_triplet = @host@
 AS = @AS@
 CC = @CC@
 DLLTOOL = @DLLTOOL@
-LD = @LD@
 LIBTOOL = @LIBTOOL@
 LN_S = @LN_S@
 MAKEINFO = @MAKEINFO@
-NM = @NM@
 OBJDUMP = @OBJDUMP@
 PACKAGE = @PACKAGE@
 RANLIB = @RANLIB@
@@ -131,7 +129,7 @@ DIST_COMMON =  Makefile.am Makefile.in vanessa_logger_sample_config.h.in
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
-TAR = tar
+TAR = gtar
 GZIP_ENV = --best
 DEP_FILES =  .deps/vanessa_logger_sample.P
 SOURCES = $(vanessa_logger_sample_SOURCES)
