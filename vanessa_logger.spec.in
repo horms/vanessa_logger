@@ -97,7 +97,6 @@ make DESTDIR=$RPM_BUILD_ROOT install
 
 
 %clean
-rm -rf $RPM_BUILD_DIR/%{name}-%{version}
 rm -rf $RPM_BUILD_ROOT
 
 
