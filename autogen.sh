@@ -22,7 +22,7 @@ for command in autoconf automake libtoolize; do
                 RC=$?
 cat << !EOF >&2
 
-You must have $pkg installed to compile the linux-ha package.  
+You must have $pkg installed to compile the vanessa_logger.  
 Download the appropriate package for your system, 
 or get the source tarball at: $URL
 !EOF

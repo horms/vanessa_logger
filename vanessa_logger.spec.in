@@ -22,7 +22,7 @@ Name: vanessa_logger
 Version: @VERSION@
 Release: 1
 Copyright: GNU Lesser General Public Licence
-URL: http://vanessa.sourceforge.net/
+URL: http://www.vergenet.net/linux/vanessa/
 Packager: Horms <horms@vergenet.net>
 Group: Development/Libraries
 Source0: ftp://vergenet.net/pub/vanessa_logger/vanessa_logger/%{name}-%{version}.tar.gz
