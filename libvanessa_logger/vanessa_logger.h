@@ -335,12 +335,27 @@ extern int errno;
 	vanessa_logger_log(__vanessa_logger_vl, LOG_DEBUG, \
 		__VANESSA_LOGGER_DEBUG_PREFIX ": " fmt, ## args);
 
+#define VANESSA_LOGGER_DEBUG(str) \
+	vanessa_logger_log(__vanessa_logger_vl, LOG_DEBUG, \
+		__VANESSA_LOGGER_DEBUG_PREFIX ": %s", str);
+
+#define VANESSA_LOGGER_DEBUG_ERRNO(str) \
+	vanessa_logger_log(__vanessa_logger_vl, LOG_DEBUG, \
+		__VANESSA_LOGGER_DEBUG_PREFIX ": %s: %s", \
+		str, strerror(errno));
+
 #define VANESSA_LOGGER_DEBUG_RAW_UNSAFE(fmt, args...) \
 	vanessa_logger_log(__vanessa_logger_vl, LOG_DEBUG, \
 		fmt, ## args);
 
+#define VANESSA_LOGGER_DEBUG_RAW(str) \
+	vanessa_logger_log(__vanessa_logger_vl, LOG_DEBUG, "%s", str);
+
 #define VANESSA_LOGGER_INFO_UNSAFE(fmt, args...) \
 	vanessa_logger_log(__vanessa_logger_vl, LOG_INFO, fmt, ## args);
+
+#define VANESSA_LOGGER_INFO(str) \
+	vanessa_logger_log(__vanessa_logger_vl, LOG_INFO, "%s", str);
 
 #define VANESSA_LOGGER_ERR_UNSAFE(fmt, args...) \
 	vanessa_logger_log(__vanessa_logger_vl, LOG_ERR, \
@@ -350,29 +365,12 @@ extern int errno;
 	vanessa_logger_log(__vanessa_logger_vl, LOG_ERR, \
 		fmt, ## args);
 
-#define VANESSA_LOGGER_DEBUG(str) \
-	vanessa_logger_log(__vanessa_logger_vl, LOG_DEBUG, \
-		__VANESSA_LOGGER_DEBUG_PREFIX ": %s", str);
-
-#define VANESSA_LOGGER_DEBUG_RAW(str) \
-	vanessa_logger_log(__vanessa_logger_vl, LOG_DEBUG, \
-		"%s", str);
-
 #define VANESSA_LOGGER_ERR(str) \
 	vanessa_logger_log(__vanessa_logger_vl, LOG_ERR, \
 		__VANESSA_LOGGER_DEBUG_PREFIX ": %s", str);
 
 #define VANESSA_LOGGER_RAW_ERR(str) \
-	vanessa_logger_log(__vanessa_logger_vl, LOG_ERR, \
-		"%s", str);
-
-#define VANESSA_LOGGER_INFO(str) \
-	vanessa_logger_log(__vanessa_logger_vl, LOG_INFO, "%s", str);
-
-#define VANESSA_LOGGER_DEBUG_ERRNO(s) \
-	vanessa_logger_log(__vanessa_logger_vl, LOG_DEBUG, \
-		__VANESSA_LOGGER_DEBUG_PREFIX ": %s: %s", \
-		s, strerror(errno));
+	vanessa_logger_log(__vanessa_logger_vl, LOG_ERR, "%s", str);
 
 #define VANESSA_LOGGER_DUMP(buffer, buffer_length, flag) \
 	vanessa_logger_str_dump(__vanessa_logger_vl, (buffer), \
