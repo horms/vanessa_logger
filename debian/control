@@ -1,4 +1,5 @@
 Source: vanessa-logger
+Build-Depends: debhelper
 Section: devel
 Priority: optional
 Maintainer: Simon Horman <horms@vergenet.net>
