@@ -5,10 +5,10 @@ Generic logging layer
 Copyright (C) 2000  Horms
 ----------------------------------------------------------------------
 
-xxx
+5th April 2001
 (Horms)
 
-     * xxx
+     * Version 0.0.1
      - Added facilitynames compatibility for Solaris
        (Cedric Gavage <niddle@linuxbe.org>)
      - Cleaned up debian packages
