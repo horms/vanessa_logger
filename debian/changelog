@@ -1,8 +1,8 @@
-vanessa-logger (0.0.4beta1-1) unstable; urgency=low
+vanessa-logger (0.0.4beta2-1) unstable; urgency=low
 
   * New upstream
 
- -- Simon Horman <horms@vergenet.net>  Fri, 27 Dec 2002 17:22:31 +0900
+ -- Simon Horman <horms@vergenet.net>  Wed,  8 Jan 2003 11:24:49 +0900
 
 vanessa-logger (0.0.3-2) unstable; urgency=low
 
