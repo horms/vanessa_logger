@@ -1,21 +1,17 @@
-Begin3
+Begin4
 Title:          vanessa_logger
 Version:        0.0.5
 Entered-date:   15DEC03
 Description:    vanessa_adt is a library that provides a generic logging 
-		layer that may be used to log to one or more of syslog, an
-		open file handle, a file name or using an function.
-		Multiple loggers may be opened, though due to to
-		limitations in the implementation of syslog opening
-		multiple syslog loggers doesn't makes sense.  Includes the
-		ability to limit which messages will be logged based on
-		priorities.
+layer that may be used to log to one or more of syslog, an open file
+handle, a file name or using an function.  Multiple loggers may be opened,
+though due to to limitations in the implementation of syslog opening
+multiple syslog loggers doesn't makes sense.  Includes the ability to limit
+which messages will be logged based on priorities.
 Keywords:       Logging Syslog Filehandle File Function Priority
 Author:         Horms <horms@verge.net.au>
 Maintained-by:  Horms <horms@verge.net.au>
-Primary-site:   www.vergenet.net /linux/vanessa/download/vanessa_adt/
-Alternate-site: 
-Original-site:  
-Platforms:      Linux Solaris FreeBSD AIX
-Copying-policy: LGPL
+Primary-site:   http://www.vergenet.net/linux/vanessa/download/vanessa_logger/
+Platforms:      Known to work on Linux, Solaris, FreeBSD and AIX
+Copying-policy: GNU Lesser General Public License (GLPL) 2.1 or later
 End
