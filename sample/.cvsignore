@@ -3,3 +3,4 @@ vanessa_logger_sample
 .deps
 vanessa_logger_sample_config.h
 Makefile
+Makefile.in
