@@ -535,11 +535,12 @@ int __vanessa_logger_do_fmt(__vanessa_logger_t *vl,
 	}
 
 	if(prefix) {
-		len = strlen(prefix);
+		len = strlen(prefix) + 2;
 		if (offset + len + 1 > vl->buffer_len) {
 			return -1;
 		}
-		memcpy(vl->buffer + offset, prefix, len);
+		memcpy(vl->buffer + offset, prefix, len - 2);
+		memcpy(vl->buffer + offset + len - 2, ": ", 2);
 		offset += len;
 	}
 
