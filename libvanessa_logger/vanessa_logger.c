@@ -168,8 +168,8 @@ __vanessa_logger_set(__vanessa_logger_t * vl, const char *ident,
 		void *data, const int option);
 
 static void 
-__vanessa_logger_log(
-__vanessa_logger_t * vl, int priority, const char *fmt, va_list ap);
+__vanessa_logger_log(__vanessa_logger_t * vl, int priority, 
+		const char *prefix, const char *fmt, va_list ap);
 
 static int 
 __vanessa_logger_reopen(__vanessa_logger_t * vl);
@@ -190,9 +190,8 @@ __vanessa_logger_create(void)
 {
 	__vanessa_logger_t *vl;
 
-	if ((vl =
-	     (__vanessa_logger_t *) malloc(sizeof(__vanessa_logger_t))) ==
-	    NULL) {
+	vl = (__vanessa_logger_t *) malloc(sizeof(__vanessa_logger_t));
+	if (!vl) {
 		perror("__vanessa_logger_create: malloc");
 		return (NULL);
 	}
@@ -221,7 +220,7 @@ __vanessa_logger_create(void)
 static void __vanessa_logger_destroy
 (__vanessa_logger_t * vl)
 {
-	if (vl == NULL) {
+	if (!vl) {
 		return;
 	}
 
@@ -246,7 +245,7 @@ static void __vanessa_logger_reset
 {
 	__vanessa_logger_bool_t ready;
 
-	if (vl == NULL) {
+	if (!vl) {
 		return;
 	}
 
@@ -329,8 +328,7 @@ __vanessa_logger_set(__vanessa_logger_t * vl, const char *ident,
 		const int max_priority, const __vanessa_logger_type_t type, 
 		void *data, const int option)
 {
-	if (vl == NULL || type == __vanessa_logger_none || data == NULL
-	    || ident == NULL) {
+	if (!vl || type == __vanessa_logger_none || !data || !ident) {
 		return (NULL);
 	}
 
@@ -342,7 +340,8 @@ __vanessa_logger_set(__vanessa_logger_t * vl, const char *ident,
 	/*
 	 * Set ident
 	 */
-	if ((vl->ident = strdup(ident)) == NULL) {
+	vl->ident = strdup(ident);
+	if (!vl->ident) {
 		perror("__vanessa_logger_set: strdup 1");
 		__vanessa_logger_destroy(vl);
 		return (NULL);
@@ -351,8 +350,8 @@ __vanessa_logger_set(__vanessa_logger_t * vl, const char *ident,
 	/*
 	 * Set buffer
 	 */
-	if ((vl->buffer =
-	     (char *) malloc(__VANESSA_LOGGER_BUF_SIZE)) == NULL) {
+	vl->buffer = (char *) malloc(__VANESSA_LOGGER_BUF_SIZE);
+	if (!vl->buffer) {
 		perror("__vanessa_logger_set: malloc 1");
 		__vanessa_logger_destroy(vl);
 		return (NULL);
@@ -443,7 +442,7 @@ __vanessa_logger_set(__vanessa_logger_t * vl, const char *ident,
 static int 
 __vanessa_logger_reopen(__vanessa_logger_t * vl)
 {
-	if (vl == NULL || vl->type == __vanessa_logger_none) {
+	if (!vl || vl->type == __vanessa_logger_none) {
 		return (0);
 	}
 
@@ -489,33 +488,50 @@ __vanessa_logger_reopen(__vanessa_logger_t * vl)
  * return: none
  **********************************************************************/
 
-#define __VANESSA_LOGGER_DO_FH(_vl, _fmt, _fh, _ap) \
-  { \
-    int len; \
-    memset(_vl->buffer, 0, _vl->buffer_len); \
-    if(snprintf( \
-      _vl->buffer, \
-      _vl->buffer_len-1, \
-      "%s[%d]: %s",  \
-      _vl->ident,  \
-      getpid(),  \
-      _fmt \
-    )<0){ \
-      fprintf(_fh, "__vanessa_logger_log: snprintf: output truncated\n"); \
-      return; \
-    } \
-    len=strlen(_vl->buffer); \
-    if(*((_vl->buffer)+len-1)!='\n'){ \
-      *((_vl->buffer)+len)='\n'; \
-      *((_vl->buffer)+len+1)='\0'; \
-    } \
-    vfprintf(_fh, _vl->buffer, _ap); \
-    fflush(_fh); \
-  }
+#define __VANESSA_LOGGER_DO_FH(_vl, _prefix, _fmt, _fh, _ap)             \
+{                                                                        \
+	int len;                                                         \
+	memset((_vl)->buffer, 0, (_vl)->buffer_len);                     \
+	if(snprintf((_vl)->buffer, (_vl)->buffer_len-1,                  \
+			(_prefix)?"%s: %s[%d]: %s":"%s%s[%d]: %s",       \
+			(_prefix)?(_prefix):"",                          \
+			(_vl)->ident, getpid(), (_fmt))<0){              \
+		fprintf(_fh, "__vanessa_logger_log: snprintf: "          \
+				"output truncated\n");                   \
+		return;                                                  \
+	}                                                                \
+	len=strlen((_vl)->buffer);                                       \
+	if(*(((_vl)->buffer)+len-1)!='\n'){                              \
+		*(((_vl)->buffer)+len)='\n';                             \
+		*(((_vl)->buffer)+len+1)='\0';                           \
+	}                                                                \
+	vfprintf((_fh), (_vl)->buffer, (_ap));                           \
+	fflush(_fh);                                                     \
+}
+
+#define __VANESSA_LOGGER_DO(_vl, _priority, _prefix, _fmt, _ap, _func)   \
+{                                                                        \
+	int len;                                                         \
+	memset((_vl)->buffer, 0, (_vl)->buffer_len);                     \
+	if(snprintf((_vl)->buffer, (_vl)->buffer_len-1,                  \
+			(_prefix)?"%s: %s":"%s%s",                       \
+			(_prefix)?(_prefix):"", (_fmt))<0){              \
+		(_func)((_priority), "__vanessa_logger_log: snprintf: "  \
+				"output truncated\n");                   \
+		return;                                                  \
+	}                                                                \
+	len=strlen((_vl)->buffer);                                       \
+	if(*(((_vl)->buffer)+len-1)!='\n'){                              \
+		*(((_vl)->buffer)+len)='\n';                             \
+		*(((_vl)->buffer)+len+1)='\0';                           \
+	}                                                                \
+	(_func)((_priority), (_vl)->buffer, (_ap));                      \
+}
+
 
 static void 
 __vanessa_logger_log(__vanessa_logger_t * vl, int priority, 
-		const char *fmt, va_list ap)
+		const char *prefix, const char *fmt, va_list ap)
 {
 	if (vl == NULL || vl->ready == __vanessa_logger_false
 	    || priority > vl->max_priority) {
@@ -524,30 +540,19 @@ __vanessa_logger_log(__vanessa_logger_t * vl, int priority,
 
 	switch (vl->type) {
 	case __vanessa_logger_filehandle:
-		__VANESSA_LOGGER_DO_FH(vl, fmt, vl->data.d_filehandle, ap);
+		__VANESSA_LOGGER_DO_FH(vl, prefix, fmt, 
+				vl->data.d_filehandle, ap);
 		break;
 	case __vanessa_logger_filename:
-		__VANESSA_LOGGER_DO_FH(vl, fmt,
-				       vl->data.d_filename->filehandle,
-				       ap);
+		__VANESSA_LOGGER_DO_FH(vl, prefix, fmt,
+			       vl->data.d_filename->filehandle, ap);
 		break;
 	case __vanessa_logger_syslog:
-		if (vsnprintf(vl->buffer, vl->buffer_len, fmt, ap) < 0) {
-			syslog(priority,
-			       "__vanessa_logger_log: vsnprintf: "
-			       "output truncated");
-			return;
-		}
-		syslog(priority, "%s", vl->buffer);
+		__VANESSA_LOGGER_DO(vl, priority, prefix, fmt, ap, syslog);
 		break;
 	case __vanessa_logger_function:
-		if (vsnprintf(vl->buffer, vl->buffer_len, fmt, ap) < 0) {
-			vl->data.d_function(priority,
-			       "__vanessa_logger_log: vsnprintf: "
-			       "output truncated");
-			return;
-		}
-		vl->data.d_function(priority, "%s", vl->buffer);
+		__VANESSA_LOGGER_DO(vl, priority, prefix, fmt, ap,
+				vl->data.d_function);
 		break;
 	case __vanessa_logger_none:
 		break;
@@ -577,7 +582,8 @@ __vanessa_logger_get_facility_byname(const char *facility_name)
 
 	if (facility_name == NULL) {
 		fprintf(stderr,
-			"__vanessa_logger_get_facility_byname: facility_name is NULL\n");
+			"__vanessa_logger_get_facility_byname: "
+			"facility_name is NULL\n");
 		return (-1);
 	}
 
@@ -588,8 +594,8 @@ __vanessa_logger_get_facility_byname(const char *facility_name)
 	}
 
 	fprintf(stderr,
-		"__vanessa_logger_get_facility_byname: facility \"%s\" not found\n",
-		facility_name);
+		"__vanessa_logger_get_facility_byname: facility \"%s\" "
+		"not found\n", facility_name);
 	return (-1);
 }
 
@@ -615,19 +621,15 @@ vanessa_logger_openlog_syslog(int facility, const char *ident,
 	__vanessa_logger_t *vl;
 
 	if ((vl = __vanessa_logger_create()) == NULL) {
-		fprintf(stderr,
-			"vanessa_logger_openlog_syslog: "
+		fprintf(stderr, "vanessa_logger_openlog_syslog: "
 			"__vanessa_logger_create\n");
 		return (NULL);
 	}
 
-	if (__vanessa_logger_set(vl,
-				 ident,
-				 max_priority,
-				 __vanessa_logger_syslog,
-				 (void *) &facility, option) == NULL) {
-		fprintf(stderr,
-			"vanessa_logger_openlog_syslog: "
+	if (__vanessa_logger_set(vl, ident, max_priority,
+			 __vanessa_logger_syslog, (void *) &facility, 
+			option) == NULL) {
+		fprintf(stderr, "vanessa_logger_openlog_syslog: "
 			"__vanessa_logger_set\n");
 		return (NULL);
 	}
@@ -658,17 +660,16 @@ vanessa_logger_openlog_syslog_byname(const char *facility_name,
 	__vanessa_logger_t *vl;
 	int facility;
 
-	if ((facility =
-	     __vanessa_logger_get_facility_byname(facility_name)) < 0) {
-		fprintf(stderr,
-			"vanessa_logger_open_syslog_byname: "
+	facility = __vanessa_logger_get_facility_byname(facility_name);
+	if (facility < 0) {
+		fprintf(stderr, "vanessa_logger_open_syslog_byname: "
 			"__vanessa_logger_get_facility_byname\n");
 		return (NULL);
 	}
 
 	vl = vanessa_logger_openlog_syslog(facility, ident, max_priority,
 					   option);
-	if (vl == NULL) {
+	if (!vl) {
 		fprintf(stderr,
 			"vanessa_logger_openlog_syslog: "
 			"vanessa_logger_openlog_syslog\n");
@@ -706,14 +707,11 @@ vanessa_logger_openlog_filehandle(FILE * filehandle, const char *ident,
 		return (NULL);
 	}
 
-	if (__vanessa_logger_set(vl,
-				 ident,
-				 max_priority,
-				 __vanessa_logger_filehandle,
-				 (void *) filehandle, option) == NULL) {
-		fprintf(stderr,
-			"vanessa_logger_openlog_filehandle: "
-			"__vanessa_logger_set\n");
+	if (__vanessa_logger_set(vl, ident, max_priority, 
+			__vanessa_logger_filehandle, (void *) filehandle, 
+			option) == NULL) {
+		fprintf(stderr, "vanessa_logger_openlog_filehandle: "
+				"__vanessa_logger_set\n");
 		return (NULL);
 	}
 
@@ -736,27 +734,23 @@ vanessa_logger_openlog_filehandle(FILE * filehandle, const char *ident,
  *         NULL on error
  **********************************************************************/
 
-vanessa_logger_t *vanessa_logger_openlog_filename(const char *filename,
-						  const char *ident,
-						  const int max_priority,
-						  const int option)
+vanessa_logger_t *
+vanessa_logger_openlog_filename(const char *filename, const char *ident,
+		const int max_priority, const int option)
 {
 	__vanessa_logger_t *vl;
 
-	if ((vl = __vanessa_logger_create()) == NULL) {
-		fprintf(stderr,
-			"vanessa_logger_openlog_filename: "
+	vl = __vanessa_logger_create();
+	if (!vl) {
+		fprintf(stderr, "vanessa_logger_openlog_filename: "
 			"__vanessa_logger_create\n");
 		return (NULL);
 	}
 
-	if (__vanessa_logger_set(vl,
-				 ident,
-				 max_priority,
-				 __vanessa_logger_filename,
-				 (void *) filename, option) == NULL) {
-		fprintf(stderr,
-			"vanessa_logger_openlog_filename: "
+	if (__vanessa_logger_set(vl, ident, max_priority,
+			 __vanessa_logger_filename, (void *) filename, 
+			option) == NULL) {
+		fprintf(stderr, "vanessa_logger_openlog_filename: "
 			"__vanessa_logger_set\n");
 		return (NULL);
 	}
@@ -786,19 +780,15 @@ vanessa_logger_openlog_function(vanessa_logger_log_function_t log_function,
 	__vanessa_logger_t *vl;
 
 	if ((vl = __vanessa_logger_create()) == NULL) {
-		fprintf(stderr,
-			"vanessa_logger_openlog_function: "
+		fprintf(stderr, "vanessa_logger_openlog_function: "
 			"__vanessa_logger_create\n");
 		return (NULL);
 	}
 
-	if (__vanessa_logger_set(vl,
-				 ident,
-				 max_priority,
-				 __vanessa_logger_function,
-				 (void *) log_function, option) == NULL) {
-		fprintf(stderr,
-			"vanessa_logger_openlog_function: "
+	if (__vanessa_logger_set(vl, ident, max_priority,
+			 __vanessa_logger_function, (void *) log_function, 
+			option) == NULL) {
+		fprintf(stderr, "vanessa_logger_openlog_function: "
 			"__vanessa_logger_set\n");
 		return (NULL);
 	}
@@ -885,12 +875,13 @@ vanessa_logger_log(vanessa_logger_t * vl, int priority, const char *fmt, ...)
 	va_list ap;
 
 	va_start(ap, fmt);
-	__vanessa_logger_log((__vanessa_logger_t *) vl, priority, fmt, ap);
+	__vanessa_logger_log((__vanessa_logger_t *) vl, priority, NULL, 
+			fmt, ap);
 	va_end(ap);
 }
 
 
-/**********************************************************************_
+/**********************************************************************
  * vanessa_logger_logv
  * Exported function to log a message
  * Same as vanessa_logger_log but a va_list is given instead
@@ -898,9 +889,30 @@ vanessa_logger_log(vanessa_logger_t * vl, int priority, const char *fmt, ...)
  **********************************************************************/
 
 void 
-vanessa_logger_logv(vanessa_logger_t * vl, int priority, char *fmt, va_list ap)
+vanessa_logger_logv(vanessa_logger_t * vl, int priority, const char *fmt, 
+		va_list ap)
 {
-	__vanessa_logger_log((__vanessa_logger_t *) vl, priority, fmt, ap);
+	__vanessa_logger_log((__vanessa_logger_t *) vl, priority, NULL,
+			fmt, ap);
+}
+
+
+/**********************************************************************
+ * _vanessa_logger_log_prefix
+ * Exported function used by convienience macros to prefix a message
+ * with the function name that the message was generated in
+ **********************************************************************/
+
+void 
+_vanessa_logger_log_prefix(vanessa_logger_t * vl, int priority, 
+		const char *prefix, const char *fmt, ...)
+{
+	va_list ap;
+
+	va_start(ap, fmt);
+	__vanessa_logger_log((__vanessa_logger_t *) vl, priority, prefix,
+			fmt, ap);
+	va_end(ap);
 }
 
 
@@ -953,7 +965,7 @@ __vanessa_logger_str_dump_oct(vanessa_logger_t * vl,
 	char *out;
 
 	out = (char *) malloc(buffer_length * 4 + 1);
-	if (out == NULL) {
+	if (!out) {
 		vanessa_logger_log(vl, LOG_DEBUG, 
 				"vanessa_logger_str_dump: malloc: %s",
 				strerror(errno));
@@ -1015,7 +1027,7 @@ loop:
 	/* Srink buffer
 	 * Ew, realloc */
 	out = realloc(out, out_pos - out);
-	if (out == NULL) {
+	if (!out) {
 		vanessa_logger_log(vl, LOG_DEBUG, 
 				"vanessa_logger_str_dump: realloc: %s",
 				strerror(errno));
@@ -1037,7 +1049,7 @@ __vanessa_logger_str_dump_hex(vanessa_logger_t * vl,
 	int i;
 
 	out = (char *) malloc((buffer_length << 1) + (buffer_length >> 2) + 1);
-	if (out == NULL) {
+	if (!out) {
 		vanessa_logger_log(vl, LOG_DEBUG, 
 				"vanessa_logger_str_dump: malloc: %s",
 				strerror(errno));
@@ -1072,4 +1084,3 @@ vanessa_logger_str_dump(vanessa_logger_t * vl, const unsigned char *buffer,
 
 	return(__vanessa_logger_str_dump_oct(vl, buffer, buffer_length));
 }			 
-

@@ -14,6 +14,7 @@ XXX
      - Do a configure check for facilitynames rather than
        checking for OS defines at compile time
      - Fixed error reporting when a function is the loging target
+     - Don't expect __FUNCTION__ to be a string litereal
 
 
 ----------------------------------------------------------------------

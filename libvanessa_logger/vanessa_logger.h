@@ -207,8 +207,19 @@ vanessa_logger_log(vanessa_logger_t * vl, int priority, const char *fmt, ...);
  **********************************************************************/
 
 void 
-vanessa_logger_logv(vanessa_logger_t * vl, int priority, char *fmt, 
+vanessa_logger_logv(vanessa_logger_t * vl, int priority, const char *fmt, 
 		va_list ap);
+
+
+/**********************************************************************
+ * _vanessa_logger_log_prefix
+ * Exported function used by convienience macros to prefix a message
+ * with the function name that the message was generated in
+ **********************************************************************/
+
+void 
+_vanessa_logger_log_prefix(vanessa_logger_t * vl, int priority, 
+		const char *prefix, const char *fmt, ...);
 
 
 /**********************************************************************
@@ -318,8 +329,6 @@ extern int errno;
  * should be safe to use with user derived input.
  */
 
-#define __VANESSA_LOGGER_DEBUG_PREFIX __FUNCTION__ 
-
 #define VANESSA_LOGGER_LOG_UNSAFE(priority, fmt, args...) \
 	vanessa_logger_log(__vanessa_logger_vl, priority, fmt, ## args);
 
@@ -327,17 +336,16 @@ extern int errno;
 	vanessa_logger_log(__vanessa_logger_vl, priority, "%s", str)
 
 #define VANESSA_LOGGER_DEBUG_UNSAFE(fmt, args...) \
-	vanessa_logger_log(__vanessa_logger_vl, LOG_DEBUG, \
-		__VANESSA_LOGGER_DEBUG_PREFIX ": " fmt, ## args);
+	_vanessa_logger_log_prefix(__vanessa_logger_vl, LOG_DEBUG, \
+		__FUNCTION__, fmt, ## args);
 
 #define VANESSA_LOGGER_DEBUG(str) \
-	vanessa_logger_log(__vanessa_logger_vl, LOG_DEBUG, \
-		__VANESSA_LOGGER_DEBUG_PREFIX ": %s", str);
+	_vanessa_logger_log_prefix(__vanessa_logger_vl, LOG_DEBUG, \
+		__FUNCTION__, "%s", str);
 
 #define VANESSA_LOGGER_DEBUG_ERRNO(str) \
-	vanessa_logger_log(__vanessa_logger_vl, LOG_DEBUG, \
-		__VANESSA_LOGGER_DEBUG_PREFIX ": %s: %s", \
-		str, strerror(errno));
+	_vanessa_logger_log_prefix(__vanessa_logger_vl, LOG_DEBUG, \
+		__FUNCTION__, "%s: %s", str, strerror(errno));
 
 #define VANESSA_LOGGER_DEBUG_RAW_UNSAFE(fmt, args...) \
 	vanessa_logger_log(__vanessa_logger_vl, LOG_DEBUG, \
@@ -353,16 +361,16 @@ extern int errno;
 	vanessa_logger_log(__vanessa_logger_vl, LOG_INFO, "%s", str);
 
 #define VANESSA_LOGGER_ERR_UNSAFE(fmt, args...) \
-	vanessa_logger_log(__vanessa_logger_vl, LOG_ERR, \
-		__VANESSA_LOGGER_DEBUG_PREFIX ": " fmt, ## args);
+	_vanessa_logger_log_prefix(__vanessa_logger_vl, LOG_ERR, \
+		__FUNCTION__, fmt, ## args);
 
 #define VANESSA_LOGGER_ERR_RAW_UNSAFE(fmt, args...) \
 	vanessa_logger_log(__vanessa_logger_vl, LOG_ERR, \
 		fmt, ## args);
 
 #define VANESSA_LOGGER_ERR(str) \
-	vanessa_logger_log(__vanessa_logger_vl, LOG_ERR, \
-		__VANESSA_LOGGER_DEBUG_PREFIX ": %s", str);
+	_vanessa_logger_log_prefix(__vanessa_logger_vl, LOG_ERR, \
+		__FUNCTION__, "%s", str);
 
 #define VANESSA_LOGGER_RAW_ERR(str) \
 	vanessa_logger_log(__vanessa_logger_vl, LOG_ERR, "%s", str);
