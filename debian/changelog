@@ -1,6 +1,6 @@
 vanessa-logger (0.0.3beta2-1) unstable; urgency=low
 
-  * Minor spelling errors corrected. closes: Bug#125062
+  * Minor spelling errors corrected. (closes: Bug#125062)
 
  -- Simon Horman <horms@vergenet.net>  Sun, 24 Mar 2002 10:08:13 +1100
 
