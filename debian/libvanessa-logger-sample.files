@@ -1,4 +1,4 @@
 usr/bin/vanessa_logger_sample
 usr/share/doc/libvanessa-logger-sample/vanessa_logger_sample.c
 usr/share/doc/libvanessa-logger-sample/vanessa_logger_sample_config.h
-/usr/man/man1/vanessa_logger_sample.1
+/usr/share/man/man1/vanessa_logger_sample.1

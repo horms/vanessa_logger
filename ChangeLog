@@ -9,7 +9,8 @@ xxx
 (Horms)
 
      * xxx
-     Added facilitynames compatibility for Solaris
+     * Added facilitynames compatibility for Solaris
+       (Cedric Gavage <niddle@linuxbe.org>)
 
 ----------------------------------------------------------------------
 

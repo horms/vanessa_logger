@@ -27,12 +27,12 @@ EXTRA_DIST = \
 changelog \
 control \
 copyright \
+rules \
 libvanessa-logger-dev.dirs \
 libvanessa-logger-dev.files \
 libvanessa-logger-sample.dirs \
 libvanessa-logger-sample.files \
 libvanessa-logger0.dirs \
-libvanessa-logger0.files \
-libvanessa_logger0.postinst
+libvanessa-logger0.files
 
 m4datadir = $(datadir)/aclocal
