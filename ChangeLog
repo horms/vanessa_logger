@@ -5,6 +5,15 @@ Generic logging layer
 Copyright (C) 2000-2003  Horms
 ----------------------------------------------------------------------
 
+XXX
+(Horms)
+
+   * XXX
+   - Added VANESSA_LOGGER_F_TIMESTAMP and VANESSA_LOGGER_F_CONS flags
+     for vanessa_logger_openlog_filename() and vanessa_logger_openlog_fh()
+
+----------------------------------------------------------------------
+
 15th December 2003
 (Horms)
 

@@ -67,7 +67,11 @@ typedef unsigned int vanessa_logger_flag_t;
 
 #define VANESSA_LOGGER_F_NONE         0x0  /* Default behaviour */
 #define VANESSA_LOGGER_F_NO_IDENT_PID 0x1  /* Don't show ident and pid */
-
+#define VANESSA_LOGGER_F_TIMESTAMP    0x2  /* Log the date and time */
+#define VANESSA_LOGGER_F_CONS         0x4  /* Log to the console if there
+					      is an error while writing 
+					      to the filehandle or filename */
+#define VANESSA_LOGGER_F_PERROR       0x8  /* Print to stderr as well */
 
 /**********************************************************************
  * vanessa_logger_openlog_syslog

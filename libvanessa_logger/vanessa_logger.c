@@ -29,6 +29,7 @@
 #include <stdarg.h>
 #include <unistd.h>
 #include <netdb.h>
+#include <time.h>
 
 #define SYSLOG_NAMES
 #include <syslog.h>
@@ -517,21 +518,54 @@ __vanessa_logger_va_func_wrapper(vanessa_logger_log_function_va_t func,
  **********************************************************************/
 
 int __vanessa_logger_do_fmt(__vanessa_logger_t *vl, 
-		const char *prefix, const char *fmt,
-		vanessa_logger_flag_t flag) 
+		const char *prefix, const char *fmt)
 {
 	int len;
 	int offset = 0;
+	int add_colon = 0;
 
 	memset(vl->buffer, 0, vl->buffer_len);
 
-	if(!(flag & VANESSA_LOGGER_F_NO_IDENT_PID)) {
-		len = snprintf(vl->buffer, vl->buffer_len-1, "%s[%d]: ",
+	if(vl->flag & VANESSA_LOGGER_F_TIMESTAMP) {
+		struct tm *tm;
+		time_t now;
+
+		now = time(NULL);
+		if (now == (time_t)-1) {
+			return -1;
+		}
+		tm = localtime(&now);
+		if (!tm) {
+			return -1;
+		}
+		len = strftime(vl->buffer + offset, 
+				vl->buffer_len - offset - 1, "%b %e %H:%M:%S ",
+				tm);
+		if (len < 0) {
+			return -1;
+		}
+		offset += len;
+		add_colon++;
+	}
+
+	if(vl->ident && !(vl->flag & VANESSA_LOGGER_F_NO_IDENT_PID)) {
+		len = snprintf(vl->buffer + offset , 
+				vl->buffer_len - offset - 1, "%s[%d] ",
 				vl->ident, getpid());
 		if (len < 0) {
 			return -1;
 		}
 		offset += len;
+		add_colon++;
+	}
+
+	if (add_colon) {
+		len = snprintf(vl->buffer + offset - 1, 
+				 vl->buffer_len - offset, ": ");
+		if (len < 0) {
+			return -1;
+		}
+		offset++;
 	}
 
 	if(prefix) {
@@ -565,24 +599,24 @@ int __vanessa_logger_do_fmt(__vanessa_logger_t *vl,
 void __vanessa_logger_do_fh(__vanessa_logger_t * vl, const char *prefix, 
 		const char *fmt, FILE *fh, va_list ap) 
 {
-	if (__vanessa_logger_do_fmt(vl, prefix, fmt,
-			(vl->ident && !(vl->flag & 
-					VANESSA_LOGGER_F_NO_IDENT_PID)) ?
-			0 : VANESSA_LOGGER_F_NO_IDENT_PID) < 0) {
+	if (__vanessa_logger_do_fmt(vl, prefix, fmt) < 0) {
 		fprintf(fh, "__vanessa_logger_do_fh: output truncated\n");
 		return;
 	}
 
-	vfprintf(fh, vl->buffer, ap);
-	fflush(fh);
+	if (((vfprintf(fh, vl->buffer, ap) < 0  || fflush(fh) == EOF) && 
+			vl->flag & VANESSA_LOGGER_F_CONS) ||
+			vl->flag & VANESSA_LOGGER_F_PERROR){
+		vfprintf(stderr, vl->buffer, ap);
+		fflush(stderr);
+	}
 }
 
 void __vanessa_logger_do_func(__vanessa_logger_t * vl, int priority, 
 		const char *prefix, const char *fmt, va_list ap, 
 		vanessa_logger_log_function_va_t func)
 {
-	if (__vanessa_logger_do_fmt(vl, prefix, fmt, 
-				VANESSA_LOGGER_F_NO_IDENT_PID) < 0) {
+	if (__vanessa_logger_do_fmt(vl, prefix, fmt) < 0) {
 		__vanessa_logger_va_func_wrapper(func, priority, 
 				"__vanessa_logger_do_fh: output truncated\n");
 		return;
