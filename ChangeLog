@@ -2,20 +2,27 @@ Change Log
 
 vanessa_logger
 Generic logging layer
-Copyright (C) 2000  Horms
+Copyright (C) 2000-2002  Horms
 ----------------------------------------------------------------------
 
-xxx
+24th March 2002
 (Horms)
 
-     * xxx
-     - Added ability to log to a function
-     - Fixed minor .spec file errors 
-       Scot W. Hetzel <scot@genroco.com> & Horms
+     * 0.0.3beta2
      - Flush output if writing to a file descriptor.
        Fixes weirdness if a file descriptor gets shared between
        children.
 
+
+----------------------------------------------------------------------
+
+14th March 2002
+(Horms)
+
+     * 0.0.3beta1
+     - Added ability to log to a function
+     - Fixed minor .spec file errors 
+       Scot W. Hetzel <scot@genroco.com> & Horms
 
 
 ----------------------------------------------------------------------

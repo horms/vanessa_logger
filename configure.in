@@ -1,6 +1,6 @@
 dnl vanessa_logger
 dnl Generic logging layer
-dnl Copyright (C) 2000  Horms
+dnl Copyright (C) 2000-2002  Horms
 dnl 
 dnl This library is free software; you can redistribute it and/or modify it
 dnl under the terms of the GNU Lesser General Public License as published by
@@ -19,7 +19,7 @@ dnl Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 
 AC_INIT(libvanessa_logger/vanessa_logger.h)
 AM_CONFIG_HEADER(config.h)
-AM_INIT_AUTOMAKE(vanessa_logger, 0.0.3beta1)
+AM_INIT_AUTOMAKE(vanessa_logger, 0.0.3beta2)
 
 AM_PROG_LIBTOOL
 AC_PROG_CC
