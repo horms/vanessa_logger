@@ -266,10 +266,11 @@ extern vanessa_logger_t *__vanessa_logger_vl;
 extern int errno;
 
 /**********************************************************************
- * __vanessa_logger_vl_set
- * set the logger function to use
- * No logging will take place if logger is set to NULL (default)
- * That is you _must_ call this function to enable logging.
+ * vanessa_logger_vl_set
+ * set the logger function to use with convenience macros
+ * No logging will take place using conveineince macros if logger is 
+ * set to NULL (default). That is you _must_ call this function to 
+ * enable logging using convenience macros.
  * pre: logger: pointer to a vanessa_logger
  * post: logger for ip_vs_nl is set to logger
  * return: none
@@ -279,15 +280,26 @@ extern int errno;
 
 
 /**********************************************************************
- * __vanessa_logger_vl_unset
- * set logger to NULL
- * That is no logging will take place
+ * vanessa_logger_vl_unset
+ * set logger to use with convenience macros to NULL
+ * That is no logging will take place when convenience macros are called
  * pre: none
  * post: logger is NULL
  * return: none
  **********************************************************************/
 
-#define vanessa_logger_unset() __vanessa_logger_set(NULL)
+#define vanessa_logger_unset() vanessa_logger_set(NULL)
+
+
+/**********************************************************************
+ * vanessa_logger_vl_get
+ * retreive the logger function used by convenience macros
+ * pre: none
+ * post: none
+ * return: logger used by convenience macros
+ **********************************************************************/
+
+#define vanessa_logger_get() (__vanessa_logger_vl)
 
 
 /**********************************************************************
