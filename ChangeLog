@@ -12,6 +12,8 @@ XXX
    - Added logging messages for h_error which is set by
      gethopstbyname() and gethostbyaddr()
    - Make vargs use in MACROS C99 complant. Mark D. Roth
+   - Added VANESSA_LOGGER_F_NO_IDENT_PID flag for use
+     with filename and filehandle loggers
      
 
 ----------------------------------------------------------------------

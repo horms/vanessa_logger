@@ -134,6 +134,7 @@ typedef struct {
 	char *buffer;
 	size_t buffer_len;
 	int max_priority;
+	unsigned int flag;
 } __vanessa_logger_t;
 
 
@@ -368,9 +369,11 @@ __vanessa_logger_set(__vanessa_logger_t * vl, const char *ident,
 	 */
 	switch (vl->type) {
 	case __vanessa_logger_filehandle:
+		vl->flag = option;
 		vl->data.d_filehandle = (FILE *) data;
 		break;
 	case __vanessa_logger_filename:
+		vl->flag = option;
 		if ((vl->data.d_filename =
 		     (__vanessa_logger_filename_data_t *)
 		     malloc(sizeof(__vanessa_logger_filename_data_t)
@@ -513,45 +516,78 @@ __vanessa_logger_va_func_wrapper(vanessa_logger_log_function_va_t func,
  * return: none
  **********************************************************************/
 
-#define __VANESSA_LOGGER_DO_FH(_vl, _prefix, _fmt, _fh, _ap)             \
-{                                                                        \
-	int len;                                                         \
-	memset((_vl)->buffer, 0, (_vl)->buffer_len);                     \
-	if(snprintf((_vl)->buffer, (_vl)->buffer_len-1,                  \
-			(_prefix)?"%s[%d]: %s: %s":"%s[%d]:%s %s",       \
-			(_vl)->ident, getpid(), (_prefix)?(_prefix):"",  \
-			(_fmt))<0){                                      \
-		fprintf(_fh, "__vanessa_logger_log: snprintf: "          \
-				"output truncated\n");                   \
-		return;                                                  \
-	}                                                                \
-	len=strlen((_vl)->buffer);                                       \
-	if(*(((_vl)->buffer)+len-1)!='\n'){                              \
-		*(((_vl)->buffer)+len)='\n';                             \
-		*(((_vl)->buffer)+len+1)='\0';                           \
-	}                                                                \
-	vfprintf((_fh), (_vl)->buffer, (_ap));                           \
-	fflush(_fh);                                                     \
+int __vanessa_logger_do_fmt(__vanessa_logger_t *vl, 
+		const char *prefix, const char *fmt,
+		vanessa_logger_flag_t flag) 
+{
+	int len;
+	int offset = 0;
+
+	memset(vl->buffer, 0, vl->buffer_len);
+
+	if(!(flag & VANESSA_LOGGER_F_NO_IDENT_PID)) {
+		len = snprintf(vl->buffer, vl->buffer_len-1, "%s[%d]: ",
+				vl->ident, getpid());
+		if (len < 0) {
+			return -1;
+		}
+		offset += len;
+	}
+
+	if(prefix) {
+		len = strlen(prefix);
+		if (offset + len + 1 > vl->buffer_len) {
+			return -1;
+		}
+		memcpy(vl->buffer + offset, prefix, len);
+		offset += len;
+	}
+
+	len = strlen(fmt);
+	if (offset + len + 1 > vl->buffer_len) {
+		return -1;
+	}
+	memcpy(vl->buffer + offset, fmt, len);
+	offset += len;
+
+	if (*(vl->buffer+offset-1) != '\n') {
+		if(offset + 2 > vl->buffer_len) {
+			return -1;
+		}
+		*(vl->buffer+offset)='\n';
+		*(vl->buffer+offset+1)='\0';
+	}
+
+	return(0);
 }
 
-#define __VANESSA_LOGGER_DO(_vl, _priority, _prefix, _fmt, _ap, _func)   \
-{                                                                        \
-	int len;                                                         \
-	memset((_vl)->buffer, 0, (_vl)->buffer_len);                     \
-	if(snprintf((_vl)->buffer, (_vl)->buffer_len-1,                  \
-			(_prefix)?"%s: %s":"%s%s",                       \
-			(_prefix)?(_prefix):"", (_fmt))<0){              \
-		__vanessa_logger_va_func_wrapper((_func),(_priority),     \
-				"__vanessa_logger_log: snprintf: "       \
-				"output truncated\n");                   \
-		return;                                                  \
-	}                                                                \
-	len=strlen((_vl)->buffer);                                       \
-	if(*(((_vl)->buffer)+len-1)!='\n'){                              \
-		*(((_vl)->buffer)+len)='\n';                             \
-		*(((_vl)->buffer)+len+1)='\0';                           \
-	}                                                                \
-	(_func)((_priority), (_vl)->buffer, (_ap));                      \
+void __vanessa_logger_do_fh(__vanessa_logger_t * vl, const char *prefix, 
+		const char *fmt, FILE *fh, va_list ap) 
+{
+	if (__vanessa_logger_do_fmt(vl, prefix, fmt,
+			(vl->ident && !(vl->flag & 
+					VANESSA_LOGGER_F_NO_IDENT_PID)) ?
+			0 : VANESSA_LOGGER_F_NO_IDENT_PID) < 0) {
+		fprintf(fh, "__vanessa_logger_do_fh: output truncated\n");
+		return;
+	}
+
+	vfprintf(fh, vl->buffer, ap);
+	fflush(fh);
+}
+
+void __vanessa_logger_do_func(__vanessa_logger_t * vl, int priority, 
+		const char *prefix, const char *fmt, va_list ap, 
+		vanessa_logger_log_function_va_t func)
+{
+	if (__vanessa_logger_do_fmt(vl, prefix, fmt, 
+				VANESSA_LOGGER_F_NO_IDENT_PID) < 0) {
+		__vanessa_logger_va_func_wrapper(func, priority, 
+				"__vanessa_logger_do_fh: output truncated\n");
+		return;
+	}
+
+	(func)(priority, vl->buffer, ap);
 }
 
 
@@ -565,23 +601,24 @@ __vanessa_logger_log(__vanessa_logger_t * vl, int priority,
 	}
 
 	switch (vl->type) {
-	case __vanessa_logger_filehandle:
-		__VANESSA_LOGGER_DO_FH(vl, prefix, fmt, 
-				vl->data.d_filehandle, ap);
-		break;
-	case __vanessa_logger_filename:
-		__VANESSA_LOGGER_DO_FH(vl, prefix, fmt,
-			       vl->data.d_filename->filehandle, ap);
-		break;
-	case __vanessa_logger_syslog:
-		__VANESSA_LOGGER_DO(vl, priority, prefix, fmt, ap, vsyslog);
-		break;
-	case __vanessa_logger_function:
-		__VANESSA_LOGGER_DO(vl, priority, prefix, fmt, ap,
-				vl->data.d_function);
-		break;
-	case __vanessa_logger_none:
-		break;
+		case __vanessa_logger_filehandle:
+			__vanessa_logger_do_fh(vl, prefix, fmt, 
+					vl->data.d_filehandle, ap);
+			break;
+		case __vanessa_logger_filename:
+			__vanessa_logger_do_fh(vl, prefix, fmt,
+			       	vl->data.d_filename->filehandle, ap);
+			break;
+		case __vanessa_logger_syslog:
+			__vanessa_logger_do_func(vl, priority, prefix, fmt, ap, 
+					vsyslog);
+			break;
+		case __vanessa_logger_function:
+			__vanessa_logger_do_func(vl, priority, prefix, fmt, ap,
+					vl->data.d_function);
+			break;
+		case __vanessa_logger_none:
+			break;
 	}
 }
 
@@ -714,7 +751,9 @@ vanessa_logger_openlog_syslog_byname(const char *facility_name,
  *      max_priority: Maximum priority number to log
  *                    Priorities are integers, the levels listed
  *                    in syslog(3) should be used for a syslog logger
- *      option: ignored
+ *      flag: flags for logger
+ *            See "Flags for filehandle or filename loggers"
+ *           in vanessa_logger.h for valid flags
  * post: Logger is opened
  * return: pointer to logger
  *         NULL on error
@@ -722,7 +761,7 @@ vanessa_logger_openlog_syslog_byname(const char *facility_name,
 
 vanessa_logger_t *
 vanessa_logger_openlog_filehandle(FILE * filehandle, const char *ident,
-		const int max_priority, const int option)
+		const int max_priority, const int flag)
 {
 	__vanessa_logger_t *vl;
 
@@ -735,7 +774,7 @@ vanessa_logger_openlog_filehandle(FILE * filehandle, const char *ident,
 
 	if (__vanessa_logger_set(vl, ident, max_priority, 
 			__vanessa_logger_filehandle, (void *) filehandle, 
-			option) == NULL) {
+			flag) == NULL) {
 		fprintf(stderr, "vanessa_logger_openlog_filehandle: "
 				"__vanessa_logger_set\n");
 		return (NULL);
@@ -754,7 +793,9 @@ vanessa_logger_openlog_filehandle(FILE * filehandle, const char *ident,
  *      max_priority: Maximum priority number to log
  *                    Priorities are integers, the levels listed
  *                    in syslog(3) should be used for a syslog logger
- *      option: ignored
+ *      flag: flags for logger
+ *            See "Flags for filehandle or filename loggers"
+ *           in vanessa_logger.h for valid flags
  * post: Logger is opened
  * return: pointer to logger
  *         NULL on error
@@ -762,7 +803,7 @@ vanessa_logger_openlog_filehandle(FILE * filehandle, const char *ident,
 
 vanessa_logger_t *
 vanessa_logger_openlog_filename(const char *filename, const char *ident,
-		const int max_priority, const int option)
+		const int max_priority, const int flag)
 {
 	__vanessa_logger_t *vl;
 
@@ -775,7 +816,7 @@ vanessa_logger_openlog_filename(const char *filename, const char *ident,
 
 	if (__vanessa_logger_set(vl, ident, max_priority,
 			 __vanessa_logger_filename, (void *) filename, 
-			option) == NULL) {
+			flag) == NULL) {
 		fprintf(stderr, "vanessa_logger_openlog_filename: "
 			"__vanessa_logger_set\n");
 		return (NULL);
@@ -939,9 +980,66 @@ _vanessa_logger_log_prefix(vanessa_logger_t * vl, int priority,
 	va_end(ap);
 }
 
+/**********************************************************************
+ * vanessa_logger_set_flag
+ * Set flags for logger
+ * Should only be used on filehandle or filename loggers,
+ * ignored otherewise.
+ * pre: vl: logger to set flags of
+ *      flag: value to set flags to
+ *            See "Flags for filehandle or filename loggers"
+ *            in vanessa_logger.h for valid flags
+ * post: flag is set
+ * return: none
+ **********************************************************************/
 
-char vanessa_logger_strherror_str[34];
+void
+vanessa_logger_set_flag(vanessa_logger_t * vl, vanessa_logger_flag_t flag)
+{
+	switch (((__vanessa_logger_t *)vl)->type) {
+		case __vanessa_logger_filehandle:
+		case __vanessa_logger_filename:
+			((__vanessa_logger_t *)vl)->flag = flag;
+			break;
+		case __vanessa_logger_syslog:
+		case __vanessa_logger_function:
+		case __vanessa_logger_none:
+			break;
+	}
+}
 
+
+/**********************************************************************
+ * vanessa_logger_get_flag
+ * Set flags for logger
+ * Should only be used on filehandle or filename loggers,
+ * will return 0 for other types of loggers.
+ * See "Flags for filehandle or filename loggers"
+ * in vanessa_logger.h for valid flags
+ * pre: vl: logger to get flags of
+ * post: none
+ * return: flags for logger
+ **********************************************************************/
+
+vanessa_logger_flag_t
+vanessa_logger_get_flag(vanessa_logger_t * vl)
+{
+	switch (((__vanessa_logger_t *)vl)->type) {
+		case __vanessa_logger_filehandle:
+		case __vanessa_logger_filename:
+			return ((__vanessa_logger_t *)vl)->flag;
+		case __vanessa_logger_syslog:
+		case __vanessa_logger_function:
+		case __vanessa_logger_none:
+			return 0;
+	}
+
+	/* Not reached */
+	return 0;
+}
+
+
+static char vanessa_logger_strherror_str[34];
 
 /**********************************************************************
  * vanessa_logger_strherror_r
@@ -952,7 +1050,7 @@ char vanessa_logger_strherror_str[34];
  *      buf: buffer to write error string to
  *      n: length of buf in bytes
  * post: on success error string is written to buf
- *       on invalud input errno is set to -EINVAL
+ *       on invalid input errno is set to -EINVAL
  *       if buf is too short then errno is set to -ERANGE
  * return: 0 on success
  *         -1 on error

@@ -62,6 +62,14 @@ typedef unsigned int vanessa_logger_flag_t;
 
 
 /**********************************************************************
+ * Flags for filehandle or filename loggers
+ **********************************************************************/
+
+#define VANESSA_LOGGER_F_NONE         0x0  /* Default behaviour */
+#define VANESSA_LOGGER_F_NO_IDENT_PID 0x1  /* Don't show ident and pid */
+
+
+/**********************************************************************
  * vanessa_logger_openlog_syslog
  * Exported function to open a logger that will log to syslog
  * pre: facility: facility to log to syslog with
@@ -109,7 +117,9 @@ vanessa_logger_openlog_syslog_byname(const char *facility_name,
  *      max_priority: Maximum priority number to log
  *                    Priorities are integers, the levels listed
  *                    in syslog(3) should be used for a syslog logger
- *      option: ignored
+ *      flag: flags for logger
+ *            See "Flags for filehandle or filename loggers"
+ *            in vanessa_logger.h for valid flags
  * post: Logger is opened
  * return: pointer to logger
  *         NULL on error
@@ -117,7 +127,7 @@ vanessa_logger_openlog_syslog_byname(const char *facility_name,
 
 vanessa_logger_t *
 vanessa_logger_openlog_filehandle(FILE * filehandle, const char *ident,
-		const int max_priority, const int option);
+		const int max_priority, const int flag);
 
 
 /**********************************************************************
@@ -129,7 +139,9 @@ vanessa_logger_openlog_filehandle(FILE * filehandle, const char *ident,
  *      max_priority: Maximum priority number to log
  *                    Priorities are integers, the levels listed
  *                    in syslog(3) should be used for a syslog logger
- *      option: ignored
+ *      flag: flags for logger
+ *            See "Flags for filehandle or filename loggers"
+ *            in vanessa_logger.h for valid flags
  * post: Logger is opened
  * return: pointer to logger
  *         NULL on error
@@ -137,7 +149,7 @@ vanessa_logger_openlog_filehandle(FILE * filehandle, const char *ident,
 
 vanessa_logger_t *
 vanessa_logger_openlog_filename(const char *filename, const char *ident,
-		const int max_priority, const int option);
+		const int max_priority, const int flag);
 
 
 /**********************************************************************
@@ -283,7 +295,7 @@ vanessa_logger_strherror_r(int errnum, char *buf, size_t n);
  * gethostbyaddr(3) and others. Analagous to strerror_r(3).
  * pre: errnum: Error to show as a string
  * post: none on success
- *       on invalud input errno is set to -EINVAL
+ *       on invalid input errno is set to -EINVAL
  *       if buf is too short then errno is set to -ERANGE
  * return: error string for errnum on success
  *         error string for newly set errno on error
@@ -291,6 +303,39 @@ vanessa_logger_strherror_r(int errnum, char *buf, size_t n);
 
 char *
 vanessa_logger_strherror(int errnum);
+
+
+/**********************************************************************
+ * vanessa_logger_set_flag
+ * Set flags for logger
+ * Should only be used on filehandle or filename loggers,
+ * ignored otherewise.
+ * pre: vl: logger to set flags of
+ *      flag: value to set flags to
+ *            See "Flags for filehandle or filename loggers"
+ *            in vanessa_logger.h for valid flags
+ * post: flag is set
+ * return: none
+ **********************************************************************/
+
+void
+vanessa_logger_set_flag(vanessa_logger_t * vl, vanessa_logger_flag_t flag);
+
+
+/**********************************************************************
+ * vanessa_logger_get_flag
+ * Set flags for logger
+ * Should only be used on filehandle or filename loggers,
+ * will return 0 for other types of loggers.
+ * See "Flags for filehandle or filename loggers"
+ * in vanessa_logger.h for valid flags
+ * pre: vl: logger to get flags of
+ * post: none
+ * return: flags for logger
+ **********************************************************************/
+
+vanessa_logger_flag_t
+vanessa_logger_get_flag(vanessa_logger_t * vl);
 
 
 /**********************************************************************
