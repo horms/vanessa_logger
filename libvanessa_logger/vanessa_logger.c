@@ -34,7 +34,7 @@
 
 
 /**********************************************************************
- * Sun Solais doesn't seem to define facilitynames so the
+ * Sun Solaris doesn't seem to define facilitynames so the
  * following compatibility code is provided.
  **********************************************************************/
 
@@ -804,6 +804,23 @@ void vanessa_logger_log(vanessa_logger_t *vl, int priority, char *fmt, ...){
   va_start(ap, fmt);
   __vanessa_logger_log((__vanessa_logger_t *)vl, priority, fmt, ap);
   va_end(ap);
+}
+
+
+/**********************************************************************
+ * vanessa_logger_logv
+ * Exported function to log a message
+ * Same as vanessa_logger_logv but a va_list is given instead
+ * of a variable number of arguments.
+ **********************************************************************/
+
+void vanessa_logger_logv(
+  vanessa_logger_t *vl, 
+  int priority, 
+  char *fmt, 
+  va_list ap
+){
+  __vanessa_logger_log((__vanessa_logger_t *)vl, priority, fmt, ap);
 }
 
 

@@ -12,6 +12,7 @@ xxx
      - Added facilitynames compatibility for Solaris
        (Cedric Gavage <niddle@linuxbe.org>)
      - Cleaned up debian packages
+     - Added vanessa_logger_logv function
 
 
 ----------------------------------------------------------------------

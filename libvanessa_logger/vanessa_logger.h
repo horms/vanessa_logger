@@ -24,7 +24,7 @@
  **********************************************************************/
 
 #include <stdio.h>
-
+#include <stdarg.h>
 #include <syslog.h>
 
 #ifndef VANESSA_LOGGER_FLIM
@@ -182,6 +182,21 @@ void vanessa_logger_change_max_priority(
  **********************************************************************/
 
 void vanessa_logger_log(vanessa_logger_t *vl, int priority, char *fmt, ...);
+
+
+/**********************************************************************
+ * vanessa_logger_logv
+ * Exported function to log a message
+ * Same as vanessa_logger_logv but a va_list is given instead
+ * of a variable number of arguments.
+ **********************************************************************/
+
+void vanessa_logger_logv(
+  vanessa_logger_t *vl, 
+  int priority, 
+  char *fmt, 
+  va_list ap
+);
 
 
 /**********************************************************************
