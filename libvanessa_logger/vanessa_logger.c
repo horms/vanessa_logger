@@ -493,9 +493,9 @@ __vanessa_logger_reopen(__vanessa_logger_t * vl)
 	int len;                                                         \
 	memset((_vl)->buffer, 0, (_vl)->buffer_len);                     \
 	if(snprintf((_vl)->buffer, (_vl)->buffer_len-1,                  \
-			(_prefix)?"%s: %s[%d]: %s":"%s%s[%d]: %s",       \
-			(_prefix)?(_prefix):"",                          \
-			(_vl)->ident, getpid(), (_fmt))<0){              \
+			(_prefix)?"%s[%d]: %s: %s":"%s[%d]:%s %s",       \
+			(_vl)->ident, getpid(), (_prefix)?(_prefix):"",  \
+			(_fmt))<0){                                      \
 		fprintf(_fh, "__vanessa_logger_log: snprintf: "          \
 				"output truncated\n");                   \
 		return;                                                  \
