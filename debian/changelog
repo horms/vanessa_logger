@@ -1,4 +1,4 @@
-vanessa-logger (0.0.6release-1) unstable; urgency=low
+vanessa-logger (0.0.6-1) unstable; urgency=low
 
   * New Upstream
   * Fixed handling of shlibs
