@@ -109,7 +109,7 @@ typedef union {
 	FILE *d_filehandle;
 	__vanessa_logger_filename_data_t *d_filename;
 	int *d_syslog;
-	vanessa_logger_log_function_t d_function;
+	vanessa_logger_log_function_va_t d_function;
 } __vanessa_logger_data_t;
 
 typedef enum {
@@ -217,8 +217,8 @@ __vanessa_logger_create(void)
  * return: none
  **********************************************************************/
 
-static void __vanessa_logger_destroy
-(__vanessa_logger_t * vl)
+static void 
+__vanessa_logger_destroy (__vanessa_logger_t * vl)
 {
 	if (!vl) {
 		return;
@@ -240,8 +240,7 @@ static void __vanessa_logger_destroy
  * return: none
  **********************************************************************/
 
-static void __vanessa_logger_reset
-(__vanessa_logger_t * vl)
+static void __vanessa_logger_reset(__vanessa_logger_t * vl)
 {
 	__vanessa_logger_bool_t ready;
 
@@ -404,7 +403,7 @@ __vanessa_logger_set(__vanessa_logger_t * vl, const char *ident,
 		openlog(vl->ident, LOG_PID | option, *(vl->data.d_syslog));
 		break;
 	case __vanessa_logger_function:
-		vl->data.d_function = (vanessa_logger_log_function_t) data;
+		vl->data.d_function = (vanessa_logger_log_function_va_t) data;
 		break;
 	case __vanessa_logger_none:
 		break;
@@ -472,6 +471,31 @@ __vanessa_logger_reopen(__vanessa_logger_t * vl)
 
 
 /**********************************************************************
+ * __vanessa_logger_va_func_wrapper
+ * Internal wrapper function be able to use a 
+ * vanessa_logger_log_function_t, which uses va_list, with a ...
+ * pre: func: function to call
+ *      priority: priority pass to func
+ *      fmt: to pass to func
+ *      ...: args to convert to an ap and pass to func
+ * post: func is called 
+ * return: none
+ **********************************************************************/
+
+static void 
+__vanessa_logger_va_func_wrapper(vanessa_logger_log_function_va_t func,
+		int priority, const char *fmt, ...)
+{
+	va_list ap;
+
+	va_start(ap, fmt);
+	func(priority, fmt, ap);
+	va_end(ap);
+}
+
+
+
+/**********************************************************************
  * __vanessa_logger_log
  * Internal function to log a message
  * pre: vl: logger to use
@@ -516,7 +540,8 @@ __vanessa_logger_reopen(__vanessa_logger_t * vl)
 	if(snprintf((_vl)->buffer, (_vl)->buffer_len-1,                  \
 			(_prefix)?"%s: %s":"%s%s",                       \
 			(_prefix)?(_prefix):"", (_fmt))<0){              \
-		(_func)((_priority), "__vanessa_logger_log: snprintf: "  \
+		__vanessa_logger_va_func_wrapper((_func),(_priority),     \
+				"__vanessa_logger_log: snprintf: "       \
 				"output truncated\n");                   \
 		return;                                                  \
 	}                                                                \
@@ -548,7 +573,7 @@ __vanessa_logger_log(__vanessa_logger_t * vl, int priority,
 			       vl->data.d_filename->filehandle, ap);
 		break;
 	case __vanessa_logger_syslog:
-		__VANESSA_LOGGER_DO(vl, priority, prefix, fmt, ap, syslog);
+		__VANESSA_LOGGER_DO(vl, priority, prefix, fmt, ap, vsyslog);
 		break;
 	case __vanessa_logger_function:
 		__VANESSA_LOGGER_DO(vl, priority, prefix, fmt, ap,
@@ -774,7 +799,7 @@ vanessa_logger_openlog_filename(const char *filename, const char *ident,
  **********************************************************************/
 
 vanessa_logger_t *
-vanessa_logger_openlog_function(vanessa_logger_log_function_t log_function, 
+vanessa_logger_openlog_function(vanessa_logger_log_function_va_t log_function, 
 		const char *ident, const int max_priority, const int option)
 {
 	__vanessa_logger_t *vl;
@@ -848,9 +873,7 @@ vanessa_logger_closelog(vanessa_logger_t * vl)
  * pre: vl: pointer to logger to log to
  *      priority: Priority to log with.
  *                If priority is more than max_priority as provided to
- *                vanessa_logger_openlog_filehandle, 
- *                vanessa_logger_openlog_filename or
- *                vanessa_logger_openlog_syslog. 
+ *                vanessa_logger_openlog_*.
  *                Levels described in syslog(3) should be used for
  *                syslog loggers as the priority will be used when
  *                logging to syslog. These priorities may also be

@@ -34,8 +34,29 @@
 
 typedef void vanessa_logger_t;
 
-typedef int (*vanessa_logger_log_function_t) 
-		(int priority, const char *fmt, ...);
+typedef void (*vanessa_logger_log_function_va_t) 
+		(int priority, const char *fmt, va_list ap);
+
+/*
+ * NB: There was a fundamental design error in the original
+ * implementation of loging to functions such that it cannot work
+ * wit vanessa_loggers internal framework. Thus
+ * vanessa_logger_log_function_t has been replaced by
+ * vanessa_logger_log_function_va_t. Please do not use
+ * vanessa_logger_log_function_t.
+ *
+ * I apologies that this breaks backwards compatibility, but
+ * there is no way to make the original protoype work.
+ * 
+ * Perhaps there was something in the air on the train in Northern Germany
+ * when I wrote this code. Perhaps I was just tired. But in any case
+ * it was wrong.
+ *
+ * Horms, December 2002
+ *
+ * typedef int (*vanessa_logger_log_function_t) 
+ *		(int priority, const char *fmt, ...);
+ */
 
 typedef unsigned int vanessa_logger_flag_t;
 
@@ -134,7 +155,7 @@ vanessa_logger_openlog_filename(const char *filename, const char *ident,
  **********************************************************************/
 
 vanessa_logger_t *
-vanessa_logger_openlog_function(vanessa_logger_log_function_t log_function, 
+vanessa_logger_openlog_function(vanessa_logger_log_function_va_t log_function, 
 		const char *ident, const int max_priority, const int option);
 
 
@@ -174,9 +195,7 @@ vanessa_logger_change_max_priority(vanessa_logger_t * vl,
  * pre: vl: pointer to logger to log to
  *      priority: Priority to log with.
  *                If priority is more than max_priority as provided to
- *                vanessa_logger_openlog_filehandle, 
- *                vanessa_logger_openlog_filename or
- *                vanessa_logger_openlog_syslog. 
+ *                vanessa_logger_openlog_*.
  *                Levels described in syslog(3) should be used for
  *                syslog loggers as the priority will be used when
  *                logging to syslog. These priorities may also be

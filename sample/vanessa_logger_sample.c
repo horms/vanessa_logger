@@ -32,15 +32,8 @@
 
 #define MIN_UID 100
 
-static int log_function(int priority, const char *format, ...) {
-	int status;
-	va_list ap;
-
-	va_start(ap, format);
-	status = vfprintf(stderr, format, ap);
-	va_end(ap);
-
-	return status;
+static void log_function(int priority, const char *format, va_list ap) {
+	vfprintf(stderr, format, ap);
 }
 	
 
