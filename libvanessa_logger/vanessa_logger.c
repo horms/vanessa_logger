@@ -32,6 +32,57 @@
 #define SYSLOG_NAMES
 #include <syslog.h>
 
+
+/**********************************************************************
+ * Sun Solais doesn't seem to define facilitynames so the
+ * following compatibility code is provided.
+ **********************************************************************/
+
+#ifdef sun
+
+#define LOG_AUTHPRIV    (10<<3) /* security/authorization messages (private) */
+#define LOG_FTP         (11<<3) /* ftp daemon */
+
+#define LOG_MAKEPRI(fac, pri)   (((fac) << 3) | (pri))
+
+#define INTERNAL_NOPRI  0x10    /* the "no priority" priority */
+                                /* mark "facility" */
+#define INTERNAL_MARK   LOG_MAKEPRI(LOG_NFACILITIES, 0)
+typedef struct _code {
+  char    *c_name;
+  int     c_val;
+} CODE;
+
+CODE facilitynames[] =
+  {
+    { "auth", LOG_AUTH },
+    { "authpriv", LOG_AUTHPRIV },
+    { "cron", LOG_CRON },
+    { "daemon", LOG_DAEMON },
+    { "ftp", LOG_FTP },
+    { "kern", LOG_KERN },
+    { "lpr", LOG_LPR },
+    { "mail", LOG_MAIL },
+    { "mark", INTERNAL_MARK },          /* INTERNAL */
+    { "news", LOG_NEWS },
+    { "security", LOG_AUTH },           /* DEPRECATED */
+    { "syslog", LOG_SYSLOG },
+    { "user", LOG_USER },
+    { "uucp", LOG_UUCP },
+    { "local0", LOG_LOCAL0 },
+    { "local1", LOG_LOCAL1 },
+    { "local2", LOG_LOCAL2 },
+    { "local3", LOG_LOCAL3 },
+    { "local4", LOG_LOCAL4 },
+    { "local5", LOG_LOCAL5 },
+    { "local6", LOG_LOCAL6 },
+    { "local7", LOG_LOCAL7 },
+    { NULL, -1 }
+  };
+
+#endif /* sun */
+
+
 #include "vanessa_logger.h"
 
 
