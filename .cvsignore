@@ -1,0 +1,17 @@
+.depend
+remove
+libtool
+config.*
+configure
+Makefile.in
+aclocal.m4
+perdition.spec
+*.tar.gz
+stamp-h*
+Makefile
+.*.swp
+autooption
+logfile
+gmon.out
+vanessa_logger.spec
+confdefs.h

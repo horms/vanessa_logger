@@ -1,0 +1,85 @@
+%define prefix   @prefix@
+
+Summary: Generic logging layer
+Name: vanessa_logger
+Version: @VERSION@
+Release: 1
+Copyright: GNU Lesser General Public Licence
+URL: http://vanessa.sourceforge.net/
+Packager: Horms <horms@vergenet.net>
+Group: Development/Libraries
+Source0: ftp://vergenet.net/pub/vanessa_logger/vanessa_logger/%{name}-%{version}.tar.gz
+BuildRoot: /var/tmp/%{name}-%{version}-root
+Docdir: %{prefix}/doc
+Provides: %{name}-%{version}
+
+%description
+Generic loging layer that may be used to log to one or more of syslog, an
+open file handle or a file name. Though due to to limitations in the
+implementation of syslog opening mutiple syslog loggers doesn't makes
+sense. Includes the ability to limit which messages will be logged based on
+priorities.
+
+%package devel
+Summary: Headers and static libaries for development
+Group: Development/Libraries
+Requires: %{name}-%{version}
+Provides: %{name}-devel-%{version}
+
+%description devel
+Headers and static libraries required to develop against vanessa_logger.
+
+%package sample
+Summary: Example programe that demonstrates vanessa_logger.
+Group: Development/Libraries
+Requires: %{name}-devel-%{version}
+
+%description sample
+Sample programme with source that demonstrates various features of
+vanessa_logger.
+
+
+%prep
+%setup
+
+%build
+
+%configure
+CFLAGS="${RPM_OPT_FLAGS}" make
+
+
+%install
+rm -rf ${RPM_BUILD_ROOT}
+mkdir -p ${RPM_BUILD_ROOT}/{etc,%{prefix}/{lib,bin,doc}}
+make prefix=$RPM_BUILD_ROOT%{prefix} install
+
+
+%clean
+rm -rf $RPM_BUILD_DIR/%{name}-%{version}
+rm -rf $RPM_BUILD_ROOT
+
+
+%post
+
+%postun
+
+%preun
+
+%files
+%defattr(-, root, root)
+%{prefix}/lib/*.so*
+
+%files devel
+%defattr(-, root, root)
+%{prefix}/lib/*.*a
+%{prefix}/include/*.h
+%doc README COPYING ChangeLog
+
+%files sample
+%defattr(-, root, root)
+%{prefix}/bin/*
+%doc sample/*.c sample/*.h
+
+%changelog
+* Sat Sep 15 2000 Horms <horms@vergenet.net>
+- created for version 0.0.0

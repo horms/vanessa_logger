@@ -1,0 +1,2 @@
+vanessa_logger_sample[25760]: This should log to ./vanessa_logger_sample.log: 7
+vanessa_logger_sample[25760]: This should also log to ./vanessa_logger_sample.log

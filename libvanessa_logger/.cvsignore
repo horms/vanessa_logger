@@ -1,0 +1,10 @@
+.depend
+libperdition_adt
+*.swp
+.deps
+Makefile.in
+Makefile
+.libs
+perdition_adt.lo
+*.la
+*.lo
