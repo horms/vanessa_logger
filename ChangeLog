@@ -15,6 +15,7 @@ XXX
    - Added VANESSA_LOGGER_F_NO_IDENT_PID flag for use
      with filename and filehandle loggers
    - Added function to set and get flags
+   - Fixed logic bug in __vanessa_logger_str_dump_oct()
      
 
 ----------------------------------------------------------------------

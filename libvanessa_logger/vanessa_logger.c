@@ -1181,7 +1181,6 @@ __vanessa_logger_str_dump_oct(vanessa_logger_t * vl,
 	out_pos = out;
 	in_top = buffer + buffer_length;
 	for (in_pos = buffer; in_pos < in_top; in_pos++) {
-loop:
 		switch(*in_pos) {
 			case '\a':
 				*out_pos++ = '\\';
@@ -1226,6 +1225,7 @@ loop:
 			sprintf(out_pos, "\\%03o", *in_pos);
 			out_pos += 4;
 		}
+loop:
 	}
 
 	*out_pos++ = '\0';
