@@ -1,4 +1,5 @@
 usr/include/vanessa_logger.h
+usr/lib/libvanessa_logger.so
 usr/lib/libvanessa_logger.a
 usr/lib/libvanessa_logger.la
 
