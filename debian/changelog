@@ -1,15 +1,9 @@
-vanessa-logger (0.0.5alpa0-2) unstable; urgency=low
-
-  * 
-
- -- Simon Horman <horms@vergenet.net>  Wed, 10 Sep 2003 10:30:16 +0900
-
-vanessa-logger (0.0.5alpa0-1) unstable; urgency=low
+vanessa-logger (0.0.5release-1) unstable; urgency=low
 
   * Improved description of libvanessa-logger-dev package
     closes: Bug#209815
 
- -- Simon Horman <horms@vergenet.net>  Wed, 13 Aug 2003 14:40:34 +0900
+ -- Simon Horman <horms@vergenet.net>  Mon, 15 Dec 2003 12:17:35 +0900
 
 vanessa-logger (0.0.4release-1) unstable; urgency=low
 

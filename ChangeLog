@@ -5,10 +5,10 @@ Generic logging layer
 Copyright (C) 2000-2003  Horms
 ----------------------------------------------------------------------
 
-XXX
+15th December 2003
 (Horms)
 
-   * XXX
+   * 0.0.5
    - Added logging messages for h_error which is set by
      gethopstbyname() and gethostbyaddr()
    - Make vargs use in MACROS C99 complant. Mark D. Roth
