@@ -13,6 +13,7 @@ XXX
      - Added convenience macros
      - Do a configure check for facilitynames rather than
        checking for OS defines at compile time
+     - Fixed error reporting when a function is the loging target
 
 
 ----------------------------------------------------------------------

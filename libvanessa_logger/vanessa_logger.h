@@ -323,38 +323,59 @@ extern int errno;
  * should be safe to use with user derived input.
  */
 
+#define __VANESSA_LOGGER_DEBUG_PREFIX __FUNCTION__ 
+
 #define VANESSA_LOGGER_LOG_UNSAFE(priority, fmt, args...) \
-  vanessa_logger_log(__vanessa_logger_vl, priority, fmt, ## args);
+	vanessa_logger_log(__vanessa_logger_vl, priority, fmt, ## args);
 
 #define VANESSA_LOGGER_LOG(priority, str) \
-  vanessa_logger_log(__vanessa_logger_vl, priority, "%s", str)
+	vanessa_logger_log(__vanessa_logger_vl, priority, "%s", str)
 
 #define VANESSA_LOGGER_DEBUG_UNSAFE(fmt, args...) \
-  vanessa_logger_log(__vanessa_logger_vl, LOG_DEBUG, \
-    __FUNCTION__ ": " fmt, ## args);
+	vanessa_logger_log(__vanessa_logger_vl, LOG_DEBUG, \
+		__VANESSA_LOGGER_DEBUG_PREFIX ": " fmt, ## args);
+
+#define VANESSA_LOGGER_DEBUG_RAW_UNSAFE(fmt, args...) \
+	vanessa_logger_log(__vanessa_logger_vl, LOG_DEBUG, \
+		fmt, ## args);
 
 #define VANESSA_LOGGER_INFO_UNSAFE(fmt, args...) \
-  vanessa_logger_log(__vanessa_logger_vl, LOG_INFO, \
-    __FUNCTION__ ": " fmt, ## args);
+	vanessa_logger_log(__vanessa_logger_vl, LOG_INFO, fmt, ## args);
 
 #define VANESSA_LOGGER_ERR_UNSAFE(fmt, args...) \
-  vanessa_logger_log(__vanessa_logger_vl, LOG_ERR, \
-    __FUNCTION__ ": " fmt, ## args);
+	vanessa_logger_log(__vanessa_logger_vl, LOG_ERR, \
+		__VANESSA_LOGGER_DEBUG_PREFIX ": " fmt, ## args);
+
+#define VANESSA_LOGGER_ERR_RAW_UNSAFE(fmt, args...) \
+	vanessa_logger_log(__vanessa_logger_vl, LOG_ERR, \
+		fmt, ## args);
 
 #define VANESSA_LOGGER_DEBUG(str) \
-  vanessa_logger_log(__vanessa_logger_vl, LOG_DEBUG, \
-    __FUNCTION__ ": %s", str);
+	vanessa_logger_log(__vanessa_logger_vl, LOG_DEBUG, \
+		__VANESSA_LOGGER_DEBUG_PREFIX ": %s", str);
+
+#define VANESSA_LOGGER_DEBUG_RAW(str) \
+	vanessa_logger_log(__vanessa_logger_vl, LOG_DEBUG, \
+		"%s", str);
 
 #define VANESSA_LOGGER_ERR(str) \
-  vanessa_logger_log(__vanessa_logger_vl, LOG_ERR, \
-    __FUNCTION__ ": %s", str);
+	vanessa_logger_log(__vanessa_logger_vl, LOG_ERR, \
+		__VANESSA_LOGGER_DEBUG_PREFIX ": %s", str);
+
+#define VANESSA_LOGGER_RAW_ERR(str) \
+	vanessa_logger_log(__vanessa_logger_vl, LOG_ERR, \
+		"%s", str);
 
 #define VANESSA_LOGGER_INFO(str) \
-  vanessa_logger_log(__vanessa_logger_vl, LOG_INFO, \
-    __FUNCTION__ ": %s", str);
+	vanessa_logger_log(__vanessa_logger_vl, LOG_INFO, "%s", str);
 
 #define VANESSA_LOGGER_DEBUG_ERRNO(s) \
-  vanessa_logger_log(__vanessa_logger_vl, LOG_DEBUG, "%s: %s: %s", \
-    __FUNCTION__, s, strerror(errno));
+	vanessa_logger_log(__vanessa_logger_vl, LOG_DEBUG, \
+		__VANESSA_LOGGER_DEBUG_PREFIX ": %s: %s", \
+		s, strerror(errno));
+
+#define VANESSA_LOGGER_DUMP(buffer, buffer_length, flag) \
+	vanessa_logger_str_dump(__vanessa_logger_vl, (buffer), \
+			(buffer_length), (flag))
 
 #endif

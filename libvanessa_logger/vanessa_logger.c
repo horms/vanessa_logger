@@ -525,15 +525,17 @@ static void __vanessa_logger_log(__vanessa_logger_t * vl,
 	case __vanessa_logger_syslog:
 		if (vsnprintf(vl->buffer, vl->buffer_len, fmt, ap) < 0) {
 			syslog(priority,
-			       "__vanessa_logger_log: vsnprintf: output truncated");
+			       "__vanessa_logger_log: vsnprintf: "
+			       "output truncated");
 			return;
 		}
 		syslog(priority, "%s", vl->buffer);
 		break;
 	case __vanessa_logger_function:
 		if (vsnprintf(vl->buffer, vl->buffer_len, fmt, ap) < 0) {
-			syslog(priority,
-			       "__vanessa_logger_log: vsnprintf: output truncated");
+			vl->data.d_function(priority,
+			       "__vanessa_logger_log: vsnprintf: "
+			       "output truncated");
 			return;
 		}
 		vl->data.d_function(priority, "%s", vl->buffer);
@@ -605,7 +607,8 @@ vanessa_logger_t *vanessa_logger_openlog_syslog(int facility,
 
 	if ((vl = __vanessa_logger_create()) == NULL) {
 		fprintf(stderr,
-			"vanessa_logger_openlog_syslog: __vanessa_logger_create\n");
+			"vanessa_logger_openlog_syslog: "
+			"__vanessa_logger_create\n");
 		return (NULL);
 	}
 
@@ -615,7 +618,8 @@ vanessa_logger_t *vanessa_logger_openlog_syslog(int facility,
 				 __vanessa_logger_syslog,
 				 (void *) &facility, option) == NULL) {
 		fprintf(stderr,
-			"vanessa_logger_openlog_syslog: __vanessa_logger_set\n");
+			"vanessa_logger_openlog_syslog: "
+			"__vanessa_logger_set\n");
 		return (NULL);
 	}
 
@@ -660,7 +664,8 @@ vanessa_logger_t *vanessa_logger_openlog_syslog_byname(const char
 					   option);
 	if (vl == NULL) {
 		fprintf(stderr,
-			"vanessa_logger_openlog_syslog: vanessa_logger_openlog_syslog\n");
+			"vanessa_logger_openlog_syslog: "
+			"vanessa_logger_openlog_syslog\n");
 		return (NULL);
 	}
 
@@ -691,7 +696,8 @@ vanessa_logger_t *vanessa_logger_openlog_filehandle(FILE * filehandle,
 
 	if ((vl = __vanessa_logger_create()) == NULL) {
 		fprintf(stderr,
-			"vanessa_logger_openlog_filehandle: __vanessa_logger_create\n");
+			"vanessa_logger_openlog_filehandle: "
+			"__vanessa_logger_create\n");
 		return (NULL);
 	}
 
@@ -701,7 +707,8 @@ vanessa_logger_t *vanessa_logger_openlog_filehandle(FILE * filehandle,
 				 __vanessa_logger_filehandle,
 				 (void *) filehandle, option) == NULL) {
 		fprintf(stderr,
-			"vanessa_logger_openlog_filehandle: __vanessa_logger_set\n");
+			"vanessa_logger_openlog_filehandle: "
+			"__vanessa_logger_set\n");
 		return (NULL);
 	}
 
@@ -733,7 +740,8 @@ vanessa_logger_t *vanessa_logger_openlog_filename(const char *filename,
 
 	if ((vl = __vanessa_logger_create()) == NULL) {
 		fprintf(stderr,
-			"vanessa_logger_openlog_filename: __vanessa_logger_create\n");
+			"vanessa_logger_openlog_filename: "
+			"__vanessa_logger_create\n");
 		return (NULL);
 	}
 
@@ -743,7 +751,8 @@ vanessa_logger_t *vanessa_logger_openlog_filename(const char *filename,
 				 __vanessa_logger_filename,
 				 (void *) filename, option) == NULL) {
 		fprintf(stderr,
-			"vanessa_logger_openlog_filename: __vanessa_logger_set\n");
+			"vanessa_logger_openlog_filename: "
+			"__vanessa_logger_set\n");
 		return (NULL);
 	}
 
@@ -775,7 +784,8 @@ vanessa_logger_t
 
 	if ((vl = __vanessa_logger_create()) == NULL) {
 		fprintf(stderr,
-			"vanessa_logger_openlog_function: __vanessa_logger_create\n");
+			"vanessa_logger_openlog_function: "
+			"__vanessa_logger_create\n");
 		return (NULL);
 	}
 
@@ -785,7 +795,8 @@ vanessa_logger_t
 				 __vanessa_logger_function,
 				 (void *) log_function, option) == NULL) {
 		fprintf(stderr,
-			"vanessa_logger_openlog_function: __vanessa_logger_set\n");
+			"vanessa_logger_openlog_function: "
+			"__vanessa_logger_set\n");
 		return (NULL);
 	}
 
@@ -946,6 +957,43 @@ static char *__vanessa_logger_str_dump_oct(vanessa_logger_t * vl,
 	out_pos = out;
 	in_top = buffer + buffer_length;
 	for (in_pos = buffer; in_pos < in_top; in_pos++) {
+		switch(*in_pos) {
+			case '\a':
+				*out_pos++ = '\\';
+				*out_pos++ = 'a';
+				goto loop;
+			case '\b':
+				*out_pos++ = '\\';
+				*out_pos++ = 'b';
+				goto loop;
+			case '\t':
+				*out_pos++ = '\\';
+				*out_pos++ = 't';
+				goto loop;
+			case '\n':
+				*out_pos++ = '\\';
+				*out_pos++ = 'n';
+				goto loop;
+			case '\v':
+				*out_pos++ = '\\';
+				*out_pos++ = 'v';
+				goto loop;
+			case '\f':
+				*out_pos++ = '\\';
+				*out_pos++ = 'f';
+				goto loop;
+			case '\r':
+				*out_pos++ = '\\';
+				*out_pos++ = 'r';
+				goto loop;
+			case '\\': 
+			case '"': 
+			case '\'':
+				*out_pos++ = '\\';
+			case ' ':
+				*out_pos++ = *in_pos;
+				goto loop;
+		}
 		if (isgraph(*in_pos) || *in_pos == ' ') {
 			*out_pos++ = *in_pos;
 		} 
@@ -953,6 +1001,7 @@ static char *__vanessa_logger_str_dump_oct(vanessa_logger_t * vl,
 			sprintf(out_pos, "\\%03o", *in_pos);
 			out_pos += 4;
 		}
+loop:
 	}
 
 	*out_pos++ = '\0';
@@ -1009,7 +1058,6 @@ char *vanessa_logger_str_dump(vanessa_logger_t * vl,
 		const unsigned char *buffer, const size_t buffer_length,
 		vanessa_logger_flag_t flag)
 {
-	char *out;
 	if(flag == VANESSA_LOGGER_STR_DUMP_HEX) {
 		return(__vanessa_logger_str_dump_hex(vl, buffer, 
 					buffer_length));
