@@ -25,7 +25,7 @@ Copyright: GNU Lesser General Public Licence
 URL: http://www.vergenet.net/linux/vanessa/
 Packager: Horms <horms@verge.net.au>
 Group: Development/Libraries
-Source0: ftp://vergenet.net/pub/vanessa_logger/vanessa_logger/%{name}-%{version}.tar.gz
+Source0: http://www.vergenet.net/linux/vanessa/download/vanessa_logger/%{version}/%{name}-%{version}.tar.gz
 BuildRoot: /var/tmp/%{name}-%{version}-root
 Docdir: %{prefix}/doc
 Provides: %{name}-%{version}

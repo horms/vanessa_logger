@@ -2,7 +2,7 @@ Source: vanessa-logger
 Build-Depends: debhelper (>=2.0.0), automake, libtool
 Section: libs
 Priority: optional
-Maintainer: Simon Horman <horms@vergenet.net>
+Maintainer: Simon Horman <horms@debian.org>
 Standards-Version: 3.6.1
 
 Package: libvanessa-logger0
