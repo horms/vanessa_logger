@@ -23,7 +23,7 @@ Version: @VERSION@
 Release: 1
 Copyright: GNU Lesser General Public Licence
 URL: http://www.vergenet.net/linux/vanessa/
-Packager: Horms <horms@vergenet.net>
+Packager: Horms <horms@verge.net.au>
 Group: Development/Libraries
 Source0: ftp://vergenet.net/pub/vanessa_logger/vanessa_logger/%{name}-%{version}.tar.gz
 BuildRoot: /var/tmp/%{name}-%{version}-root
@@ -123,10 +123,10 @@ rm -rf $RPM_BUILD_ROOT
 %doc sample/*.c sample/*.h
 
 %changelog
-* Fri Dec 14 2001 Horms <horms@vergenet.net>
+* Fri Dec 14 2001 Horms <horms@verge.net.au>
   Revamped configure to use %{_libdir} and friends. This should be more
   distribution indepentant. With thanks to Scot W. Hetzel <scot@genroco.com>
-* Thu Apr 26 2001 Horms <horms@vergenet.net>
+* Thu Apr 26 2001 Horms <horms@verge.net.au>
   Updated to "work" with Red Hat 7
-* Sat Sep 15 2000 Horms <horms@vergenet.net>
+* Sat Sep 15 2000 Horms <horms@verge.net.au>
   created for version 0.0.0

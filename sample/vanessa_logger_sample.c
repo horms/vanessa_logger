@@ -1,10 +1,10 @@
 /**********************************************************************
  * vanessa_logger_sample.c                               September 2000
- * Horms                                             horms@vergenet.net
+ * Horms                                             horms@verge.net.au
  *
  * vanessa_logger
  * Generic logging layer
- * Copyright (C) 2000-2002  Horms
+ * Copyright (C) 2000-2003  Horms
  * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License

@@ -10,8 +10,8 @@ Description:    vanessa_adt is a library that provides a generic logging
 		ability to limit which messages will be logged based on
 		priorities.
 Keywords:       Logging Syslog Filehandle File Priority
-Author:         Horms <horms@vergenet.net>
-Maintained-by:  Horms <horms@vergenet.net>
+Author:         Horms <horms@verge.net.au>
+Maintained-by:  Horms <horms@verge.net.au>
 Primary-site:   ftp.vergenet.net /pub/vanessa/vanessa_logger
 Alternate-site: ftp.au.vergenet.net /pub/vanessa/vanessa_logger
 Original-site:  
