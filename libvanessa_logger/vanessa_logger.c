@@ -28,9 +28,6 @@
 #include <string.h>
 #include <stdarg.h>
 #include <unistd.h>
-#ifdef VANESSA_LOGGER_TH
-#include <pthread.h>
-#endif
 #include <netdb.h>
 
 #define SYSLOG_NAMES
@@ -40,7 +37,6 @@
 #include "../config.h"
 #endif
 
-#include "vanessa_logger.h"
 
 /**********************************************************************
  * Sun Solaris, AIX and probably others don't to define facilitynames 
@@ -98,11 +94,7 @@ CODE facilitynames[] = {
 #include "vanessa_logger.h"
 
 extern int errno;
-vanessa_logger_t *__vanessa_logger_vl = NULL; /* Legacy, exported symbol */
-static vanessa_logger_t *__vanessa_logger_vl2 = NULL;
-#ifdef VANESSA_LOGGER_TH
-static pthread_mutex_t __vanessa_logger_vl2_lock = PTHREAD_MUTEX_INITIALIZER;
-#endif
+vanessa_logger_t *__vanessa_logger_vl;
 
 /**********************************************************************
  * Internal data structures
@@ -142,9 +134,6 @@ typedef struct {
 	char *buffer;
 	size_t buffer_len;
 	int max_priority;
-#ifdef VANESSA_LOGGER_TH
-	pthread_mutex_t  lock;
-#endif
 } __vanessa_logger_t;
 
 
@@ -159,29 +148,6 @@ typedef struct {
     free(ptr); \
     ptr=NULL; \
   }
-
-#ifdef VANESSA_LOGGER_TH
-static int __vanessa_logger_lock(pthread_mutex_t *mutex){
-	return pthread_mutex_lock(mutex);
-}
-static int __vanessa_logger_unlock(pthread_mutex_t *mutex){
-	return pthread_mutex_unlock(mutex);
-}
-#define __VANESSA_LOGGER_LOCK(vl)                                       \
-          __vanessa_logger_lock(&(((__vanessa_logger_t *)vl)->lock))
-#define __VANESSA_LOGGER_UNLOCK(vl)                                     \
-          __vanessa_logger_unlock(&(((__vanessa_logger_t *)vl)->lock))
-#define __VANESSA_LOGGER_LOCK_VL()                                      \
-          __vanessa_logger_lock(&__vanessa_logger_vl2_lock)
-#define __VANESSA_LOGGER_UNLOCK_VL()                                    \
-          __vanessa_logger_unlock(&__vanessa_logger_vl2_lock)
-#else
-#define __VANESSA_LOGGER_LOCK(vl) do {} while (0)
-#define __VANESSA_LOGGER_UNLOCK(vl) do {} while (0)
-#define __VANESSA_LOGGER_LOCK_VL() do {} while (0)
-#define __VANESSA_LOGGER_UNLOCK_VL() do {} while (0)
-#endif
-
 
 
 /**********************************************************************
@@ -230,9 +196,6 @@ __vanessa_logger_create(void)
 		perror("__vanessa_logger_create: malloc");
 		return (NULL);
 	}
-#ifdef VANESSA_LOGGER_TH
-	pthread_mutex_init(&(vl->lock), 0);
-#endif
 
 	vl->type = __vanessa_logger_none;
 	vl->data.d_any = NULL;
@@ -263,9 +226,6 @@ __vanessa_logger_destroy (__vanessa_logger_t * vl)
 	}
 
 	__vanessa_logger_reset(vl);
-#ifdef VANESSA_LOGGER_TH
-	pthread_mutex_destroy(&(vl->lock));
-#endif
 	__VANESSA_LOGGER_SAFE_FREE(vl);
 }
 
@@ -581,7 +541,7 @@ __vanessa_logger_va_func_wrapper(vanessa_logger_log_function_va_t func,
 	if(snprintf((_vl)->buffer, (_vl)->buffer_len-1,                  \
 			(_prefix)?"%s: %s":"%s%s",                       \
 			(_prefix)?(_prefix):"", (_fmt))<0){              \
-		__vanessa_logger_va_func_wrapper((_func),(_priority),    \
+		__vanessa_logger_va_func_wrapper((_func),(_priority),     \
 				"__vanessa_logger_log: snprintf: "       \
 				"output truncated\n");                   \
 		return;                                                  \
@@ -884,10 +844,7 @@ vanessa_logger_change_max_priority(vanessa_logger_t * vl,
 		return;
 	}
 
-	__VANESSA_LOGGER_LOCK(vl);
 	((__vanessa_logger_t *) vl)->max_priority = max_priority;
-	__VANESSA_LOGGER_UNLOCK(vl);
-	 
 }
 
 
@@ -942,10 +899,8 @@ vanessa_logger_log(vanessa_logger_t * vl, int priority, const char *fmt, ...)
 	va_list ap;
 
 	va_start(ap, fmt);
-	__VANESSA_LOGGER_LOCK(vl);
 	__vanessa_logger_log((__vanessa_logger_t *) vl, priority, NULL, 
 			fmt, ap);
-	__VANESSA_LOGGER_UNLOCK(vl);
 	va_end(ap);
 }
 
@@ -961,10 +916,8 @@ void
 vanessa_logger_logv(vanessa_logger_t * vl, int priority, const char *fmt, 
 		va_list ap)
 {
-	__VANESSA_LOGGER_LOCK(vl);
 	__vanessa_logger_log((__vanessa_logger_t *) vl, priority, NULL,
 			fmt, ap);
-	__VANESSA_LOGGER_UNLOCK(vl);
 }
 
 
@@ -981,10 +934,8 @@ _vanessa_logger_log_prefix(vanessa_logger_t * vl, int priority,
 	va_list ap;
 
 	va_start(ap, fmt);
-	__VANESSA_LOGGER_LOCK(vl);
 	__vanessa_logger_log((__vanessa_logger_t *) vl, priority, prefix,
 			fmt, ap);
-	__VANESSA_LOGGER_UNLOCK(vl);
 	va_end(ap);
 }
 
@@ -1086,12 +1037,7 @@ vanessa_logger_strherror(int errnum)
 
 int vanessa_logger_reopen(vanessa_logger_t * vl)
 {
-	int status;
-
-	__VANESSA_LOGGER_LOCK(vl);
-	status = __vanessa_logger_reopen((__vanessa_logger_t *) vl);
-	__VANESSA_LOGGER_UNLOCK(vl);
-	if(status) {
+	if (__vanessa_logger_reopen((__vanessa_logger_t *) vl)) {
 		fprintf(stderr,
 			"vanessa_logger_reopen: __vanessa_logger_reopen\n");
 		return (-1);
@@ -1245,63 +1191,4 @@ vanessa_logger_str_dump(vanessa_logger_t * vl, const unsigned char *buffer,
 
 	return(__vanessa_logger_str_dump_oct(vl, buffer, buffer_length));
 }			 
-
-
-/**********************************************************************
- * vanessa_logger_vl_set
- * set the logger function to use with convenience macros
- * No logging will take place using conveineince macros if logger is 
- * set to NULL (default). That is you _must_ call this function to 
- * enable logging using convenience macros.
- * pre: logger: pointer to a vanessa_logger
- * post: logger for ip_vs_nl is set to logger
- * return: none
- **********************************************************************/
-
-void 
-vanessa_logger_set(vanessa_logger_t *vl)
-{
-	__VANESSA_LOGGER_LOCK_VL();
-	__vanessa_logger_vl2=vl;
-	__VANESSA_LOGGER_UNLOCK_VL();
-}
-
-
-/**********************************************************************
- * vanessa_logger_unset
- * set logger to use with convenience macros to NULL
- * That is no logging will take place when convenience macros are called
- * pre: none
- * post: logger is NULL
- * return: none
- **********************************************************************/
-
-void 
-vanessa_logger_unset(void)
-{
-	__VANESSA_LOGGER_LOCK_VL();
-	__vanessa_logger_vl2=NULL;
-	__VANESSA_LOGGER_UNLOCK_VL();
-}               
-
-
-/**********************************************************************
- * vanessa_logger_get
- * retreive the logger function used by convenience macros
- * pre: none
- * post: none
- * return: logger used by convenience macros
- **********************************************************************/
-
-vanessa_logger_t *
-vanessa_logger_get(void)
-{
-	vanessa_logger_t *vl;
-
-	__VANESSA_LOGGER_LOCK_VL();
-	vl = __vanessa_logger_vl2;
-	__VANESSA_LOGGER_UNLOCK_VL();
-
-	return(vl);
-}
 

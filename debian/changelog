@@ -1,10 +1,9 @@
-vanessa-logger (0.0.4.th.release-1) unstable; urgency=low
+vanessa-logger (0.0.4release-1) unstable; urgency=low
 
   * New Upstream
 
  -- Simon Horman <horms@vergenet.net>  Fri,  6 Jun 2003 11:38:32 +0900
 
->>>>>>> 1.23
 vanessa-logger (0.0.4beta7-4) unstable; urgency=low
 
   *  Changes libvanessa-logger-dev from devel to libdevel section

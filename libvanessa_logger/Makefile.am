@@ -23,7 +23,7 @@
 #
 ######################################################################
 
-lib_LTLIBRARIES = libvanessa_logger.la libvanessa_logger_th.la 
+lib_LTLIBRARIES = libvanessa_logger.la
 
 include_HEADERS = vanessa_logger.h
 
@@ -32,11 +32,3 @@ vanessa_logger.h \
 vanessa_logger.c
 
 libvanessa_logger_la_LDFLAGS    = -version-info 0:3:0
-
-libvanessa_logger_th_la_SOURCES = \
-vanessa_logger.h \
-vanessa_logger_th.c
-
-libvanessa_logger_th_la_LIBADD = 
-
-libvanessa_logger_th_la_LDFLAGS    = $(libvanessa_logger_la_LDFLAGS)
