@@ -3,7 +3,7 @@ Build-Depends: debhelper (>=2.0.0), automake, libtool
 Section: libs
 Priority: optional
 Maintainer: Simon Horman <horms@vergenet.net>
-Standards-Version: 3.5.9
+Standards-Version: 3.5.10
 
 Package: libvanessa-logger0
 Architecture: any
