@@ -1,8 +1,8 @@
-vanessa-logger (0.0.6-2) unstable; urgency=low
+vanessa-logger (0.0.7-1) unstable; urgency=low
 
   * Fixed gcc-3.4 build problem. (closes: Bug#262743)
 
- -- Simon Horman <horms@debian.org>  Sun, 29 Aug 2004 18:44:49 +0900
+ -- Simon Horman <horms@debian.org>  Sun, 29 Aug 2004 18:48:47 +0900
 
 vanessa-logger (0.0.6-1) unstable; urgency=low
 

@@ -5,9 +5,10 @@ Generic logging layer
 Copyright (C) 2000-2004  Horms
 ----------------------------------------------------------------------
 
-XXX
+29th August 2004
 (horms)
-   * XXX
+
+   * 0.0.7
    - Set flag to VANESSA_LOGGER_F_NO_IDENT_PID when opening a syslog
      logger to avoid duplicate perdition[PID] in log entries.
      This value was previously uninitialised for syslog loggers,
