@@ -594,6 +594,31 @@ vanessa_logger_t *vanessa_logger_openlog_filename(
 
 
 /**********************************************************************
+ * vanessa_logger_change_max_priority
+ * Exported function to change the maximum priority that the logger
+ * will log.
+ * pre: vl: logger to change the maximum priority of
+ *      max_priority: Maximum priority number to log
+ *                    Priorities are integers, the levels listed
+ *                    in syslog(3) sould be used for a syslog logger
+ * post: maximum priority of logger is changed
+ *       nothing if vl is NULL
+ * return: none
+ **********************************************************************/
+
+void vanessa_logger_change_max_priority(
+  vanessa_logger_t *vl,
+  const int max_priority
+){
+  if(vl==NULL){
+    return;
+  }
+
+  ((__vanessa_logger_t *)vl)->max_priority=max_priority;
+}
+
+
+/**********************************************************************
  * vanessa_logger_closelog
  * Exported function to close a logger
  * pre: vl: pointer to logger to close
