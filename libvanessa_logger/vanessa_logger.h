@@ -39,7 +39,7 @@ typedef void (*vanessa_logger_log_function_va_t)
 
 /*
  * NB: There was a fundamental design error in the original
- * implementation of loging to functions such that it cannot work
+ * implementation of logging to functions such that it cannot work
  * wit vanessa_loggers internal framework. Thus
  * vanessa_logger_log_function_t has been replaced by
  * vanessa_logger_log_function_va_t. Please do not use

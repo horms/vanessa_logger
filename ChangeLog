@@ -55,7 +55,7 @@ XXX
      - Added convenience macros
      - Do a configure check for facilitynames rather than
        checking for OS defines at compile time
-     - Fixed error reporting when a function is the loging target
+     - Fixed error reporting when a function is the logging target
      - Don't expect __FUNCTION__ to be a string litereal
      - Fixed logging to a function, such that the log function expects
        a va_list rather than a ... The later cannot work with
