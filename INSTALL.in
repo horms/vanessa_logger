@@ -18,14 +18,18 @@ make install
 To build RPMS
 -------------
 
-rpm -ta vanessa_logger-@VERSION@.tar.gz
+rpmbuild -ta vanessa_logger-@VERSION@.tar.gz
 
 or
 
 cd vanessa_logger-@VERSION@
 ./autogen.sh --prefix=/usr
 make distcheck
-rpm -ta vanessa_logger-@VERSION@.tar.gz
+rpmbuild -ta vanessa_logger-@VERSION@.tar.gz
+
+N.B: If you have an older version of rpm you may need to use
+     the "rpm" command instead of "rpmbuild". The command line
+     options should be the same.
 
 
 To Build Debian Packages
