@@ -49,5 +49,6 @@ sample/Makefile
 sample/vanessa_logger_sample_config.h 
 Makefile
 vanessa_logger.spec
+debian/Makefile 
 INSTALL
 )

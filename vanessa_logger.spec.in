@@ -1,4 +1,4 @@
-%define prefix   @prefix@
+%define prefix   /usr
 
 Summary: Generic logging layer
 Name: vanessa_logger

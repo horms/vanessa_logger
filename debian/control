@@ -1,0 +1,28 @@
+Source: vanessa-logger
+Section: devel
+Priority: optional
+Maintainer: Horms <horms@vergenet.net>
+Standards-Version: 3.1.1
+
+Package: libvanessa-logger-dev
+Architecture: any
+Depends: libvanessa-logger0 (= ${Source-Version}), libc6-dev
+Description: 
+  Headers and static libraries required to develop against vanessa-logger.
+
+Package: libvanessa-logger-sample
+Architecture: any
+Depends: libvanessa-logger0 (= ${Source-Version}), libc6-dev
+Description: 
+  Sample programme with source that demonstrates various features of
+  vanessa-logger.
+
+Package: libvanessa-logger0
+Architecture: any
+Depends: ${shlibs:Depends}
+Description:
+  Generic loging layer that may be used to log to one or more of syslog, an
+  open file handle or a file name. Though due to to limitations in the
+  implementation of syslog opening mutiple syslog loggers doesn't makes
+  sense. Includes the ability to limit which messages will be logged based
+  on priorities.

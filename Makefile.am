@@ -23,7 +23,7 @@
 #
 ######################################################################
 
-SUBDIRS = libvanessa_logger sample
+SUBDIRS = libvanessa_logger sample debian
 
 EXTRA_DIST = \
 configure \
@@ -34,6 +34,5 @@ INSTALL.in \
 INSTALL \
 vanessa_logger.spec.in \
 vanessa_logger.spec
-
 
 m4datadir = $(datadir)/aclocal
