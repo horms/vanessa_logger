@@ -1261,6 +1261,7 @@ __vanessa_logger_str_dump_oct(vanessa_logger_t * vl,
 			out_pos += 4;
 		}
 loop:
+		continue;
 	}
 
 	*out_pos++ = '\0';

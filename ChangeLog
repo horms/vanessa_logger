@@ -12,6 +12,7 @@ XXX
      logger to avoid duplicate perdition[PID] in log entries.
      This value was previously uninitialised for syslog loggers,
      so the behaviour varied. Brendan O'Dea
+   - Fixed gcc-3.4 build problem
 
 ----------------------------------------------------------------------
 
