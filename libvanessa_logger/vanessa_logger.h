@@ -26,6 +26,8 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <syslog.h>
+#include <string.h>
+#include <errno.h>
 
 #ifndef VANESSA_LOGGER_FLIM
 #define VANESSA_LOGGER_FLIM
@@ -248,5 +250,87 @@ int vanessa_logger_reopen(vanessa_logger_t * vl);
 char *vanessa_logger_str_dump(vanessa_logger_t * vl,
 		const unsigned char *buffer, const size_t buffer_length,
 		vanessa_logger_flag_t flag);
+
+
+
+/**********************************************************************
+ * The code below sets an internal logger and provides convenience
+ * macros to use this logger. You may either use this, or keep
+ * track of the logger yourself and use the vanessa_logger functions
+ * above directly. The latter approach allows for more than
+ * one logger to be in use at in a single programme.
+ **********************************************************************/
+
+
+extern vanessa_logger_t *__vanessa_logger_vl;
+extern int errno;
+
+/**********************************************************************
+ * __vanessa_logger_vl_set
+ * set the logger function to use
+ * No logging will take place if logger is set to NULL (default)
+ * That is you _must_ call this function to enable logging.
+ * pre: logger: pointer to a vanessa_logger
+ * post: logger for ip_vs_nl is set to logger
+ * return: none
+ **********************************************************************/
+
+#define vanessa_logger_set(_vl) __vanessa_logger_vl=(_vl)
+
+
+/**********************************************************************
+ * __vanessa_logger_vl_unset
+ * set logger to NULL
+ * That is no logging will take place
+ * pre: none
+ * post: logger is NULL
+ * return: none
+ **********************************************************************/
+
+#define vanessa_logger_unset() __vanessa_logger_set(NULL)
+
+
+/**********************************************************************
+ * VANESSA_LOGGER_DEBUG et al
+ * Convenience macros for using internal logger set using
+ * vanessa_logger_set()
+ **********************************************************************/
+
+/*
+ * Hooray for format string problems!
+ *
+ * Each of the logging macros has two versions. The UNSAFE version will
+ * accept a format string. You should _NOT_ use the UNSAFE versions if the
+ * first argument, the format string, is derived from user input. The safe
+ * versions (versions that do not have the "_UNSAFE" suffix) do not accept
+ * a format string and only accept one argument, the string to log. These
+ * should be safe to use with user derived input.
+ */
+
+#define VANESSA_LOGGER_LOG_UNSAFE(priority, fmt, args...) \
+  vanessa_logger_log(__vanessa_logger_vl, priority, fmt, ## args);
+
+#define VANESSA_LOGGER_LOG(priority, str) \
+  vanessa_logger_log(__vanessa_logger_vl, priority, "%s", str)
+
+#define VANESSA_LOGGER_DEBUG_UNSAFE(fmt, args...) \
+  vanessa_logger_log(__vanessa_logger_vl, LOG_DEBUG, \
+    __FUNCTION__ ": " fmt, ## args);
+
+#define VANESSA_LOGGER_INFO_UNSAFE(fmt, args...) \
+  vanessa_logger_log(__vanessa_logger_vl, LOG_INFO, \
+    __FUNCTION__ ": " fmt, ## args);
+
+#define VANESSA_LOGGER_DEBUG(str) \
+  vanessa_logger_log(__vanessa_logger_vl, LOG_DEBUG, \
+    __FUNCTION__ ": %s", str);
+
+#define VANESSA_LOGGER_ERR(str) \
+  vanessa_logger_log(__vanessa_logger_vl, LOG_ERR, \
+    __FUNCTION__ ": %s", str);
+
+#define VANESSA_LOGGER_DEBUG_ERRNO(s) \
+  vanessa_logger_log(__vanessa_logger_vl, LOG_DEBUG, "%s: %s: %s", \
+    __FUNCTION__, s, strerror(errno));
 
 #endif

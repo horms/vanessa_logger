@@ -19,7 +19,7 @@ dnl Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 
 AC_INIT(libvanessa_logger/vanessa_logger.h)
 AM_CONFIG_HEADER(config.h)
-AM_INIT_AUTOMAKE(vanessa_logger, 0.0.3)
+AM_INIT_AUTOMAKE(vanessa_logger, 0.0.4pre1)
 
 AM_PROG_LIBTOOL
 AC_PROG_CC
@@ -41,6 +41,16 @@ dnl Checks for library functions.
 AC_TYPE_SIGNAL
 AC_FUNC_WAIT3
 AC_CHECK_FUNCS(flim)
+
+AC_MSG_CHECKING("if facilitynames are available in syslog.h");
+AC_TRY_COMPILE(
+	[#define SYSLOG_NAMES 1
+	 #include <stdlib.h>
+	 #include <syslog.h>],
+	[if(&facilitynames[0]); ],
+	[AC_MSG_RESULT("yes"); AC_DEFINE(WITH_FACILITYNAMES) ],
+	AC_MSG_RESULT("no")
+)
 
 AC_OUTPUT(
 libvanessa_logger/Makefile 

@@ -10,6 +10,9 @@ XXX
 
      * XXX
      - Added vanessa_logger_str_dump
+     - Added convenience macros
+     - Do a configure check for facilitynames rather than
+       checking for OS defines at compile time
 
 
 ----------------------------------------------------------------------

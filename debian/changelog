@@ -1,3 +1,9 @@
+vanessa-logger (0.0.4pre1-3) unstable; urgency=low
+
+  * New stuff
+
+ -- Simon Horman <horms@vergenet.net>  Mon, 10 Jun 2002 15:21:27 +0900
+
 vanessa-logger (0.0.3-2) unstable; urgency=low
 
   * Added Build-Depends on libtool and built package from

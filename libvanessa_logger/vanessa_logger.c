@@ -32,13 +32,17 @@
 #define SYSLOG_NAMES
 #include <syslog.h>
 
+#ifdef HAVE_CONFIG_H
+#include "../config.h"
+#endif
+
 
 /**********************************************************************
- * Sun Solaris doesn't seem to define facilitynames so the
- * following compatibility code is provided.
+ * Sun Solaris, AIX and probably others don't to define facilitynames 
+ * so the following compatibility code is provided.
  **********************************************************************/
 
-#ifdef sun
+#ifndef WITH_FACILITYNAMES
 
 #define LOG_AUTHPRIV    (10<<3)	/* security/authorization messages (private) */
 #define LOG_FTP         (11<<3)	/* ftp daemon */
@@ -79,7 +83,7 @@ CODE facilitynames[] = {
 	{NULL, -1}
 };
 
-#endif				/* sun */
+#endif /* WITH_FACILITYNAMES */
 
 
 #include <ctype.h>
@@ -89,6 +93,7 @@ CODE facilitynames[] = {
 #include "vanessa_logger.h"
 
 extern int errno;
+vanessa_logger_t *__vanessa_logger_vl;
 
 /**********************************************************************
  * Internal data structures
