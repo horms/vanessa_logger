@@ -32,7 +32,7 @@
 #define MIN_UID 100
 
 /**********************************************************************
- * Muriel the main funtion
+ * Muriel the main function
  **********************************************************************/
 
 int main (int argc, char **argv){
