@@ -384,15 +384,15 @@ extern int errno;
  * should be safe to use with user derived input.
  */
 
-#define VANESSA_LOGGER_LOG_UNSAFE(priority, fmt, args...) \
-	vanessa_logger_log(__vanessa_logger_vl, priority, fmt, ## args);
+#define VANESSA_LOGGER_LOG_UNSAFE(priority, fmt, ...) \
+	vanessa_logger_log(__vanessa_logger_vl, priority, fmt, __VA_ARGS__);
 
 #define VANESSA_LOGGER_LOG(priority, str) \
 	vanessa_logger_log(__vanessa_logger_vl, priority, "%s", str)
 
-#define VANESSA_LOGGER_DEBUG_UNSAFE(fmt, args...) \
+#define VANESSA_LOGGER_DEBUG_UNSAFE(fmt, ...) \
 	_vanessa_logger_log_prefix(__vanessa_logger_vl, LOG_DEBUG, \
-		__FUNCTION__, fmt, ## args);
+		__FUNCTION__, fmt, __VA_ARGS__);
 
 #define VANESSA_LOGGER_DEBUG(str) \
 	_vanessa_logger_log_prefix(__vanessa_logger_vl, LOG_DEBUG, \
@@ -407,24 +407,24 @@ extern int errno;
 		__FUNCTION__, "%s: %s", str, \
 		vanessa_logger_strherror(h_errno));
 
-#define VANESSA_LOGGER_DEBUG_RAW_UNSAFE(fmt, args...) \
+#define VANESSA_LOGGER_DEBUG_RAW_UNSAFE(fmt, ...) \
 	vanessa_logger_log(__vanessa_logger_vl, LOG_DEBUG, \
-		fmt, ## args);
+		fmt, __VA_ARGS__);
 
 #define VANESSA_LOGGER_DEBUG_RAW(str) \
 	vanessa_logger_log(__vanessa_logger_vl, LOG_DEBUG, "%s", str);
 
-#define VANESSA_LOGGER_INFO_UNSAFE(fmt, args...) \
-	vanessa_logger_log(__vanessa_logger_vl, LOG_INFO, fmt, ## args);
+#define VANESSA_LOGGER_INFO_UNSAFE(fmt, ...) \
+	vanessa_logger_log(__vanessa_logger_vl, LOG_INFO, fmt, __VA_ARGS__);
 
 #define VANESSA_LOGGER_INFO(str) \
 	vanessa_logger_log(__vanessa_logger_vl, LOG_INFO, "%s", str);
 
-#define VANESSA_LOGGER_ERR_UNSAFE(fmt, args...) \
-	vanessa_logger_log(__vanessa_logger_vl, LOG_ERR, fmt, ## args);
+#define VANESSA_LOGGER_ERR_UNSAFE(fmt, ...) \
+	vanessa_logger_log(__vanessa_logger_vl, LOG_ERR, fmt, __VA_ARGS__);
 
-#define VANESSA_LOGGER_ERR_RAW_UNSAFE(fmt, args...) \
-	vanessa_logger_log(__vanessa_logger_vl, LOG_ERR, fmt, ## args);
+#define VANESSA_LOGGER_ERR_RAW_UNSAFE(fmt, ...) \
+	vanessa_logger_log(__vanessa_logger_vl, LOG_ERR, fmt, __VA_ARGS__);
 
 #define VANESSA_LOGGER_ERR(str) \
 	vanessa_logger_log(__vanessa_logger_vl, LOG_ERR, "%s", str);
