@@ -1,8 +1,8 @@
-vanessa-logger (0.0.3-test1) unstable; urgency=low
+vanessa-logger (0.0.3-beta1) unstable; urgency=low
 
   * Minor spelling errors corrected. closes: Bug#125062
 
- -- Simon Horman <horms@vergenet.net>  Wed, 19 Dec 2001 10:07:00 +1100
+ -- Simon Horman <horms@vergenet.net>  Thu, 14 Mar 2002 22:28:06 +1100
 
 vanessa-logger (0.0.2-1) unstable; urgency=low
 
