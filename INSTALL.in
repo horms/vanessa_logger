@@ -21,3 +21,8 @@ cd vanessa_logger-@VERSION@
 ./configure --prefix=/usr
 make distcheck
 rpm -ta vanessa_logger-@VERSION@.tar.gz
+
+
+To Build Debian Packages
+
+dpkg-buildpackage [-uc] [-us]
