@@ -34,8 +34,8 @@
 
 typedef void vanessa_logger_t;
 
-typedef int
- (*vanessa_logger_log_function_t) (int priority, const char *fmt, ...);
+typedef int (*vanessa_logger_log_function_t) 
+		(int priority, const char *fmt, ...);
 
 typedef unsigned int vanessa_logger_flag_t;
 
@@ -55,10 +55,9 @@ typedef unsigned int vanessa_logger_flag_t;
  *         NULL on error
  **********************************************************************/
 
-vanessa_logger_t *vanessa_logger_openlog_syslog(const int facility,
-						const char *ident,
-						const int max_priority,
-						const int option);
+vanessa_logger_t *
+vanessa_logger_openlog_syslog(const int facility, const char *ident,
+		const int max_priority, const int option);
 
 
 /**********************************************************************
@@ -76,12 +75,9 @@ vanessa_logger_t *vanessa_logger_openlog_syslog(const int facility,
  *         NULL on error
  **********************************************************************/
 
-vanessa_logger_t *vanessa_logger_openlog_syslog_byname(const char
-						       *facility_name,
-						       const char *ident,
-						       const int
-						       max_priority,
-						       const int option);
+vanessa_logger_t *
+vanessa_logger_openlog_syslog_byname(const char *facility_name,
+		const char *ident, const int max_priority, const int option);
 
 
 /**********************************************************************
@@ -98,10 +94,9 @@ vanessa_logger_t *vanessa_logger_openlog_syslog_byname(const char
  *         NULL on error
  **********************************************************************/
 
-vanessa_logger_t *vanessa_logger_openlog_filehandle(FILE * filehandle,
-						    const char *ident,
-						    const int max_priority,
-						    const int option);
+vanessa_logger_t *
+vanessa_logger_openlog_filehandle(FILE * filehandle, const char *ident,
+		const int max_priority, const int option);
 
 
 /**********************************************************************
@@ -119,10 +114,9 @@ vanessa_logger_t *vanessa_logger_openlog_filehandle(FILE * filehandle,
  *         NULL on error
  **********************************************************************/
 
-vanessa_logger_t *vanessa_logger_openlog_filename(const char *filename,
-						  const char *ident,
-						  const int max_priority,
-						  const int option);
+vanessa_logger_t *
+vanessa_logger_openlog_filename(const char *filename, const char *ident,
+		const int max_priority, const int option);
 
 
 /**********************************************************************
@@ -139,11 +133,9 @@ vanessa_logger_t *vanessa_logger_openlog_filename(const char *filename,
  *         NULL on error
  **********************************************************************/
 
-vanessa_logger_t
-    *vanessa_logger_openlog_function(vanessa_logger_log_function_t
-				     log_function, const char *ident,
-				     const int max_priority,
-				     const int option);
+vanessa_logger_t *
+vanessa_logger_openlog_function(vanessa_logger_log_function_t log_function, 
+		const char *ident, const int max_priority, const int option);
 
 
 /**********************************************************************
@@ -154,7 +146,8 @@ vanessa_logger_t
  * return: none
  **********************************************************************/
 
-void vanessa_logger_closelog(vanessa_logger_t * vl);
+void 
+vanessa_logger_closelog(vanessa_logger_t * vl);
 
 
 /**********************************************************************
@@ -170,8 +163,9 @@ void vanessa_logger_closelog(vanessa_logger_t * vl);
  * return: none
  **********************************************************************/
 
-void vanessa_logger_change_max_priority(vanessa_logger_t * vl,
-					const int max_priority);
+void 
+vanessa_logger_change_max_priority(vanessa_logger_t * vl, 
+		const int max_priority);
 
 
 /**********************************************************************
@@ -202,8 +196,7 @@ void vanessa_logger_change_max_priority(vanessa_logger_t * vl,
  **********************************************************************/
 
 void
-vanessa_logger_log(vanessa_logger_t * vl, int priority, const char *fmt,
-		   ...);
+vanessa_logger_log(vanessa_logger_t * vl, int priority, const char *fmt, ...);
 
 
 /**********************************************************************
@@ -213,8 +206,9 @@ vanessa_logger_log(vanessa_logger_t * vl, int priority, const char *fmt,
  * of a variable number of arguments.
  **********************************************************************/
 
-void vanessa_logger_logv(vanessa_logger_t * vl,
-			 int priority, char *fmt, va_list ap);
+void 
+vanessa_logger_logv(vanessa_logger_t * vl, int priority, char *fmt, 
+		va_list ap);
 
 
 /**********************************************************************
@@ -229,7 +223,8 @@ void vanessa_logger_logv(vanessa_logger_t * vl,
  *       on for instance receiving a SIGHUP
  **********************************************************************/
 
-int vanessa_logger_reopen(vanessa_logger_t * vl);
+int 
+vanessa_logger_reopen(vanessa_logger_t * vl);
 
 
 /**********************************************************************
@@ -252,9 +247,9 @@ int vanessa_logger_reopen(vanessa_logger_t * vl);
 #define VANESSA_LOGGER_STR_DUMP_OCT 0x0
 #define VANESSA_LOGGER_STR_DUMP_HEX 0x1
 
-char *vanessa_logger_str_dump(vanessa_logger_t * vl,
-		const unsigned char *buffer, const size_t buffer_length,
-		vanessa_logger_flag_t flag);
+char *
+vanessa_logger_str_dump(vanessa_logger_t * vl, const unsigned char *buffer, 
+		const size_t buffer_length, vanessa_logger_flag_t flag);
 
 
 /**********************************************************************
