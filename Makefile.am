@@ -36,4 +36,5 @@ vanessa_logger.spec.in \
 vanessa_logger.spec \
 autogen.sh
 
-m4datadir = $(datadir)/aclocal
+clean-local:
+	rm -f build-stamp

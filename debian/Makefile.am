@@ -39,7 +39,6 @@ shlibs.local \
 dpkg-checkbuild
 
 clean-local:
-	rm -f *.substvars *.debhelper
+	rm -f *.substvars *.debhelper files
 	rm -r -f libvanessa-logger-dev libvanessa-logger0 tmp \
 		libvanessa-logger-sample
-
