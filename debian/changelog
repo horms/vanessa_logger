@@ -1,3 +1,9 @@
+vanessa-logger (0.0.4beta7-4) unstable; urgency=low
+
+  *  Changes libvanessa-logger-dev from devel to libdevel section
+
+ -- Simon Horman <horms@vergenet.net>  Fri, 18 Apr 2003 17:10:46 +0900
+
 vanessa-logger (0.0.4beta7-3) unstable; urgency=low
 
   * New upstream
