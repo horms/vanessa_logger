@@ -294,7 +294,7 @@ static void __vanessa_logger_reset(__vanessa_logger_t * vl)
  *      ident: Identity string to prepend to each log
  *      type: Type of logger to initialise
  *      data: Type specific data for logger typecast to (void *)
- * post: Values of logger are set to allow loging as per type
+ * post: Values of logger are set to allow logging as per type
  *       Nothing if: vl is NULL or
  *                   type is __vanessa_logger_none or
  *                   data is NULL or
