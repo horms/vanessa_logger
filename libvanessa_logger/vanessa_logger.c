@@ -398,6 +398,7 @@ __vanessa_logger_set(__vanessa_logger_t * vl, const char *ident,
 		}
 		break;
 	case __vanessa_logger_syslog:
+		vl->flag = VANESSA_LOGGER_F_NO_IDENT_PID;
 		if ((vl->data.d_syslog =
 		     (int *) malloc(sizeof(int))) == NULL) {
 			perror("__vanessa_logger_set: malloc 3");
