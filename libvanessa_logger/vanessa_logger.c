@@ -82,8 +82,13 @@ CODE facilitynames[] = {
 #endif				/* sun */
 
 
+#include <ctype.h>
+#include <errno.h>
+#include <string.h>
+
 #include "vanessa_logger.h"
 
+extern int errno;
 
 /**********************************************************************
  * Internal data structures
@@ -893,4 +898,64 @@ int vanessa_logger_reopen(vanessa_logger_t * vl)
 		return (-1);
 	}
 	return (0);
+}
+
+
+/**********************************************************************
+ * vanessa_logger_str_dump
+ * Sanitise a buffer into ASCII
+ * pre: vl: Vanessa logger to log errors to. May be NULL.
+ *      buffer: buffer to sanitise
+ *      size: number of bytes in buffer to sanitise
+ *      flag: Unused, should be set to 0.
+ * post: a new buffer is alocated. For each byte in buffer
+ *       that is a printable ASCII character it is added to
+ *       the new buffer. All other characters are represented
+ *       in the new buffer as octal, in the form \xxx.
+ * return: the new buffer, this should be freed by the caller
+ *         NULL on error
+ **********************************************************************/
+
+char *vanessa_logger_str_dump(vanessa_logger_t * vl,
+		const unsigned char *buffer, const size_t buffer_length,
+		vanessa_logger_flag_t flag)
+{
+	const unsigned char *in_pos;
+	const unsigned char *in_top;
+	char *out_pos;
+	char *out;
+
+	out = (char *) malloc(buffer_length * 4 + 1);
+	if (out == NULL) {
+		vanessa_logger_log(vl, LOG_DEBUG, 
+				"vanessa_logger_str_dump: malloc: %s",
+				strerror(errno));
+		return (NULL);
+	}
+
+	out_pos = out;
+	in_top = buffer + buffer_length;
+	for (in_pos = buffer; in_pos < in_top; in_pos++) {
+		if (isgraph(*in_pos) || *in_pos == ' ') {
+			*out_pos++ = *in_pos;
+		} 
+	 	else {
+			sprintf(out_pos, "\\%03o", *in_pos);
+			out_pos += 4;
+		}
+	}
+
+	*out_pos++ = '\0';
+
+	/* Srink buffer
+	 * Ew, realloc */
+	out = realloc(out, out_pos - out);
+	if (out == NULL) {
+		vanessa_logger_log(vl, LOG_DEBUG, 
+				"vanessa_logger_str_dump: realloc: %s",
+				strerror(errno));
+		return (NULL);
+	}
+
+	return (out);
 }

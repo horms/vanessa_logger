@@ -35,6 +35,8 @@ typedef void vanessa_logger_t;
 typedef int
  (*vanessa_logger_log_function_t) (int priority, const char *fmt, ...);
 
+typedef unsigned int vanessa_logger_flag_t;
+
 
 /**********************************************************************
  * vanessa_logger_openlog_syslog
@@ -226,5 +228,25 @@ void vanessa_logger_logv(vanessa_logger_t * vl,
  **********************************************************************/
 
 int vanessa_logger_reopen(vanessa_logger_t * vl);
+
+
+/**********************************************************************
+ * vanessa_logger_str_dump
+ * Sanitise a buffer into ASCII
+ * pre: vl: Vanessa logger to log errors to. May be NULL.
+ *      buffer: buffer to sanitise
+ *      size: number of bytes in buffer to sanitise
+ *      flag: Unused, should be set to 0.
+ * post: a new buffer is alocated. For each byte in buffer
+ *       that is a printable ASCII character it is added to
+ *       the new buffer. All other characters are represented
+ *       in the new buffer as octal, in the form \xxx.
+ * return: the new buffer, this should be freed by the caller
+ *         NULL on error
+ **********************************************************************/
+
+char *vanessa_logger_str_dump(vanessa_logger_t * vl,
+		const unsigned char *buffer, const size_t buffer_length,
+		vanessa_logger_flag_t flag);
 
 #endif
