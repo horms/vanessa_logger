@@ -5,10 +5,10 @@ Generic logging layer
 Copyright (C) 2000-2002  Horms
 ----------------------------------------------------------------------
 
-XXX
+27th December 2002
 (Horms)
 
-     * XXX
+     * 0.0.4beta1
      - Added vanessa_logger_str_dump
      - Added convenience macros
      - Do a configure check for facilitynames rather than
