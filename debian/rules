@@ -11,10 +11,8 @@ build: build-stamp
 build-stamp:
 	dh_testdir
 
-	test -x autogen.sh && ./autogen.sh $(cfg) || ./configure $(cfg)
-	
+	./configure $(cfg)
 	$(MAKE)
-
 	touch build-stamp
 
 clean:
