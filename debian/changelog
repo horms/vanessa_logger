@@ -1,5 +1,6 @@
 vanessa-logger (0.0.5release-1) unstable; urgency=low
 
+  * New Upstream
   * Improved description of libvanessa-logger-dev package
     closes: Bug#209815
 
