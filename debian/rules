@@ -32,22 +32,23 @@ install: build
 	dh_clean -k
 	dh_installdirs
 
-	$(MAKE) install DESTDIR=$(pwd)/debian/libvanessa-logger0
+	$(MAKE) install DESTDIR=$(pwd)/debian/libvanessa-logger
 
 	./mkinstalldirs \
-	  $(pwd)/debian/libvanessa-logger0/usr/share/doc/libvanessa-logger-dev/ 
+	  $(pwd)/debian/libvanessa-logger/usr/share/doc/libvanessa-logger-dev/ 
 	install -c -m 644 ChangeLog \
-	  $(pwd)/debian/libvanessa-logger0/usr/share/doc/libvanessa-logger-dev/ 
+	  $(pwd)/debian/libvanessa-logger/usr/share/doc/libvanessa-logger-dev/changelog
+	  gzip $(pwd)/debian/libvanessa-logger/usr/share/doc/libvanessa-logger-dev/changelog
 	install -c -m 644 README \
-	  $(pwd)/debian/libvanessa-logger0/usr/share/doc/libvanessa-logger-dev/ 
+	  $(pwd)/debian/libvanessa-logger/usr/share/doc/libvanessa-logger-dev/ 
 	./mkinstalldirs \
-	  $(pwd)/debian/libvanessa-logger0/usr/share/doc/libvanessa-logger-sample/ 
+	  $(pwd)/debian/libvanessa-logger/usr/share/doc/libvanessa-logger-sample/ 
 	install -c -m 644 sample/vanessa_logger_sample.c \
-	  $(pwd)/debian/libvanessa-logger0/usr/share/doc/libvanessa-logger-sample/ 
+	  $(pwd)/debian/libvanessa-logger/usr/share/doc/libvanessa-logger-sample/ 
 	install -c -m 644 sample/vanessa_logger_sample_config.h \
-	  $(pwd)/debian/libvanessa-logger0/usr/share/doc/libvanessa-logger-sample/ 
+	  $(pwd)/debian/libvanessa-logger/usr/share/doc/libvanessa-logger-sample/ 
 
-	dh_movefiles --source=debian/libvanessa-logger0
+	dh_movefiles --source=debian/libvanessa-logger
 
 binary-indep: build install
 

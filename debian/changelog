@@ -1,8 +1,8 @@
-vanessa-logger (0.0.0pre1-1) unstable; urgency=low
+vanessa-logger (0.0.0-1) unstable; urgency=low
 
   * A CVS release.
 
- -- Horms <horms@vergenet.net>  Sat, 25 Nov 2000 17:00:00 -0500
+ -- Horms <horms@vergenet.net>  Tue, 9 Jan 2001 17:00:00 +1100
 
 Local variables:
 mode: debian-changelog
