@@ -39,13 +39,13 @@ install: build
 	gzip --best \
 	  $(pwd)/debian/tmp/usr/share/doc/libvanessa-logger-dev/changelog
 	install -c -m 644 README \
-	  $(pwd)/debian/tmp/usr/share/doc/libvanessa-logger-dev/ 
+	  $(pwd)/debian/tmp/usr/share/doc/libvanessa-logger-dev/README
 	./mkinstalldirs \
 	  $(pwd)/debian/tmp/usr/share/doc/libvanessa-logger-sample/ 
 	install -c -m 644 sample/vanessa_logger_sample.c \
-	  $(pwd)/debian/tmp/usr/share/doc/libvanessa-logger-sample/ 
+	  $(pwd)/debian/tmp/usr/share/doc/libvanessa-logger-sample/vanessa_logger_sample.c
 	install -c -m 644 sample/vanessa_logger_sample_config.h \
-	  $(pwd)/debian/tmp/usr/share/doc/libvanessa-logger-sample/ 
+	  $(pwd)/debian/tmp/usr/share/doc/libvanessa-logger-sample/vanessa_logger_sample_config.h
 
 	dh_movefiles --source=debian/tmp
 

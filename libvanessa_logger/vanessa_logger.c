@@ -502,7 +502,8 @@ static void __vanessa_logger_log(
 	syslog(priority, "__vanessa_logger_log: vsnprintf: output truncated");
 	return;
       }
-      syslog(priority, vl->buffer);
+      syslog(priority, "%s", vl->buffer);
+      /* syslog(priority, vl->buffer); */
       break;
     case __vanessa_logger_none:
       break;

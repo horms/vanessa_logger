@@ -5,6 +5,16 @@ Generic logging layer
 Copyright (C) 2000  Horms
 ----------------------------------------------------------------------
 
+29th June 2001
+(Horms)
+
+     * Version 0.0.2
+     - Fixed potential format string problems
+       (Antoniu-George SAVU <santoniu@libertysurf.fr>)
+
+
+----------------------------------------------------------------------
+
 5th April 2001
 (Horms)
 

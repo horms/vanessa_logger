@@ -1,3 +1,9 @@
+vanessa-logger (0.0.2-1) unstable; urgency=low
+
+  * See ChangeLog
+
+ -- Simon Horman <horms@vergenet.net>  Thu, 28 Jun 2001 18:14:14 +1000
+
 vanessa-logger (0.0.1-2) unstable; urgency=low
 
   * Include libvanessa_logger.so in dev package so dynamic linking works
