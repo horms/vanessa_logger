@@ -35,7 +35,7 @@ libvanessa-logger-sample.files \
 libvanessa-logger0.dirs \
 libvanessa-logger0.files \
 libvanessa-logger0.postinst \
-shlibs.local \
+libvanessa-logger0.shlibs \
 dpkg-checkbuild
 
 clean-local:
