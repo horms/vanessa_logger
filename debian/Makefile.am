@@ -35,6 +35,5 @@ libvanessa-logger-sample.files \
 libvanessa-logger0.dirs \
 libvanessa-logger0.files \
 libvanessa-logger0.postinst \
-shlibs.local
-
-m4datadir = $(datadir)/aclocal
+shlibs.local \
+dpkg-checkbuild

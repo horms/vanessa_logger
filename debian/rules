@@ -7,7 +7,7 @@ export DH_COMPAT=2
 pwd:=$(shell pwd)
 cfg:=--prefix=/usr --mandir=/usr/share/man
 
-build: build-stamp
+build: checkbuild build-stamp
 build-stamp:
 	dh_testdir
 
@@ -36,7 +36,8 @@ install: build
 	  $(pwd)/debian/tmp/usr/share/doc/libvanessa-logger-dev/ 
 	install -c -m 644 ChangeLog \
 	  $(pwd)/debian/tmp/usr/share/doc/libvanessa-logger-dev/changelog
-	gzip --best $(pwd)/debian/tmp/usr/share/doc/libvanessa-logger-dev/changelog
+	gzip --best \
+	  $(pwd)/debian/tmp/usr/share/doc/libvanessa-logger-dev/changelog
 	install -c -m 644 README \
 	  $(pwd)/debian/tmp/usr/share/doc/libvanessa-logger-dev/ 
 	./mkinstalldirs \
@@ -69,4 +70,9 @@ binary-arch: build install
 	dh_builddeb
 
 binary: binary-indep binary-arch
-.PHONY: build clean binary-indep binary-arch binary install
+
+checkbuild:
+	chmod u+x ./debian/dpkg-checkbuild
+	./debian/dpkg-checkbuild debian/control
+
+.PHONY: build clean binary-indep binary-arch binary install checkbuild
