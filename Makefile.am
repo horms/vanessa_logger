@@ -30,6 +30,8 @@ configure \
 configure.in \
 README \
 TODO \
+INSTALL.in \
+INSTALL \
 vanessa_logger.spec.in \
 vanessa_logger.spec
 

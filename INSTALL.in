@@ -1,0 +1,23 @@
+INSTALL
+
+vanessa_logger
+Generic logging layer
+Copyright (C) 2000  Horms
+----------------------------------------------------------------------
+
+To install vanessa_logger 
+tar zxf vanessa_logger-@VERSION@.tar.gz
+cd vanessa_logger-@VERSION@
+./configure [--prefix=/usr]
+make
+make install
+
+To build RPMS
+rpm -ta vanessa_logger-@VERSION@.tar.gz
+
+or
+
+cd vanessa_logger-@VERSION@
+./configure --prefix=/usr
+make distcheck
+rpm -ta vanessa_logger-@VERSION@.tar.gz

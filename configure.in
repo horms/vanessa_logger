@@ -2,7 +2,7 @@ dnl Process this file with autoconf to produce a configure script.
 
 AC_INIT(libvanessa_logger/vanessa_logger.h)
 AM_CONFIG_HEADER(config.h)
-AM_INIT_AUTOMAKE(vanessa_logger, 0.0.0)
+AM_INIT_AUTOMAKE(vanessa_logger, 0.0.0pre1)
 
 AM_PROG_LIBTOOL
 AC_PROG_CC
@@ -32,4 +32,5 @@ sample/Makefile
 sample/vanessa_logger_sample_config.h 
 Makefile
 vanessa_logger.spec
+INSTALL
 )

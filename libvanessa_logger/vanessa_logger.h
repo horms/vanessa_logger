@@ -41,7 +41,7 @@ typedef void vanessa_logger_t;
  *                    Priorities are integers, the levels listed
  *                    in syslog(3) sould be used for a syslog logger
  *      option: options to pass to the openlog command
- *              Will be logically ored with LOG_PERROR|LOG_PID
+ *              Will be logically ored with LOG_PID
  * post: Logger is opened
  * return: pointer to logger
  *         NULL on error

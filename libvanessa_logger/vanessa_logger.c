@@ -323,7 +323,7 @@ static __vanessa_logger_t *__vanessa_logger_set(
 	return(NULL);
       }
       *(vl->data.d_syslog)=*((int *)data);
-      openlog(vl->ident, LOG_CONS|LOG_PID|option, *(vl->data.d_syslog));
+      openlog(vl->ident, LOG_PID|option, *(vl->data.d_syslog));
       break;
     case __vanessa_logger_none:
       break;
@@ -465,7 +465,7 @@ static void __vanessa_logger_log(
  *                    Priorities are integers, the levels listed
  *                    in syslog(3) sould be used for a syslog logger
  *      option: options to pass to the openlog command
- *              Will be logically ored with LOG_PERROR|LOG_PID
+ *              Will be logically ored with LOG_PID
  * post: Logger is opened
  * return: pointer to logger
  *         NULL on error
