@@ -25,7 +25,9 @@
 
 bin_PROGRAMS = vanessa_logger_sample
 
-EXTRA_DIST = vanessa_logger_sample_config.h.in
+man_MANS = vanessa_logger_sample.1
+
+EXTRA_DIST = vanessa_logger_sample_config.h.in vanessa_logger_sample.1
 
 vanessa_logger_sample_SOURCES = \
   vanessa_logger_sample.c \

@@ -31,8 +31,8 @@ libvanessa-logger-dev.dirs \
 libvanessa-logger-dev.files \
 libvanessa-logger-sample.dirs \
 libvanessa-logger-sample.files \
-libvanessa-logger.dirs \
-libvanessa-logger.files \
+libvanessa-logger0.dirs \
+libvanessa-logger0.files \
 libvanessa_logger0.postinst
 
 m4datadir = $(datadir)/aclocal

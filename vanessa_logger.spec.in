@@ -78,6 +78,7 @@ rm -rf $RPM_BUILD_ROOT
 %files sample
 %defattr(-, root, root)
 %{prefix}/bin/*
+%{prefix}/man/man1/vanessa_logger_sample.*
 %doc sample/*.c sample/*.h
 
 %changelog
