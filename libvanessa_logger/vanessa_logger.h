@@ -238,7 +238,8 @@ int vanessa_logger_reopen(vanessa_logger_t * vl);
  * pre: vl: Vanessa logger to log errors to. May be NULL.
  *      buffer: buffer to sanitise
  *      size: number of bytes in buffer to sanitise
- *      flag: Unused, should be set to 0.
+ *      flag: If VANESSA_LOGGER_STR_DUMP_HEX then a hexidecimal dump
+ *            will be done. Else an octal dump will be done.
  * post: a new buffer is alocated. For each byte in buffer
  *       that is a printable ASCII character it is added to
  *       the new buffer. All other characters are represented
@@ -247,10 +248,13 @@ int vanessa_logger_reopen(vanessa_logger_t * vl);
  *         NULL on error
  **********************************************************************/
 
+
+#define VANESSA_LOGGER_STR_DUMP_OCT 0x0
+#define VANESSA_LOGGER_STR_DUMP_HEX 0x1
+
 char *vanessa_logger_str_dump(vanessa_logger_t * vl,
 		const unsigned char *buffer, const size_t buffer_length,
 		vanessa_logger_flag_t flag);
-
 
 
 /**********************************************************************
@@ -333,12 +337,20 @@ extern int errno;
   vanessa_logger_log(__vanessa_logger_vl, LOG_INFO, \
     __FUNCTION__ ": " fmt, ## args);
 
+#define VANESSA_LOGGER_ERR_UNSAFE(fmt, args...) \
+  vanessa_logger_log(__vanessa_logger_vl, LOG_ERR, \
+    __FUNCTION__ ": " fmt, ## args);
+
 #define VANESSA_LOGGER_DEBUG(str) \
   vanessa_logger_log(__vanessa_logger_vl, LOG_DEBUG, \
     __FUNCTION__ ": %s", str);
 
 #define VANESSA_LOGGER_ERR(str) \
   vanessa_logger_log(__vanessa_logger_vl, LOG_ERR, \
+    __FUNCTION__ ": %s", str);
+
+#define VANESSA_LOGGER_INFO(str) \
+  vanessa_logger_log(__vanessa_logger_vl, LOG_INFO, \
     __FUNCTION__ ": %s", str);
 
 #define VANESSA_LOGGER_DEBUG_ERRNO(s) \

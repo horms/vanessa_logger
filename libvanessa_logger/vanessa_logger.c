@@ -822,11 +822,16 @@ void vanessa_logger_change_max_priority(vanessa_logger_t * vl,
  * Exported function to close a logger
  * pre: vl: pointer to logger to close
  * post: logger is closed and memory is freed
+ *       If global logger set by vanessa_logger_set() is being closed
+ *       then it is unset using vanessa_logger_unset()
  * return: none
  **********************************************************************/
 
 void vanessa_logger_closelog(vanessa_logger_t * vl)
 {
+	if(vanessa_logger_get() == vl) {
+		vanessa_logger_unset();
+	}
 	__vanessa_logger_destroy((__vanessa_logger_t *) vl);
 }
 
@@ -912,7 +917,8 @@ int vanessa_logger_reopen(vanessa_logger_t * vl)
  * pre: vl: Vanessa logger to log errors to. May be NULL.
  *      buffer: buffer to sanitise
  *      size: number of bytes in buffer to sanitise
- *      flag: Unused, should be set to 0.
+ *      flag: If VANESSA_LOGGER_STR_DUMP_HEX then a hexidecimal dump
+ *            will be done. Else an octal dump will be done.
  * post: a new buffer is alocated. For each byte in buffer
  *       that is a printable ASCII character it is added to
  *       the new buffer. All other characters are represented
@@ -921,9 +927,8 @@ int vanessa_logger_reopen(vanessa_logger_t * vl)
  *         NULL on error
  **********************************************************************/
 
-char *vanessa_logger_str_dump(vanessa_logger_t * vl,
-		const unsigned char *buffer, const size_t buffer_length,
-		vanessa_logger_flag_t flag)
+static char *__vanessa_logger_str_dump_oct(vanessa_logger_t * vl,
+		const unsigned char *buffer, const size_t buffer_length)
 {
 	const unsigned char *in_pos;
 	const unsigned char *in_top;
@@ -963,4 +968,52 @@ char *vanessa_logger_str_dump(vanessa_logger_t * vl,
 	}
 
 	return (out);
+}
+
+
+static char *__vanessa_logger_str_dump_hex(vanessa_logger_t * vl,
+		const unsigned char *buffer, const size_t buffer_length)
+{
+	const unsigned char *in_pos;
+	const unsigned char *in_top;
+	char *out_pos;
+	char *out;
+	int i;
+
+	out = (char *) malloc((buffer_length << 1) + (buffer_length >> 2) + 1);
+	if (out == NULL) {
+		vanessa_logger_log(vl, LOG_DEBUG, 
+				"vanessa_logger_str_dump: malloc: %s",
+				strerror(errno));
+		return (NULL);
+	}
+
+	i = 0;
+	out_pos = out;
+	in_top = buffer + buffer_length;
+	for (in_pos = buffer; in_pos < in_top; in_pos++) {
+		sprintf(out_pos, "%02x", *in_pos);
+		out_pos += 2;
+		if((i++ & 0x3) == 3 && in_pos + 1 != in_top) {
+			*out_pos++ = ' ';
+		}
+	}
+
+	*out_pos++ = '\0';
+
+	return (out);
+}
+
+
+char *vanessa_logger_str_dump(vanessa_logger_t * vl,
+		const unsigned char *buffer, const size_t buffer_length,
+		vanessa_logger_flag_t flag)
+{
+	char *out;
+	if(flag == VANESSA_LOGGER_STR_DUMP_HEX) {
+		return(__vanessa_logger_str_dump_hex(vl, buffer, 
+					buffer_length));
+	}
+
+	return(__vanessa_logger_str_dump_oct(vl, buffer, buffer_length));
 }
