@@ -36,7 +36,7 @@ install: build
 	  $(pwd)/debian/libvanessa-logger/usr/share/doc/libvanessa-logger-dev/ 
 	install -c -m 644 ChangeLog \
 	  $(pwd)/debian/libvanessa-logger/usr/share/doc/libvanessa-logger-dev/changelog
-	  gzip $(pwd)/debian/libvanessa-logger/usr/share/doc/libvanessa-logger-dev/changelog
+	gzip $(pwd)/debian/libvanessa-logger/usr/share/doc/libvanessa-logger-dev/changelog
 	install -c -m 644 README \
 	  $(pwd)/debian/libvanessa-logger/usr/share/doc/libvanessa-logger-dev/ 
 	./mkinstalldirs \
