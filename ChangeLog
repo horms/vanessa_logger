@@ -4,3 +4,18 @@ vanessa_logger
 Generic logging layer
 Copyright (C) 2000  Horms
 ----------------------------------------------------------------------
+
+xxx
+(Horms)
+
+     * xxx
+     Added facilitynames compatibility for Solaris
+
+----------------------------------------------------------------------
+
+9th January 2001
+(Horms)
+
+     * Version 0.0.0
+     Initial Release
+
