@@ -28,6 +28,7 @@
 #include <string.h>
 #include <stdarg.h>
 #include <unistd.h>
+#include <netdb.h>
 
 #define SYSLOG_NAMES
 #include <syslog.h>
@@ -939,6 +940,89 @@ _vanessa_logger_log_prefix(vanessa_logger_t * vl, int priority,
 }
 
 
+char vanessa_logger_strherror_str[34];
+
+
+/**********************************************************************
+ * vanessa_logger_strherror_r
+ * Returns a string describing the error code present in errnum
+ * according to the errors for h_errno which is set by gethostbyname(3)
+ * gethostbyaddr(3) and others. Analagous to strerror_r(3).
+ * pre: errnum: Error to show as a string
+ *      buf: buffer to write error string to
+ *      n: length of buf in bytes
+ * post: on success error string is written to buf
+ *       on invalud input errno is set to -EINVAL
+ *       if buf is too short then errno is set to -ERANGE
+ * return: 0 on success
+ *         -1 on error
+ **********************************************************************/
+
+int
+vanessa_logger_strherror_r(int errnum, char *buf, size_t n)
+{
+	size_t len;
+	char *str;
+
+	switch(errnum) {
+		case HOST_NOT_FOUND:
+			str = "Unknown host";
+			break;
+		case NO_ADDRESS:
+		/* case NO_DATA: */
+			str = "Host has no address";
+			break;
+		case NO_RECOVERY:
+			str = "Non-recoverable name server error";
+			break;
+		case TRY_AGAIN:
+			str = "Transient lookup error";
+			break;
+		default:
+			errno = -EINVAL;
+			return(-1);
+	}
+
+	len = strlen(str) + 1;
+	if(len > n) {
+		errno = -ERANGE;
+		return(-1);
+	}
+
+	memcpy(buf, str, len);
+	return(0);
+}
+
+
+/**********************************************************************
+ * vanessa_logger_strherror
+ * Returns a string describing the error code present in errnum
+ * according to the errors for h_errno which is set by gethostbyname(3)
+ * gethostbyaddr(3) and others. Analagous to strerror_r(3).
+ * pre: errnum: Error to show as a string
+ * post: none on success
+ *       on invalud input errno is set to -EINVAL
+ *       if buf is too short then errno is set to -ERANGE
+ * return: error string for errnum on success
+ *         error string for newly set errno on error
+ **********************************************************************/
+
+char *
+vanessa_logger_strherror(int errnum)
+{
+	int status;
+
+	status = vanessa_logger_strherror_r(errnum, 
+			vanessa_logger_strherror_str,
+			sizeof(vanessa_logger_strherror_str));
+	if(status < 0) {
+		return(strerror(errno));
+	}
+
+	return(vanessa_logger_strherror_str);
+}
+
+
 /**********************************************************************
  * vanessa_logger_reopen
  * Exported function to reopen a logger
@@ -998,6 +1082,7 @@ __vanessa_logger_str_dump_oct(vanessa_logger_t * vl,
 	out_pos = out;
 	in_top = buffer + buffer_length;
 	for (in_pos = buffer; in_pos < in_top; in_pos++) {
+loop:
 		switch(*in_pos) {
 			case '\a':
 				*out_pos++ = '\\';
@@ -1042,7 +1127,6 @@ __vanessa_logger_str_dump_oct(vanessa_logger_t * vl,
 			sprintf(out_pos, "\\%03o", *in_pos);
 			out_pos += 4;
 		}
-loop:
 	}
 
 	*out_pos++ = '\0';
@@ -1107,3 +1191,4 @@ vanessa_logger_str_dump(vanessa_logger_t * vl, const unsigned char *buffer,
 
 	return(__vanessa_logger_str_dump_oct(vl, buffer, buffer_length));
 }			 
+

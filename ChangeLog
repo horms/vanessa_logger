@@ -5,6 +5,16 @@ Generic logging layer
 Copyright (C) 2000-2003  Horms
 ----------------------------------------------------------------------
 
+XXX
+(Horms)
+
+   * XXX
+   - Added logging messages for h_error which is set by
+     gethopstbyname() and gethostbyaddr()
+     
+
+----------------------------------------------------------------------
+
 6th June 2003
 (Horms)
 

@@ -258,6 +258,42 @@ vanessa_logger_reopen(vanessa_logger_t * vl);
 
 
 /**********************************************************************
+ * vanessa_logger_strherror_r
+ * Returns a string describing the error code present in errnum
+ * according to the errors for h_errno which is set by gethostbyname(3)
+ * gethostbyaddr(3) and others. Analagous to strerror_r(3).
+ * pre: errnum: Error to show as a string
+ *      buf: buffer to write error string to
+ *      n: length of buf in bytes
+ * post: on success error string is written to buf
+ *       on invalud input errno is set to -EINVAL
+ *       if buf is too short then errno is set to -ERANGE
+ * return: 0 on success
+ *         -1 on error
+ **********************************************************************/
+
+int
+vanessa_logger_strherror_r(int errnum, char *buf, size_t n);
+
+
+/**********************************************************************
+ * vanessa_logger_strherror
+ * Returns a string describing the error code present in errnum
+ * according to the errors for h_errno which is set by gethostbyname(3)
+ * gethostbyaddr(3) and others. Analagous to strerror_r(3).
+ * pre: errnum: Error to show as a string
+ * post: none on success
+ *       on invalud input errno is set to -EINVAL
+ *       if buf is too short then errno is set to -ERANGE
+ * return: error string for errnum on success
+ *         error string for newly set errno on error
+ **********************************************************************/
+
+char *
+vanessa_logger_strherror(int errnum);
+
+
+/**********************************************************************
  * vanessa_logger_str_dump
  * Sanitise a buffer into ASCII
  * pre: vl: Vanessa logger to log errors to. May be NULL.
@@ -365,6 +401,11 @@ extern int errno;
 #define VANESSA_LOGGER_DEBUG_ERRNO(str) \
 	_vanessa_logger_log_prefix(__vanessa_logger_vl, LOG_DEBUG, \
 		__FUNCTION__, "%s: %s", str, strerror(errno));
+
+#define VANESSA_LOGGER_DEBUG_HERRNO(str) \
+	_vanessa_logger_log_prefix(__vanessa_logger_vl, LOG_DEBUG, \
+		__FUNCTION__, "%s: %s", str, \
+		vanessa_logger_strherror(h_errno));
 
 #define VANESSA_LOGGER_DEBUG_RAW_UNSAFE(fmt, args...) \
 	vanessa_logger_log(__vanessa_logger_vl, LOG_DEBUG, \
