@@ -39,7 +39,7 @@ typedef void vanessa_logger_t;
  *      ident: Identity to prepend to each log
  *      max_priority: Maximum priority no to log
  *                    Priorities are integers, the levels listed
- *                    in syslog(3) sould be used for a syslog logger
+ *                    in syslog(3) should be used for a syslog logger
  *      option: options to pass to the openlog command
  *              Will be logically ored with LOG_PID
  * post: Logger is opened
@@ -60,9 +60,9 @@ vanessa_logger_t *vanessa_logger_openlog_syslog(
  * Exported function to open a logger that will log to a filehandle
  * pre: filehandle: open filehandle to log to
  *      ident: Identity to prepend to each log
- *      max_priority: Maximim priority number to log
+ *      max_priority: Maximum priority number to log
  *                    Priorities are integers, the levels listed
- *                    in syslog(3) sould be used for a syslog logger
+ *                    in syslog(3) should be used for a syslog logger
  *      option: ignored
  * post: Logger is opened
  * return: pointer to logger
@@ -85,7 +85,7 @@ vanessa_logger_t *vanessa_logger_openlog_filehandle(
  *      ident: Identity to prepend to each log
  *      max_priority: Maximum priority number to log
  *                    Priorities are integers, the levels listed
- *                    in syslog(3) sould be used for a syslog logger
+ *                    in syslog(3) should be used for a syslog logger
  *      option: ignored
  * post: Logger is opened
  * return: pointer to logger
@@ -118,7 +118,7 @@ void vanessa_logger_closelog(vanessa_logger_t *vl);
  * pre: vl: logger to change the maximum priority of
  *      max_priority: Maximum priority number to log
  *                    Priorities are integers, the levels listed
- *                    in syslog(3) sould be used for a syslog logger
+ *                    in syslog(3) should be used for a syslog logger
  * post: maximum priority of logger is changed
  *       nothing if vl is NULL
  * return: none
@@ -143,12 +143,12 @@ void vanessa_logger_change_max_priority(
  *                syslog loggers as the priority will be used when
  *                logging to syslog. These priorities may also be
  *                used for filehandle and filename loggers.
- *                Strangley with syslog higher priorities have
+ *                Strangely with syslog higher priorities have
  *                _lower_ priority numbers. For this
  *                reason vanessa_logger regards messages with
- *                lower priority numbers as being higer priority
+ *                lower priority numbers as being higher priority
  *                than messages with lower priority. I suggest
- *                just using the suslog priorities to avoid confusion.
+ *                just using the syslog priorities to avoid confusion.
  *      fmt: format of message to log as per sprintf(3) for
  *           filename and filehandle loggers and as
  *           per syslog(3) for syslog loggers
@@ -168,8 +168,8 @@ void vanessa_logger_log(vanessa_logger_t *vl, int priority, char *fmt, ...);
  * return: 0 on success
  *         -1 on error
  *
- * Note: May be used as part of a signal andler to reopen logger
- *       on for instance recieving a SIGHUP
+ * Note: May be used as part of a signal handler to reopen logger
+ *       on for instance receiving a SIGHUP
  **********************************************************************/
 
 int vanessa_logger_reopen(vanessa_logger_t *vl);

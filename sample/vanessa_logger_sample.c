@@ -44,19 +44,19 @@ int main (int argc, char **argv){
 
 
   /* 
-   * Make sure this is _not_ being run by a privelaged user
+   * Make sure this is _not_ being run by a privileged user
    *
-   * This programme is not suitable to be run by privelages users
+   * This programme is not suitable to be run by privileged users
    * as the filename logger that is opened opens a file
-   * in the cwd. If vanessa logger is used in a programme
-   * designed to be used by a privelaged user then a full
+   * in the PWD. If vanessa logger is used in a programme
+   * designed to be used by a privileged user then a full
    * pathname should be given to vanessa_logger_openlog_filename()
    */
   if(getuid()<MIN_UID || geteuid()<MIN_UID){
     fflush(stdout);
     fprintf(
       stderr,
-      "Error: Run by privelaged user with UID<%d or EUID<%d. Exiting\n",
+      "Error: Run by privileged user with UID<%d or EUID<%d. Exiting\n",
       MIN_UID,
       MIN_UID
     );
@@ -71,7 +71,7 @@ int main (int argc, char **argv){
   log_fh=vanessa_logger_openlog_filehandle(
     stderr, 
     "vanessa_logger_sample", 
-    LOG_INFO,
+    LOG_DEBUG,
     0
   );
   if(log_fh==NULL){
@@ -85,7 +85,7 @@ int main (int argc, char **argv){
   log_fn=vanessa_logger_openlog_filename(
     "./vanessa_logger_sample.log", 
     "vanessa_logger_sample", 
-    LOG_INFO,
+    LOG_DEBUG,
     0
   );
   if(log_fn==NULL){
@@ -99,7 +99,7 @@ int main (int argc, char **argv){
   log_sl=vanessa_logger_openlog_syslog(
     LOG_USER, 
     "vanessa_logger_sample", 
-    LOG_INFO, 
+    LOG_DEBUG, 
     0
   );
   if(log_sl==NULL){
@@ -112,21 +112,26 @@ int main (int argc, char **argv){
    */
   printf("Logging message to stderr\n");
   fflush(stdout);
-  vanessa_logger_log(log_fh, LOG_INFO, "This should log to stderr: %d\n", 7);
+  vanessa_logger_log(log_fh, LOG_DEBUG, "This should log to stderr: %d\n", 7);
 
   printf("Logging message to ./vanessa_logger_sample.log\n");
   vanessa_logger_log(
     log_fn,
-    LOG_INFO,
+    LOG_DEBUG,
     "This should log to ./vanessa_logger_sample.log: %d",
     7
   );
 
-  printf("Logging message to syslog facility LOG_USER, priority LOG_INFO\n");
+  printf(
+    "Logging message to syslog facility LOG_USER, priority LOG_DEBUG\n"
+    "If the message is not logged to syslog then you may need to add\n"
+    "the following to /etc/syslog.conf and restart syslogd:\n"
+    "user.debug                                    /var/log/messages\n"
+  );
   vanessa_logger_log(
     log_sl, 
-    LOG_INFO,
-    "This should log to syslog facility LOG_USER, priority LOG_INFO: %d",
+    LOG_DEBUG,
+    "This should log to syslog facility LOG_USER, priority LOG_DEBUG: %d",
     7
   );
 
@@ -168,11 +173,20 @@ int main (int argc, char **argv){
 
 
   /*
+   * Change the maximum priority for each logger to LOG_INFO.
+   * The maximum priority is counter-intuitive and sets the
+   * minimum priority that will be accepted for logging.
+   */
+  vanessa_logger_change_max_priority(log_fh, LOG_INFO);
+  vanessa_logger_change_max_priority(log_fn, LOG_INFO);
+  vanessa_logger_change_max_priority(log_sl, LOG_INFO);
+
+  /*
    * These messages should not get logged as their priority,
    * LOG_DEBUG, is lower than the minimum priority LOG_INFO 
    * set when each logger was opened
    */
-  printf("\nTesting that logs are filed out by priority\n");
+  printf("\nTesting that logs are filtered out by priority\n");
   printf("No logs should appear after this line\n");
   fflush(stdout);
   vanessa_logger_log(log_fh, LOG_DEBUG, "This should not log to stderr\n");
