@@ -1,5 +1,5 @@
 Source: vanessa-logger
-Build-Depends: debhelper
+Build-Depends: debhelper, automake
 Section: libs
 Priority: optional
 Maintainer: Simon Horman <horms@vergenet.net>
