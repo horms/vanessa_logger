@@ -457,6 +457,37 @@ static void __vanessa_logger_log(
 
 
 /**********************************************************************
+ * __vanessa_logger_get_facility_byname
+ * Given the name of a syslog facility as an ASCII string,
+ * return the facility as an integer.
+ * Relies on facilitynames[] being defined in syslog.h
+ * pre: facility_name: syslog facility as an ASCII string
+ * post: none
+ * return: logger as an int
+ *         -1 if facility_name cannot be found in facilitynames[],
+ *            if facility_name is NULL
+ *            or other error
+ **********************************************************************/
+
+static int __vanessa_logger_get_facility_byname(const char *facility_name){
+  int i;
+
+  extern CODE facilitynames[];
+  
+  if(facility_name==NULL){
+    return(-1);
+  }
+
+  for(i=0; facilitynames[i].c_name!=NULL; i++){
+    if(!strcmp(facility_name, facilitynames[i].c_name)){
+      return(facilitynames[i].c_val);
+    }
+  }
+
+  return(-1);
+}
+
+/**********************************************************************
  * vanessa_logger_openlog_syslog
  * Exported function to open a logger that will log to syslog
  * pre: facility: facility to log to syslog with
@@ -493,6 +524,51 @@ vanessa_logger_t *vanessa_logger_openlog_syslog(
     option
   )==NULL){
     fprintf(stderr, "vanessa_logger_openlog_syslog: __vanessa_logger_set\n");
+    return(NULL);
+  }
+
+  return((vanessa_logger_t *)vl);
+}
+
+
+/**********************************************************************
+ * vanessa_logger_openlog_syslog_byname
+ * Exported function to open a logger that will log to syslog
+ * pre: facility_name: Name of facility to log to syslog with
+ *      ident: Identity to prepend to each log
+ *      max_priority: Maximum priority no to log
+ *                    Priorities are integers, the levels listed
+ *                    in syslog(3) should be used for a syslog logger
+ *      option: options to pass to the openlog command
+ *              Will be logically ored with LOG_PID
+ * post: Logger is opened
+ * return: pointer to logger
+ *         NULL on error
+ **********************************************************************/
+
+vanessa_logger_t *vanessa_logger_openlog_syslog_byname(
+  const char *facility_name,
+  const char *ident,
+  const int max_priority,
+  const int option
+){
+  __vanessa_logger_t *vl;
+  int facility;
+
+  if((facility=__vanessa_logger_get_facility_byname(facility_name))<0){
+    fprintf(
+      stderr, 
+      "vanessa_logger_open_syslog_byname: "
+      "__vanessa_logger_get_facility_byname\n"
+    );
+  }
+
+  vl=vanessa_logger_openlog_syslog(facility,ident,max_priority,option);
+  if(vl==NULL){
+    fprintf(
+      stderr, 
+      "vanessa_logger_openlog_syslog: vanessa_logger_openlog_syslog\n"
+    );
     return(NULL);
   }
 

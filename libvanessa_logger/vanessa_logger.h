@@ -24,6 +24,8 @@
  **********************************************************************/
 
 #include <stdio.h>
+
+#define SYSLOG_NAMES
 #include <syslog.h>
 
 #ifndef VANESSA_LOGGER_FLIM
@@ -48,7 +50,30 @@ typedef void vanessa_logger_t;
  **********************************************************************/
 
 vanessa_logger_t *vanessa_logger_openlog_syslog(
-  int facility,
+  const int facility,
+  const char *ident,
+  const int max_priority,
+  const int option
+);
+
+
+/**********************************************************************
+ * vanessa_logger_openlog_syslog_byname
+ * Exported function to open a logger that will log to syslog
+ * pre: facility_name: Name of facility to log to syslog with
+ *      ident: Identity to prepend to each log
+ *      max_priority: Maximum priority no to log
+ *                    Priorities are integers, the levels listed
+ *                    in syslog(3) should be used for a syslog logger
+ *      option: options to pass to the openlog command
+ *              Will be logically ored with LOG_PID
+ * post: Logger is opened
+ * return: pointer to logger
+ *         NULL on error
+ **********************************************************************/
+
+vanessa_logger_t *vanessa_logger_openlog_syslog_byname(
+  const char *facility_name,
   const char *ident,
   const int max_priority,
   const int option
