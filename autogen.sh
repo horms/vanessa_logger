@@ -1,6 +1,4 @@
-#!/bin/bash
-#Running bash because /bin/sh is a complete piece of shit on solaris
-#I wonder how long it will take the fuckwits at Sun to wake up
+#!/bin/sh
 
 # Run this to generate all the initial makefiles, etc.
 
@@ -10,29 +8,33 @@ test -z "$srcdir" && srcdir=.
 THEDIR=`pwd`
 cd $srcdir
 
-DIE=0
+RC=0
 
-(autoconf --version) < /dev/null > /dev/null 2>&1 || {
-	echo
-	echo "You must have autoconf installed to compile vanessa_logger."
-	echo "Download the appropriate package for your distribution,"
-	echo "or get the source tarball at ftp://ftp.gnu.org/pub/gnu/"
-	DIE=1
-}
+gnu="ftp://ftp.gnu.org/pub/gnu/"
 
-(automake --version) < /dev/null > /dev/null 2>&1 || {
-	echo
-	echo "You must have automake installed to compile vanessa_logger."
-	echo "Get ftp://ftp.cygnus.com/pub/home/tromey/automake-1.2d.tar.gz"
-	echo "(or a newer version if it is available)"
-	DIE=1
-}
+for command in autoconf automake libtoolize; do
+        pkg=$command
+        case $command in
+                libtoolize) pkg=libtool;;
+        esac
+        URL=$gnu/$pkg/
+        if ! $command --version </dev/null >/dev/null 2>&1; then
+                RC=$?
+cat << !EOF >&2
 
-if test "$DIE" -eq 1; then
-	exit 1
+You must have $pkg installed to compile the linux-ha package.  
+Download the appropriate package for your system, 
+or get the source tarball at: $URL
+!EOF
+        fi
+done
+
+if [ $RC != 0 ]; then
+        exit $RC
 fi
 
-if test -z "$*"; then
+
+if [ -z "$*" ]; then
 	echo "I am going to run ./configure with no arguments - if you wish "
         echo "to pass any to it, please specify them on the $0 command line."
 fi

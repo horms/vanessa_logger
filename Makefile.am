@@ -33,6 +33,7 @@ TODO \
 INSTALL.in \
 INSTALL \
 vanessa_logger.spec.in \
-vanessa_logger.spec
+vanessa_logger.spec \
+autogen.sh
 
 m4datadir = $(datadir)/aclocal

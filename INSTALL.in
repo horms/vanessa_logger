@@ -8,7 +8,7 @@ Copyright (C) 2000  Horms
 To install vanessa_logger 
 tar zxf vanessa_logger-@VERSION@.tar.gz
 cd vanessa_logger-@VERSION@
-./configure [--prefix=/usr]
+./autogen.sh [--prefix=/usr]
 make
 make install
 
@@ -18,11 +18,12 @@ rpm -ta vanessa_logger-@VERSION@.tar.gz
 or
 
 cd vanessa_logger-@VERSION@
-./configure --prefix=/usr
+./autogen.sh --prefix=/usr
 make distcheck
 rpm -ta vanessa_logger-@VERSION@.tar.gz
 
 
 To Build Debian Packages
 
+cd vanessa_logger-@VERSION@
 dpkg-buildpackage [-uc] [-us]

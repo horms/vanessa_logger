@@ -26,10 +26,23 @@
 #include <vanessa_logger.h>
 #include <unistd.h>
 #include <sys/types.h>
+#include <stdarg.h>
 
 #include "vanessa_logger_sample_config.h"
 
 #define MIN_UID 100
+
+static int log_function(int priority, const char *format, ...) {
+	int status;
+	va_list ap;
+
+	va_start(ap, format);
+	status = vfprintf(stderr, format, ap);
+	va_end(ap);
+
+	return status;
+}
+	
 
 /**********************************************************************
  * Muriel the main function
@@ -40,6 +53,7 @@ int main (int argc, char **argv){
   vanessa_logger_t *log_fn=NULL;
   vanessa_logger_t *log_sl=NULL;
   vanessa_logger_t *log_sl_bn=NULL;
+  vanessa_logger_t *log_fu=NULL;
 
   printf("vanessa_logger_sample version %s Copyright Horms\n", VERSION);
 
@@ -112,13 +126,27 @@ int main (int argc, char **argv){
    * Open logger to syslog facility "mail" by name
    */
   log_sl_bn=vanessa_logger_openlog_syslog_byname(
-    "mailstix",
+    "mail",
     "vanessa_logger_sample", 
     LOG_DEBUG, 
     0
   );
   if(log_sl==NULL){
     fprintf(stderr, "Error: vanessa_logger_openlog_syslog\n");
+    exit(-1);
+  }
+
+  /* 
+   * Open logger to function (which logs to stderr)
+   */
+  log_fu=vanessa_logger_openlog_function(
+    log_function,
+    "vanessa_logger_sample", 
+    LOG_DEBUG, 
+    0
+  );
+  if(log_sl==NULL){
+    fprintf(stderr, "Error: vanessa_logger_openlog_function\n");
     exit(-1);
   }
 
@@ -162,6 +190,9 @@ int main (int argc, char **argv){
     "This should log to syslog facility LOG_MAIL, priority LOG_DEBUG: %d",
     7
   );
+
+  printf("Logging message to function with logs to stderr\n");
+  vanessa_logger_log(log_fu, LOG_DEBUG, "This should log to stderr: %d", 7);
 
   fflush(stderr);
 
@@ -218,6 +249,7 @@ int main (int argc, char **argv){
   vanessa_logger_change_max_priority(log_fn, LOG_INFO);
   vanessa_logger_change_max_priority(log_sl, LOG_INFO);
   vanessa_logger_change_max_priority(log_sl_bn, LOG_INFO);
+  vanessa_logger_change_max_priority(log_fu, LOG_INFO);
 
   /*
    * These messages should not get logged as their priority,
@@ -243,6 +275,7 @@ int main (int argc, char **argv){
     LOG_DEBUG,
     "This should not log to syslog facility LOG_MAIL, priority LOG_INFO"
   );
+  vanessa_logger_log(log_fu, LOG_DEBUG, "This should not log to stderr\n");
 
   /*
    * Close each logger
@@ -251,6 +284,7 @@ int main (int argc, char **argv){
   vanessa_logger_closelog(log_fn);
   vanessa_logger_closelog(log_sl);
   vanessa_logger_closelog(log_sl_bn);
+  vanessa_logger_closelog(log_fu);
 
   return(0);
 }
