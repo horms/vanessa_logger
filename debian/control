@@ -12,7 +12,7 @@ Description:
 
 Package: libvanessa-logger-sample
 Architecture: any
-Depends: libvanessa-logger0 (= ${Source-Version}), libc6-dev
+Depends: libvanessa-logger0 (= ${Source-Version}), libvanessa-logger-dev (= ${Source-Version}), libc6-dev
 Description: 
   Sample programme with source that demonstrates various features of
   vanessa-logger.
