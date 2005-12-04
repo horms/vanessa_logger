@@ -363,7 +363,7 @@ vanessa_logger_get_flag(vanessa_logger_t * vl);
 #define VANESSA_LOGGER_STR_DUMP_HEX 0x1
 
 char *
-vanessa_logger_str_dump(vanessa_logger_t * vl, const unsigned char *buffer, 
+vanessa_logger_str_dump(vanessa_logger_t * vl, const char *buffer, 
 		const size_t buffer_length, vanessa_logger_flag_t flag);
 
 
@@ -377,7 +377,6 @@ vanessa_logger_str_dump(vanessa_logger_t * vl, const unsigned char *buffer,
 
 
 extern vanessa_logger_t *__vanessa_logger_vl;
-extern int errno;
 
 /**********************************************************************
  * vanessa_logger_vl_set
@@ -386,7 +385,7 @@ extern int errno;
  * set to NULL (default). That is you _must_ call this function to 
  * enable logging using convenience macros.
  * pre: logger: pointer to a vanessa_logger
- * post: logger for ip_vs_nl is set to logger
+ * post: logger for convenience marcros is set to logger
  * return: none
  **********************************************************************/
 

@@ -10,6 +10,7 @@ XXX
 
   * 0.0.8
   - Added vanessa_logger_set_filehandle
+  - Dump functions take a const char instead of a const unsigned char
 
 ----------------------------------------------------------------------
 

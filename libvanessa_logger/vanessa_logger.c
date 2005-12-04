@@ -1198,10 +1198,10 @@ int vanessa_logger_reopen(vanessa_logger_t * vl)
 
 static char *
 __vanessa_logger_str_dump_oct(vanessa_logger_t * vl, 
-		const unsigned char *buffer, const size_t buffer_length)
+		const char *buffer, const size_t buffer_length)
 {
-	const unsigned char *in_pos;
-	const unsigned char *in_top;
+	const char *in_pos;
+	const char *in_top;
 	char *out_pos;
 	char *out;
 
@@ -1316,7 +1316,7 @@ __vanessa_logger_str_dump_hex(vanessa_logger_t * vl,
 
 
 char *
-vanessa_logger_str_dump(vanessa_logger_t * vl, const unsigned char *buffer, 
+vanessa_logger_str_dump(vanessa_logger_t * vl, const char *buffer, 
 		const size_t buffer_length, vanessa_logger_flag_t flag)
 {
 	if(flag == VANESSA_LOGGER_STR_DUMP_HEX) {
