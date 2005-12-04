@@ -1,3 +1,9 @@
+vanessa-logger (0.0.7.cvs.20051127-1) unstable; urgency=low
+
+  * CVS Snapshot
+
+ -- Simon Horman <horms@verge.net.au>  Sun, 27 Nov 2005 19:59:50 +0900
+
 vanessa-logger (0.0.7-1) unstable; urgency=low
 
   * Fixed gcc-3.4 build problem. (closes: Bug#262743)

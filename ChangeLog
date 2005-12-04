@@ -5,6 +5,14 @@ Generic logging layer
 Copyright (C) 2000-2004  Horms
 ----------------------------------------------------------------------
 
+XXX
+(XXX)
+
+  * 0.0.8
+  - Added vanessa_logger_set_filehandle
+
+----------------------------------------------------------------------
+
 29th August 2004
 (horms)
 
@@ -14,6 +22,9 @@ Copyright (C) 2000-2004  Horms
      This value was previously uninitialised for syslog loggers,
      so the behaviour varied. Brendan O'Dea
    - Fixed gcc-3.4 build problem
+   - Removed "extern int errno;" line from valnessa_logger.h as it
+     seems to cause a compiler warning using 
+     gcc version 3.3.4 (Debian 1:3.3.4-7)
 
 ----------------------------------------------------------------------
 
