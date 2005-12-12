@@ -11,6 +11,8 @@ XXX
   * 0.0.8
   - Added vanessa_logger_set_filehandle
   - Dump functions take a const char instead of a const unsigned char
+  - [Cosmetic] Use continue instead of goto in __vanessa_logger_str_dump_oct()
+    Oleg Smirsky
 
 ----------------------------------------------------------------------
 

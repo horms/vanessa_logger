@@ -1220,38 +1220,38 @@ __vanessa_logger_str_dump_oct(vanessa_logger_t * vl,
 			case '\a':
 				*out_pos++ = '\\';
 				*out_pos++ = 'a';
-				goto loop;
+				continue;
 			case '\b':
 				*out_pos++ = '\\';
 				*out_pos++ = 'b';
-				goto loop;
+				continue;
 			case '\t':
 				*out_pos++ = '\\';
 				*out_pos++ = 't';
-				goto loop;
+				continue;
 			case '\n':
 				*out_pos++ = '\\';
 				*out_pos++ = 'n';
-				goto loop;
+				continue;
 			case '\v':
 				*out_pos++ = '\\';
 				*out_pos++ = 'v';
-				goto loop;
+				continue;
 			case '\f':
 				*out_pos++ = '\\';
 				*out_pos++ = 'f';
-				goto loop;
+				continue;
 			case '\r':
 				*out_pos++ = '\\';
 				*out_pos++ = 'r';
-				goto loop;
+				continue;
 			case '\\': 
 			case '"': 
 			case '\'':
 				*out_pos++ = '\\';
 			case ' ':
 				*out_pos++ = *in_pos;
-				goto loop;
+				continue;
 		}
 		if (isgraph(*in_pos) || *in_pos == ' ') {
 			*out_pos++ = *in_pos;
@@ -1260,8 +1260,6 @@ __vanessa_logger_str_dump_oct(vanessa_logger_t * vl,
 			sprintf(out_pos, "\\%03o", *in_pos);
 			out_pos += 4;
 		}
-loop:
-		continue;
 	}
 
 	*out_pos++ = '\0';
