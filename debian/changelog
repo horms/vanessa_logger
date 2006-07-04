@@ -1,8 +1,10 @@
-vanessa-logger (0.0.7.cvs.20051127-1) unstable; urgency=low
+vanessa-logger (0.0.7-2) unstable; urgency=low
 
-  * CVS Snapshot
+  * Remove unnecessary autotools build depends.
+    (closes: #376649)
+  * Update standards version from 3.6.1 to 3.7.2
 
- -- Simon Horman <horms@verge.net.au>  Sun, 27 Nov 2005 19:59:50 +0900
+ -- Simon Horman <horms@debian.org>  Tue,  4 Jul 2006 15:41:44 +0900
 
 vanessa-logger (0.0.7-1) unstable; urgency=low
 
