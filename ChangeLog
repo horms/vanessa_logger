@@ -2,13 +2,13 @@ Change Log
 
 vanessa_logger
 Generic logging layer
-Copyright (C) 2000-2004  Horms
+Copyright (C) 2000-2007  Horms
 ----------------------------------------------------------------------
 
-XXX
-(XXX)
+22nd February 2007
+(horms)
 
-  * 0.0.8
+  * 0.0.8-rc1
   - Added vanessa_logger_set_filehandle
   - Dump functions take a const char instead of a const unsigned char
   - [Cosmetic] Use continue instead of goto in __vanessa_logger_str_dump_oct()
