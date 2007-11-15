@@ -27,6 +27,7 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <stdarg.h>
+#include <stdlib.h>
 
 #include "vanessa_logger_sample_config.h"
 
