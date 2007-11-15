@@ -1279,11 +1279,11 @@ __vanessa_logger_str_dump_oct(vanessa_logger_t * vl,
 
 
 static char *
-__vanessa_logger_str_dump_hex(vanessa_logger_t * vl, 
-		const unsigned char *buffer, const size_t buffer_length)
+__vanessa_logger_str_dump_hex(vanessa_logger_t * vl, const char *buffer,
+			      const size_t buffer_length)
 {
-	const unsigned char *in_pos;
-	const unsigned char *in_top;
+	const char *in_pos;
+	const char *in_top;
 	char *out_pos;
 	char *out;
 	int i;
@@ -1318,8 +1318,8 @@ vanessa_logger_str_dump(vanessa_logger_t * vl, const char *buffer,
 		const size_t buffer_length, vanessa_logger_flag_t flag)
 {
 	if(flag == VANESSA_LOGGER_STR_DUMP_HEX) {
-		return(__vanessa_logger_str_dump_hex(vl, buffer, 
-					buffer_length));
+		return(__vanessa_logger_str_dump_hex(vl, buffer,
+						     buffer_length));
 	}
 
 	return(__vanessa_logger_str_dump_oct(vl, buffer, buffer_length));
