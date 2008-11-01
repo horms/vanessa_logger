@@ -27,7 +27,7 @@ SUBDIRS = libvanessa_logger sample debian
 
 EXTRA_DIST = \
 configure \
-configure.in \
+configure.ac \
 README \
 TODO \
 INSTALL.in \
