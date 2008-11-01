@@ -18,7 +18,7 @@ clean:
 	dh_testroot
 	rm -f build-stamp build.log config.log
 
-	-$(MAKE) distclean
+	[ ! -f Makefile ] || $(MAKE) distclean
 
 	dh_clean
 
