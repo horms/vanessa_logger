@@ -28,7 +28,7 @@ Description: Headers and static libraries for libvanessa-logger
 Package: libvanessa-logger-sample
 Architecture: any
 Section: devel
-Depends: libvanessa-logger0 (= ${binary:Version}), libvanessa-logger-dev (= ${binary:Version}), libc6-dev
+Depends: libvanessa-logger0 (= ${binary:Version}), libvanessa-logger-dev (= ${binary:Version}), ${shlibs:Depends}
 Description: Sample programme using libvanessa-logger
  Sample programme with source that demonstrates various features of
  vanessa-logger.
