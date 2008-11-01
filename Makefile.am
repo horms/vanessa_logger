@@ -25,16 +25,7 @@
 
 SUBDIRS = libvanessa_logger sample debian
 
-EXTRA_DIST = \
-configure \
-configure.ac \
-README \
-TODO \
-INSTALL.in \
-INSTALL \
-vanessa_logger.spec.in \
-vanessa_logger.spec \
-autogen.sh
+EXTRA_DIST = autogen.sh
 
 clean-local:
 	rm -f build-stamp
