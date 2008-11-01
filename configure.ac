@@ -1,6 +1,6 @@
 dnl vanessa_logger
 dnl Generic logging layer
-dnl Copyright (C) 2000-2008  Horms <horms@verge.net.au>
+dnl Copyright (C) 2000-2008  Simon Horman <horms@verge.net.au>
 dnl 
 dnl This library is free software; you can redistribute it and/or modify it
 dnl under the terms of the GNU Lesser General Public License as published by

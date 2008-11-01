@@ -1,10 +1,10 @@
 /***********************************************************************
  * vanessa_logger.h                                       September 2000
- * Horms                                              horms@verge.net.au
+ * Simon Horman                                       horms@verge.net.au
  *
  * vanessa_logger
  * Generic logging layer
- * Copyright (C) 2000-2008  Horms <horms@verge.net.au>
+ * Copyright (C) 2000-2008  Simon Horman <horms@verge.net.au>
  * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License
@@ -52,7 +52,7 @@ typedef void (*vanessa_logger_log_function_va_t)
  * when I wrote this code. Perhaps I was just tired. But in any case
  * it was wrong.
  *
- * Horms, December 2002
+ * Simon Horman, December 2002
  *
  * typedef int (*vanessa_logger_log_function_t) 
  *		(int priority, const char *fmt, ...);

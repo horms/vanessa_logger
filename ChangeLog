@@ -2,11 +2,11 @@ Change Log
 
 vanessa_logger
 Generic logging layer
-Copyright (C) 2000-2008  Horms <horms@verge.net.au>
+Copyright (C) 2000-2008  Simon Horman <horms@verge.net.au>
 ----------------------------------------------------------------------
 
 15th November 2007
-(horms)
+(Simon Horman)
 
   * 0.0.8
   - Added vanessa_logger_set_filehandle
@@ -17,7 +17,7 @@ Copyright (C) 2000-2008  Horms <horms@verge.net.au>
 ----------------------------------------------------------------------
 
 29th August 2004
-(horms)
+(Simon Horman)
 
    * 0.0.7
    - Set flag to VANESSA_LOGGER_F_NO_IDENT_PID when opening a syslog
@@ -32,7 +32,7 @@ Copyright (C) 2000-2008  Horms <horms@verge.net.au>
 ----------------------------------------------------------------------
 
 22nd March 2004
-(Horms)
+(Simon Horman)
 
    * 0.0.6
    - Added VANESSA_LOGGER_F_TIMESTAMP and VANESSA_LOGGER_F_CONS flags
@@ -41,7 +41,7 @@ Copyright (C) 2000-2008  Horms <horms@verge.net.au>
 ----------------------------------------------------------------------
 
 15th December 2003
-(Horms)
+(Simon Horman)
 
    * 0.0.5
    - Added logging messages for h_error which is set by
@@ -56,7 +56,7 @@ Copyright (C) 2000-2008  Horms <horms@verge.net.au>
 ----------------------------------------------------------------------
 
 6th June 2003
-(Horms)
+(Simon Horman)
 
     * 0.0.4
     - No Change
@@ -65,7 +65,7 @@ Copyright (C) 2000-2008  Horms <horms@verge.net.au>
 ----------------------------------------------------------------------
 
 26th March 2003
-(Horms)
+(Simon Horman)
 
      * 0.0.4beta7
      - ERR convenience macros do not log the function name.
@@ -74,7 +74,7 @@ Copyright (C) 2000-2008  Horms <horms@verge.net.au>
 ----------------------------------------------------------------------
 
 8th January 2003
-(Horms)
+(Simon Horman)
 
      * 0.0.4beta2
      - Packaging fixes
@@ -83,7 +83,7 @@ Copyright (C) 2000-2008  Horms <horms@verge.net.au>
 ----------------------------------------------------------------------
 
 27th December 2002
-(Horms)
+(Simon Horman)
 
      * 0.0.4beta1
      - Added vanessa_logger_str_dump
@@ -100,7 +100,7 @@ Copyright (C) 2000-2008  Horms <horms@verge.net.au>
 ----------------------------------------------------------------------
 
 17th March 2002
-(Horms)
+(Simon Horman)
 
      * 0.0.3
      - No Change
@@ -109,7 +109,7 @@ Copyright (C) 2000-2008  Horms <horms@verge.net.au>
 ----------------------------------------------------------------------
 
 24th March 2002
-(Horms)
+(Simon Horman)
 
      * 0.0.3beta2
      - Flush output if writing to a file descriptor.
@@ -120,18 +120,18 @@ Copyright (C) 2000-2008  Horms <horms@verge.net.au>
 ----------------------------------------------------------------------
 
 14th March 2002
-(Horms)
+(Simon Horman)
 
      * 0.0.3beta1
      - Added ability to log to a function
      - Fixed minor .spec file errors 
-       Scot W. Hetzel <scot@genroco.com> & Horms
+       Scot W. Hetzel <scot@genroco.com> & Simon Horman
 
 
 ----------------------------------------------------------------------
 
 29th June 2001
-(Horms)
+(Simon Horman)
 
      * Version 0.0.2
      - Fixed potential format string problems
@@ -141,7 +141,7 @@ Copyright (C) 2000-2008  Horms <horms@verge.net.au>
 ----------------------------------------------------------------------
 
 5th April 2001
-(Horms)
+(Simon Horman)
 
      * Version 0.0.1
      - Added facilitynames compatibility for Solaris
@@ -153,7 +153,7 @@ Copyright (C) 2000-2008  Horms <horms@verge.net.au>
 ----------------------------------------------------------------------
 
 9th January 2001
-(Horms)
+(Simon Horman)
 
      * Version 0.0.0
      - Initial Release

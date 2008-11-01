@@ -1,12 +1,12 @@
 /**********************************************************************
  * vanessa_logger_sample_config.h.in                     September 2000
- * Horms                                             horms@verge.net.au
+ * Simon Horman                                      horms@verge.net.au
  *
  * Configurable .h file specific to vanessa_socket_sample
  *
  * vanessa_logger
  * Generic logging layer
- * Copyright (C) 2000-2008  Horms <horms@verge.net.au>
+ * Copyright (C) 2000-2008  Simon Horman <horms@verge.net.au>
  * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License
