@@ -19,7 +19,7 @@ Description: Generic Logging Library
 Package: libvanessa-logger-dev
 Architecture: any
 Section: libdevel
-Depends: libvanessa-logger0 (= ${binary:Version}), libc6-dev
+Depends: libvanessa-logger0 (= ${binary:Version})
 Description: Headers and static libraries for libvanessa-logger
  Headers and static libraries required to develop against vanessa-logger.
  Vanessa logger is a generic logging layer that may be used to log to
