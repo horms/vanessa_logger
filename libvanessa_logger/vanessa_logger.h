@@ -449,52 +449,52 @@ vanessa_logger_set_filehandle(FILE *fh);
  */
 
 #define VANESSA_LOGGER_LOG_UNSAFE(priority, fmt, ...) \
-	vanessa_logger_log(__vanessa_logger_vl, priority, fmt, __VA_ARGS__);
+	vanessa_logger_log(__vanessa_logger_vl, priority, fmt, __VA_ARGS__)
 
 #define VANESSA_LOGGER_LOG(priority, str) \
 	vanessa_logger_log(__vanessa_logger_vl, priority, "%s", str)
 
 #define VANESSA_LOGGER_DEBUG_UNSAFE(fmt, ...) \
 	_vanessa_logger_log_prefix(__vanessa_logger_vl, LOG_DEBUG, \
-		__FUNCTION__, fmt, __VA_ARGS__);
+		__FUNCTION__, fmt, __VA_ARGS__)
 
 #define VANESSA_LOGGER_DEBUG(str) \
 	_vanessa_logger_log_prefix(__vanessa_logger_vl, LOG_DEBUG, \
-		__FUNCTION__, "%s", str);
+		__FUNCTION__, "%s", str)
 
 #define VANESSA_LOGGER_DEBUG_ERRNO(str) \
 	_vanessa_logger_log_prefix(__vanessa_logger_vl, LOG_DEBUG, \
-		__FUNCTION__, "%s: %s", str, strerror(errno));
+		__FUNCTION__, "%s: %s", str, strerror(errno))
 
 #define VANESSA_LOGGER_DEBUG_HERRNO(str) \
 	_vanessa_logger_log_prefix(__vanessa_logger_vl, LOG_DEBUG, \
 		__FUNCTION__, "%s: %s", str, \
-		vanessa_logger_strherror(h_errno));
+		vanessa_logger_strherror(h_errno))
 
 #define VANESSA_LOGGER_DEBUG_RAW_UNSAFE(fmt, ...) \
 	vanessa_logger_log(__vanessa_logger_vl, LOG_DEBUG, \
-		fmt, __VA_ARGS__);
+		fmt, __VA_ARGS__)
 
 #define VANESSA_LOGGER_DEBUG_RAW(str) \
-	vanessa_logger_log(__vanessa_logger_vl, LOG_DEBUG, "%s", str);
+	vanessa_logger_log(__vanessa_logger_vl, LOG_DEBUG, "%s", str)
 
 #define VANESSA_LOGGER_INFO_UNSAFE(fmt, ...) \
-	vanessa_logger_log(__vanessa_logger_vl, LOG_INFO, fmt, __VA_ARGS__);
+	vanessa_logger_log(__vanessa_logger_vl, LOG_INFO, fmt, __VA_ARGS__)
 
 #define VANESSA_LOGGER_INFO(str) \
-	vanessa_logger_log(__vanessa_logger_vl, LOG_INFO, "%s", str);
+	vanessa_logger_log(__vanessa_logger_vl, LOG_INFO, "%s", str)
 
 #define VANESSA_LOGGER_ERR_UNSAFE(fmt, ...) \
-	vanessa_logger_log(__vanessa_logger_vl, LOG_ERR, fmt, __VA_ARGS__);
+	vanessa_logger_log(__vanessa_logger_vl, LOG_ERR, fmt, __VA_ARGS__)
 
 #define VANESSA_LOGGER_ERR_RAW_UNSAFE(fmt, ...) \
-	vanessa_logger_log(__vanessa_logger_vl, LOG_ERR, fmt, __VA_ARGS__);
+	vanessa_logger_log(__vanessa_logger_vl, LOG_ERR, fmt, __VA_ARGS__)
 
 #define VANESSA_LOGGER_ERR(str) \
-	vanessa_logger_log(__vanessa_logger_vl, LOG_ERR, "%s", str);
+	vanessa_logger_log(__vanessa_logger_vl, LOG_ERR, "%s", str)
 
 #define VANESSA_LOGGER_RAW_ERR(str) \
-	vanessa_logger_log(__vanessa_logger_vl, LOG_ERR, "%s", str);
+	vanessa_logger_log(__vanessa_logger_vl, LOG_ERR, "%s", str)
 
 #define VANESSA_LOGGER_DUMP(buffer, buffer_length, flag) \
 	vanessa_logger_str_dump(__vanessa_logger_vl, (buffer), \
