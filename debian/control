@@ -3,7 +3,7 @@ Build-Depends: debhelper (>=2.0.0)
 Section: libs
 Priority: optional
 Maintainer: Simon Horman <horms@debian.org>
-Standards-Version: 3.8.0
+Standards-Version: 3.8.2
 
 Package: libvanessa-logger0
 Architecture: any
