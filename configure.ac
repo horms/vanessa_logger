@@ -19,6 +19,12 @@ dnl Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 
 AC_INIT(libvanessa_logger/vanessa_logger.h)
 AM_CONFIG_HEADER(config.h)
+
+AC_CONFIG_MACRO_DIR([libltdl/m4])
+LT_INIT
+LT_CONFIG_LTDL_DIR([libltdl])
+LTDL_INIT
+AC_CONFIG_AUX_DIR([libltdl/config])
 AM_INIT_AUTOMAKE(vanessa_logger, 0.0.8)
 
 AC_PROG_LIBTOOL
