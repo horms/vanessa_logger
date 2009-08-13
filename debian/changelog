@@ -2,7 +2,7 @@ vanessa-logger (0.0.8-1) unstable; urgency=low
 
   * New upstream
   * Provide updated config.{sub,guess}
-    (closes #532527)
+    (closes: #532527)
 
  -- Simon Horman <horms@debian.org>  Thu, 13 Aug 2009 19:35:42 +1000
 
