@@ -50,9 +50,9 @@ esac
 
 aclocal $ACLOCAL_FLAGS
 (autoheader --version)  < /dev/null > /dev/null 2>&1 && autoheader
-automake --add-missing $am_opt
 autoconf
 libtoolize --ltdl
+automake --add-missing $am_opt
 cd $THEDIR
 
 $srcdir/configure "$@" || exit $?
