@@ -22,7 +22,6 @@ AM_CONFIG_HEADER(config.h)
 
 AC_CONFIG_MACRO_DIR([libltdl/m4])
 LT_INIT
-LT_CONFIG_LTDL_DIR([libltdl])
 LTDL_INIT
 AM_INIT_AUTOMAKE(vanessa_logger, 0.0.8)
 
