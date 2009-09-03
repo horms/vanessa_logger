@@ -2,17 +2,65 @@ Change Log
 
 vanessa_logger
 Generic logging layer
-Copyright (C) 2000-2008  Simon Horman <horms@verge.net.au>
+Copyright (C) 2000-2009  Simon Horman <horms@verge.net.au>
 ----------------------------------------------------------------------
 
-15th November 2007
+3rd September 2009
 (Simon Horman)
 
   * 0.0.8
-  - Added vanessa_logger_set_filehandle
-  - Dump functions take a const char instead of a const unsigned char
+  - Debian: Bump changelog date so it is after the release of standards version 3.8.3
+  - Debian: Don't include full LGPL text in Debian changelog
+  - Debian: Update to standards version 3.8.3
+  - LT_CONFIG_LTDL_DIR appears to be incompatible with libtool 2
+  - Build: Don't use AC_CONFIG_AUX_DIR
+  - Build: autogen.sh: Call automake after autoconf so Makefile.in files are generated
+  - Build: Don't use AC_CONFIG_AUX_DIR
+  - Debian: move dev documentation should go in dev package
+  - # HG changeset patch
+  - Debian: Use dh_prep as dh_clean -k is deprecated
+  - Debian: Versioned build dependency on debhelper 7
+  - Debian: syntax error in changelog
+  - Debian: Use debhelper compatibility level 7
+  - Debian: new package contains an updated config.{sub,guess} and thus closes #532527
+  - Debian: Update standards version to 3.8.2
+  - Resolve various libtoolize warnings
+  - Debian: libvanessa-socket-dev: Remove dependancy on libc6-dev
+  - Remove .cvsignore files
+  - Debian: restore dowload information
+  - Debian: remove duplicate to in description of libvanessa-logger0
+  - Debian: Update changelog date
+  - Debian: Use policy version 3.8.0 instead of 3.7.2
+  - Debian: set -e in postinst script for libvanessa-logger0 to fail on any errors
+  - Use name instead of nickname
+  - Always use email address in copyright notice
+  - Update copyright years
+  - Debian: Update copyright file
+  - Update COPYTING file to the recent text for the LGPL v2.1
+  - Debian: Don't ignore errors in make rules
+  - Debian: libvanessa-logger-sample suggests rather than depends on libvanessa_logger-dev
+  - Debian: Remove dependancy on libc6-dev
+  - Debian: Use ${binary:Version} instead of ${Source-Version}
+  - Prune EXTRA_DIST
+  - Rename configure.in as configure.ac
+  - Use AC_PROG_LIBTOOL instead of AM_PROC_LIBTOOL
+  - Remove acconfig.h
+  - Removed tag B
+  - update tags
+  - Increment library release to 4
+  - Remove trailing whitespace
+  - Update debhelper compatbility level to 4
+  - Don't use ./mkinstalldirs as it may not exist
+  - Used signed char throughout dump functions
+  - Include stdlib.h for exit()
+  - Update autogen.sh from peridtion
+  - Prepare for 0.0.8-rc1
+  - Remove vanessa_logger_vl_set_stderr as it isn't implemented
+  - Fix typo
+  - Debian Packaging Update: Release vanessa-logger 0.0.7-2
   - [Cosmetic] Use continue instead of goto in __vanessa_logger_str_dump_oct()
-    Oleg Smirsky
+  - Dump functions take a const char instead of a const unsigned char
+  - added vanessa_logger_set_filehandle
 
 ----------------------------------------------------------------------
 
