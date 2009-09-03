@@ -4,7 +4,7 @@ vanessa-logger (0.0.8-1) unstable; urgency=low
   * Provide updated config.{sub,guess}
     (closes: #532527)
 
- -- Simon Horman <horms@debian.org>  Thu, 13 Aug 2009 19:35:42 +1000
+ -- Simon Horman <horms@debian.org>  Thu, 03 Sep 2009 17:26:26 +1000
 
 vanessa-logger (0.0.7-2) unstable; urgency=low
 
