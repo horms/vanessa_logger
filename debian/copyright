@@ -1,6 +1,6 @@
 vanessa-logger
 Generic logging layer
-Copyright (C) 2000-2008  Simon Horman <horms@verge.net.au>
+Copyright (C) 2000-2009  Simon Horman <horms@verge.net.au>
 
 This copyright covers all materials supplied with vanessa-logger
 including, but not limited to:
@@ -14,14 +14,9 @@ modify it under the terms of the GNU Lesser General Public
 License as published by the Free Software Foundation; either
 version 2.1 of the License, or (at your option) any later version.
 
-This library is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-Lesser General Public License for more details.
-
-The full text of this licence can be found in the file
-/usr/share/common-licenses/LGPL-2.1 ; if not, write to the Free Software
-Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+The complete text of the LGPL license can be found in on Debian
+systems at /usr/share/common-licenses/LGPL.
 
 This package is available by FTP from:
 ftp://ftp.vergenet.net/pub/vanessa/vanessa_logger/
+
