@@ -21,7 +21,7 @@ Summary: Generic logging layer
 Name: vanessa_logger
 Version: @VERSION@
 Release: 1
-Copyright: GNU Lesser General Public Licence
+License: GNU Lesser General Public Licence
 URL: http://www.vergenet.net/linux/vanessa/
 Packager: Simon Horman <horms@verge.net.au>
 Group: Development/Libraries
