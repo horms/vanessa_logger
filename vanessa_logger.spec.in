@@ -29,7 +29,7 @@ Source0: http://www.vergenet.net/linux/vanessa/download/vanessa_logger/%{version
 BuildRoot: /var/tmp/%{name}-%{version}-root
 Docdir: %{prefix}/doc
 Provides: %{name}-%{version}
-BuildPrereq: automake autoconf libtool
+BuildPrereq: gcc make
 
 %description
 Generic logging layer that may be used to log to one or more of syslog, an
