@@ -123,10 +123,5 @@ rm -rf $RPM_BUILD_ROOT
 %doc sample/*.c sample/*.h
 
 %changelog
-* Fri Dec 14 2001 Simon Horman <horms@verge.net.au>
-  Revamped configure to use %{_libdir} and friends. This should be more
-  distribution indepentant. With thanks to Scot W. Hetzel <scot@genroco.com>
-* Thu Apr 26 2001 Simon Horman <horms@verge.net.au>
-  Updated to "work" with Red Hat 7
-* Sat Sep 15 2000 Simon Horman <horms@verge.net.au>
-  created for version 0.0.0
+* Sat Sep 20 2009 Simon Horman <horms@verge.net.au> (0.0.8-1)
+  new release
