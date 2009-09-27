@@ -10,7 +10,6 @@ Packager: Simon Horman <horms@verge.net.au>
 Group: Development/Libraries
 Source0: http://www.vergenet.net/linux/vanessa/download/vanessa_logger/%{version}/%{name}-%{version}.tar.gz
 BuildRoot: /var/tmp/%{name}-%{version}-root
-Docdir: %{prefix}/doc
 Provides: %{name}-%{version}
 BuildPrereq: gcc make
 
@@ -56,6 +55,7 @@ if [ -f confgure.in ]; then
 	automake
 	autoconf
 fi
+
 ./configure %{_target_platform} \
        --prefix=%{_prefix} \
        --exec-prefix=%{_exec_prefix} \
@@ -75,7 +75,6 @@ make
 
 %install
 rm -rf ${RPM_BUILD_ROOT}
-mkdir -p ${RPM_BUILD_ROOT}/%{prefix}/doc
 make DESTDIR=$RPM_BUILD_ROOT install
 
 
