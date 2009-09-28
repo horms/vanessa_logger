@@ -59,8 +59,6 @@ ldconfig
 %postun
 ldconfig
 
-%preun
-
 %files
 %defattr(-, root, root)
 %{_libdir}/*.so*
