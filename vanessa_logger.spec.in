@@ -55,8 +55,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %post
+ldconfig
 
 %postun
+ldconfig
 
 %preun
 
