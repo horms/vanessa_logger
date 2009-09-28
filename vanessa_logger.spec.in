@@ -8,7 +8,7 @@ Group: Development/Libraries
 Source0: http://www.vergenet.net/linux/vanessa/download/vanessa_logger/%{version}/%{name}-%{version}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 Provides: %{name}-%{version}
-BuildPrereq: gcc make
+BuildRequires: gcc make
 
 %description
 Generic logging layer that may be used to log to one or more of syslog, an
