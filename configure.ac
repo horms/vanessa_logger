@@ -62,7 +62,7 @@ libvanessa_logger/Makefile
 sample/Makefile 
 sample/vanessa_logger_sample_config.h 
 Makefile
-vanessa_logger.spec
+libvanessa_logger0.spec
 debian/Makefile 
 INSTALL
 )

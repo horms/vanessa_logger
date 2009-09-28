@@ -1,11 +1,11 @@
 Summary: Generic logging layer
-Name: vanessa_logger
+Name: libvanessa_logger0
 Version: @VERSION@
 Release: 1
 License: GNU Lesser General Public Licence
 URL: http://www.vergenet.net/linux/vanessa/
 Group: Development/Libraries
-Source0: http://www.vergenet.net/linux/vanessa/download/vanessa_logger/%{version}/%{name}-%{version}.tar.gz
+Source0: http://www.vergenet.net/linux/vanessa/download/vanessa_logger/%{version}/vanessa_logger-%{version}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 Provides: %{name}-%{version}
 BuildRequires: gcc make
@@ -37,7 +37,7 @@ vanessa_logger.
 
 
 %prep
-%setup
+%setup -n vanessa_logger-%{version}
 
 %build
 
