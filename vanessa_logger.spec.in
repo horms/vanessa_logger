@@ -28,7 +28,7 @@ Provides: %{name}-devel-%{version}
 Headers and static libraries required to develop against vanessa_logger.
 
 %package sample
-Summary: Example programme that demonstrates vanessa_logger.
+Summary: Example programme that demonstrates vanessa_logger
 Group: Development/Libraries
 Requires: %{name}-devel-%{version}
 
