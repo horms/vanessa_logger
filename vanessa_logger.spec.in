@@ -4,7 +4,6 @@ Version: @VERSION@
 Release: 1
 License: GNU Lesser General Public Licence
 URL: http://www.vergenet.net/linux/vanessa/
-Packager: Simon Horman <horms@verge.net.au>
 Group: Development/Libraries
 Source0: http://www.vergenet.net/linux/vanessa/download/vanessa_logger/%{version}/%{name}-%{version}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
