@@ -7,7 +7,7 @@ URL: http://www.vergenet.net/linux/vanessa/
 Packager: Simon Horman <horms@verge.net.au>
 Group: Development/Libraries
 Source0: http://www.vergenet.net/linux/vanessa/download/vanessa_logger/%{version}/%{name}-%{version}.tar.gz
-BuildRoot: /var/tmp/%{name}-%{version}-root
+BuildRoot: %{_tmppath}/%{name}-%{version}-root
 Provides: %{name}-%{version}
 BuildPrereq: gcc make
 
