@@ -26,12 +26,12 @@ Provides: %{name}-devel-%{version}
 %description devel
 Headers and static libraries required to develop against vanessa_logger.
 
-%package sample
+%package -n vanessa_logger-sample
 Summary: Example programme that demonstrates vanessa_logger
 Group: Development/Libraries
 Requires: %{name}-devel-%{version}
 
-%description sample
+%description -n vanessa_logger-sample
 Sample programme with source that demonstrates various features of
 vanessa_logger.
 
@@ -73,7 +73,7 @@ ldconfig
 %{_includedir}/*.h
 %doc README COPYING ChangeLog
 
-%files sample
+%files -n vanessa_logger-sample
 %defattr(-, root, root)
 %{_bindir}/*
 %{_mandir}/man1/vanessa_logger_sample.*
