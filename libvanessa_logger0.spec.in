@@ -45,7 +45,6 @@ vanessa_logger.
 make
 
 %install
-rm -rf ${RPM_BUILD_ROOT}
 make DESTDIR=$RPM_BUILD_ROOT install
 
 # Don't install libvanessa_logger.la
