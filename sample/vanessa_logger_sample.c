@@ -42,7 +42,8 @@ static void log_function(int priority, const char *format, va_list ap) {
  * Muriel the main function
  **********************************************************************/
 
-int main (int argc, char **argv){
+int main (void)
+{
   vanessa_logger_t *log_fh=NULL;
   vanessa_logger_t *log_fn=NULL;
   vanessa_logger_t *log_sl=NULL;
