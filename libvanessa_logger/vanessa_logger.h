@@ -393,22 +393,6 @@ extern vanessa_logger_t *__vanessa_logger_vl;
 
 
 /**********************************************************************
- * vanessa_logger_vl_set_filehandle
- * set the logger function to a logger created for the filehandle 
- * No logging will take place using conveineince macros if logger is set to
- * NULL (default). That is you _must_ call one of the vanessa_logger_vl_set
- * functions to enable logging using convenience macros.
- * pre:  fd: filehandle to log to 
- * post: logger for filehandle is created and set as the 
- *       logger for convenience marcros 
- * created for the filehandle return: none
- **********************************************************************/
-
-vanessa_logger_t *
-vanessa_logger_set_filehandle(FILE *fh);
-
-
-/**********************************************************************
  * vanessa_logger_vl_unset
  * set logger to use with convenience macros to NULL
  * That is no logging will take place when convenience macros are called
