@@ -31,7 +31,8 @@ EXTRA_DIST = vanessa_logger_sample_config.h.in vanessa_logger_sample.1
 
 vanessa_logger_sample_SOURCES = \
   vanessa_logger_sample.c \
-  vanessa_logger_sample_config.h
+  vanessa_logger_sample_config.h \
+  unused.h
 
 INCLUDES= -I$(top_srcdir)/libvanessa_logger
 
