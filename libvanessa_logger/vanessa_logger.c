@@ -522,7 +522,7 @@ int __vanessa_logger_do_fmt(__vanessa_logger_t *vl,
 		const char *prefix, const char *fmt)
 {
 	int len;
-	int offset = 0;
+	size_t offset = 0;
 	int add_colon = 0;
 
 	memset(vl->buffer, 0, vl->buffer_len);
