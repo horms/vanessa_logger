@@ -440,19 +440,19 @@ extern vanessa_logger_t *__vanessa_logger_vl;
 
 #define VANESSA_LOGGER_DEBUG_UNSAFE(fmt, ...) \
 	_vanessa_logger_log_prefix(__vanessa_logger_vl, LOG_DEBUG, \
-		__FUNCTION__, fmt, __VA_ARGS__)
+		__func__, fmt, __VA_ARGS__)
 
 #define VANESSA_LOGGER_DEBUG(str) \
 	_vanessa_logger_log_prefix(__vanessa_logger_vl, LOG_DEBUG, \
-		__FUNCTION__, "%s", str)
+		__func__, "%s", str)
 
 #define VANESSA_LOGGER_DEBUG_ERRNO(str) \
 	_vanessa_logger_log_prefix(__vanessa_logger_vl, LOG_DEBUG, \
-		__FUNCTION__, "%s: %s", str, strerror(errno))
+		__func__, "%s: %s", str, strerror(errno))
 
 #define VANESSA_LOGGER_DEBUG_HERRNO(str) \
 	_vanessa_logger_log_prefix(__vanessa_logger_vl, LOG_DEBUG, \
-		__FUNCTION__, "%s: %s", str, \
+		__func__, "%s: %s", str, \
 		vanessa_logger_strherror(h_errno))
 
 #define VANESSA_LOGGER_DEBUG_RAW_UNSAFE(fmt, ...) \
