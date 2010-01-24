@@ -1,0 +1,83 @@
+Summary: Generic logging layer
+Name: libvanessa_logger0
+Version: @VERSION@
+Release: 1
+License: GNU Lesser General Public Licence
+URL: http://www.vergenet.net/linux/vanessa/
+Group: System Environment/Libraries
+Source0: http://www.vergenet.net/linux/vanessa/download/vanessa_logger/%{version}/vanessa_logger-%{version}.tar.bz2
+BuildRoot: %{_tmppath}/%{name}-%{version}-root
+Provides: %{name}-%{version}
+BuildRequires: gcc make
+
+%description
+Generic logging layer that may be used to log to one or more of syslog, an
+open file handle or a file name. Though due to to limitations in the
+implementation of syslog opening multiple syslog loggers doesn't makes
+sense. Includes the ability to limit which messages will be logged based on
+priorities.
+
+%package devel
+Summary: Headers and static libraries for development
+Group: System Environment/Libraries
+Requires: %{name}-%{version}
+Provides: %{name}-devel-%{version}
+
+%description devel
+Headers and static libraries required to develop against vanessa_logger.
+
+%package -n vanessa_logger-sample
+Summary: Example programme that demonstrates vanessa_logger
+Group: System Environment/Libraries
+Requires: %{name}-devel-%{version}
+
+%description -n vanessa_logger-sample
+Sample programme with source that demonstrates various features of
+vanessa_logger.
+
+
+%prep
+%setup -n vanessa_logger-%{version}
+
+%build
+
+%configure --disable-static 
+make
+
+%install
+make DESTDIR=$RPM_BUILD_ROOT install
+
+# Don't install libvanessa_logger.la
+[ ! -e $RPM_BUILD_ROOT/%{_libdir}/libvanessa_logger.la ] || \
+	rm $RPM_BUILD_ROOT/%{_libdir}/libvanessa_logger.la
+
+
+%clean
+rm -rf $RPM_BUILD_ROOT
+
+
+%post
+ldconfig
+
+%postun
+ldconfig
+
+%files
+%defattr(-, root, root)
+%{_libdir}/*.so.*
+
+%files devel
+%defattr(-, root, root)
+%{_libdir}/*.so
+%{_includedir}/*.h
+%doc README COPYING ChangeLog
+
+%files -n vanessa_logger-sample
+%defattr(-, root, root)
+%{_bindir}/*
+%{_mandir}/man1/vanessa_logger_sample.*
+%doc sample/*.c sample/*.h
+
+%changelog
+* Sat Sep 20 2009 Simon Horman <horms@verge.net.au> (0.0.8-1)
+  new release

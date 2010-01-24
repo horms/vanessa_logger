@@ -30,10 +30,12 @@
 #include <stdlib.h>
 
 #include "vanessa_logger_sample_config.h"
+#include "unused.h"
 
 #define MIN_UID 100
 
-static void log_function(int priority, const char *format, va_list ap) {
+static void log_function(int UNUSED(priority), const char *format, va_list ap)
+{
 	vfprintf(stderr, format, ap);
 }
 	
@@ -42,7 +44,8 @@ static void log_function(int priority, const char *format, va_list ap) {
  * Muriel the main function
  **********************************************************************/
 
-int main (int argc, char **argv){
+int main (void)
+{
   vanessa_logger_t *log_fh=NULL;
   vanessa_logger_t *log_fn=NULL;
   vanessa_logger_t *log_sl=NULL;

@@ -21,6 +21,7 @@ AC_INIT(libvanessa_logger/vanessa_logger.h)
 AM_CONFIG_HEADER(config.h)
 
 AC_CONFIG_MACRO_DIR([libltdl/m4])
+m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 LT_INIT
 LTDL_INIT
 AM_INIT_AUTOMAKE(vanessa_logger, 0.0.8)
@@ -30,21 +31,6 @@ AC_PROG_CC
 AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_MAKE_SET
-
-dnl Checks for libraries.
-dnl Checks for header files.
-AC_HEADER_STDC
-AC_HEADER_SYS_WAIT
-
-dnl Checks for typedefs, structures, and compiler characteristics.
-AC_C_CONST
-AC_TYPE_UID_T
-AC_TYPE_SIZE_T
-
-dnl Checks for library functions.
-AC_TYPE_SIGNAL
-AC_FUNC_WAIT3
-AC_CHECK_FUNCS(flim)
 
 AC_MSG_CHECKING("if facilitynames are available in syslog.h");
 AC_TRY_COMPILE(
@@ -62,7 +48,7 @@ libvanessa_logger/Makefile
 sample/Makefile 
 sample/vanessa_logger_sample_config.h 
 Makefile
-vanessa_logger.spec
+libvanessa_logger0.spec
 debian/Makefile 
 INSTALL
 )
