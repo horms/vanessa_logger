@@ -1,8 +1,8 @@
-vanessa-logger (0.0.8-2) unstable; urgency=low
+vanessa-logger (0.0.9-1) unstable; urgency=low
 
-  * Update standards version from 3.8.3 to 3.8.4
+  * New upstream
 
- -- Simon Horman <horms@debian.org>  Tue, 08 Jun 2010 11:18:10 +0900
+ -- Simon Horman <horms@debian.org>  Tue, 08 Jun 2010 13:42:33 +0900
 
 vanessa-logger (0.0.8-1) unstable; urgency=low
 

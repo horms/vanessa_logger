@@ -24,7 +24,7 @@ AC_CONFIG_MACRO_DIR([libltdl/m4])
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 LT_INIT
 LTDL_INIT
-AM_INIT_AUTOMAKE(vanessa_logger, 0.0.8)
+AM_INIT_AUTOMAKE(vanessa_logger, 0.0.9)
 
 AC_PROG_LIBTOOL
 AC_PROG_CC

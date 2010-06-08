@@ -79,5 +79,7 @@ ldconfig
 %doc sample/*.c sample/*.h
 
 %changelog
+* Tue Jun  8 2010 Simon Horman <horms@verge.net.au> (0.0.9-1)
+  new release
 * Sat Sep 20 2009 Simon Horman <horms@verge.net.au> (0.0.8-1)
   new release
