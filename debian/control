@@ -8,7 +8,7 @@ Standards-Version: 3.8.3
 Package: libvanessa-logger0
 Architecture: any
 Section: libs
-Depends: ${shlibs:Depends}
+Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: Generic Logging Library
  Generic logging layer that may be used to log to one or more of syslog, an
  open file handle or a file name. Though due to limitations in the
@@ -19,7 +19,7 @@ Description: Generic Logging Library
 Package: libvanessa-logger-dev
 Architecture: any
 Section: libdevel
-Depends: libvanessa-logger0 (= ${binary:Version})
+Depends: libvanessa-logger0 (= ${binary:Version}), ${misc:Depends}
 Description: Headers and static libraries for libvanessa-logger
  Headers and static libraries required to develop against vanessa-logger.
  Vanessa logger is a generic logging layer that may be used to log to
@@ -28,7 +28,7 @@ Description: Headers and static libraries for libvanessa-logger
 Package: libvanessa-logger-sample
 Architecture: any
 Section: devel
-Depends: libvanessa-logger0 (= ${binary:Version}), ${shlibs:Depends}
+Depends: libvanessa-logger0 (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
 Suggests: libvanessa-logger-dev (= ${binary:Version})
 Description: Sample programme using libvanessa-logger
  Sample programme with source that demonstrates various features of
