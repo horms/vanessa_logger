@@ -1256,8 +1256,8 @@ __vanessa_logger_str_dump_oct(vanessa_logger_t * vl,
 		if (isgraph(*in_pos) || *in_pos == ' ') {
 			*out_pos++ = *in_pos;
 		} 
-	 	else {
-			sprintf(out_pos, "\\%03o", *in_pos);
+		else {
+			snprintf(out_pos, 5, "\\%03o", *in_pos & 0xff);
 			out_pos += 4;
 		}
 	}
