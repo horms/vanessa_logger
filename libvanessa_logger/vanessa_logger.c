@@ -1263,16 +1263,6 @@ __vanessa_logger_str_dump_oct(vanessa_logger_t * vl,
 
 	*out_pos++ = '\0';
 
-	/* Srink buffer
-	 * Ew, realloc */
-	out = realloc(out, out_pos - out);
-	if (!out) {
-		vanessa_logger_log(vl, LOG_DEBUG, 
-				"vanessa_logger_str_dump: realloc: %s",
-				strerror(errno));
-		return (NULL);
-	}
-
 	return (out);
 }
 
