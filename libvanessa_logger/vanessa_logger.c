@@ -1249,7 +1249,6 @@ __vanessa_logger_str_dump_oct(vanessa_logger_t * vl,
 			case '"': 
 			case '\'':
 				*out_pos++ = '\\';
-			case ' ':
 				*out_pos++ = *in_pos;
 				continue;
 		}
