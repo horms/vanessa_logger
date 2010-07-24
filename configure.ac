@@ -46,4 +46,5 @@ Makefile
 libvanessa_logger0.spec
 debian/Makefile 
 INSTALL
+vanessa-logger.pc
 )

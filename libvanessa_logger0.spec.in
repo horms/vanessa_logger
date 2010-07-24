@@ -69,6 +69,7 @@ ldconfig
 %files devel
 %defattr(-, root, root)
 %{_libdir}/*.so
+%{_libdir}/pkgconfig/*
 %{_includedir}/*.h
 %doc README COPYING ChangeLog
 
