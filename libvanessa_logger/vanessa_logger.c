@@ -136,6 +136,7 @@ typedef struct {
 	size_t buffer_len;
 	int max_priority;
 	unsigned int flag;
+	int option;
 } __vanessa_logger_t;
 
 
@@ -361,9 +362,10 @@ __vanessa_logger_set(__vanessa_logger_t * vl, const char *ident,
 	vl->buffer_len = __VANESSA_LOGGER_BUF_SIZE;
 
 	/*
-	 * Set type
+	 * Set type and option
 	 */
 	vl->type = type;
+	vl->option = option;
 
 	/*
 	 * Set data
@@ -467,6 +469,12 @@ __vanessa_logger_reopen(__vanessa_logger_t * vl)
 			return (-1);
 		}
 		vl->ready = __vanessa_logger_true;
+		break;
+	case __vanessa_logger_syslog:
+		if (vl->ready == __vanessa_logger_true) {
+			closelog();
+		}
+		openlog(vl->ident, LOG_PID | vl->option, *(vl->data.d_syslog));
 		break;
 	default:
 		break;
