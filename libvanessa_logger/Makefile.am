@@ -31,4 +31,4 @@ libvanessa_logger_la_SOURCES = \
 vanessa_logger.h \
 vanessa_logger.c
 
-libvanessa_logger_la_LDFLAGS    = -version-info 0:4:0
+libvanessa_logger_la_LDFLAGS    = -version-info 0:5:0

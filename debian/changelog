@@ -1,3 +1,9 @@
+vanessa-logger (0.0.10-1) unstable; urgency=low
+
+  * New upstream
+
+ -- Simon Horman <horms@debian.org>  Sat, 24 Jul 2010 14:31:32 +0900
+
 vanessa-logger (0.0.9-1) unstable; urgency=low
 
   * New upstream
