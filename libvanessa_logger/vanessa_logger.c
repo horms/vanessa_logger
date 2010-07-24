@@ -146,13 +146,6 @@ typedef struct {
 
 #define __VANESSA_LOGGER_BUF_SIZE (size_t)1024
 
-#define __VANESSA_LOGGER_SAFE_FREE(ptr) \
-  if(ptr!=NULL){ \
-    free(ptr); \
-    ptr=NULL; \
-  }
-
-
 /**********************************************************************
  * Prototype of internal functions
  **********************************************************************/
@@ -229,7 +222,7 @@ __vanessa_logger_destroy (__vanessa_logger_t * vl)
 	}
 
 	__vanessa_logger_reset(vl);
-	__VANESSA_LOGGER_SAFE_FREE(vl);
+	free(vl);
 }
 
 
@@ -270,13 +263,12 @@ static void __vanessa_logger_reset(__vanessa_logger_t * vl)
 			}
 		}
 		if (vl->data.d_filename != NULL) {
-			__VANESSA_LOGGER_SAFE_FREE(vl->data.d_filename->
-						   filename);
+			free(vl->data.d_filename-> filename);
 		}
-		__VANESSA_LOGGER_SAFE_FREE(vl->data.d_filename);
+		free(vl->data.d_filename);
 		break;
 	case __vanessa_logger_syslog:
-		__VANESSA_LOGGER_SAFE_FREE(vl->data.d_syslog);
+		free(vl->data.d_syslog);
 		if (vl->ready == __vanessa_logger_true) {
 			closelog();
 		}
@@ -294,12 +286,12 @@ static void __vanessa_logger_reset(__vanessa_logger_t * vl)
 	/*
 	 * Reset ident
 	 */
-	__VANESSA_LOGGER_SAFE_FREE(vl->ident);
+	free(vl->ident);
 
 	/*
 	 * Reset buffer, buffer_len
 	 */
-	__VANESSA_LOGGER_SAFE_FREE(vl->buffer);
+	free(vl->buffer);
 	vl->buffer_len = 0;
 
 	/*
