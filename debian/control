@@ -9,6 +9,7 @@ Package: libvanessa-logger0
 Architecture: any
 Section: libs
 Depends: ${shlibs:Depends}
+Replaces: libvanessa-logger0 (<< 0.0.8-1)
 Description: Generic Logging Library
  Generic logging layer that may be used to log to one or more of syslog, an
  open file handle or a file name. Though due to limitations in the
