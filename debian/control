@@ -3,7 +3,7 @@ Build-Depends: debhelper (>=7.0.0), dh-autoreconf, libltdl-dev
 Section: libs
 Priority: optional
 Maintainer: Simon Horman <horms@debian.org>
-Standards-Version: 3.8.3
+Standards-Version: 3.9.5
 Homepage: http://horms.net/projects/vanessa/
 
 Package: libvanessa-logger0
