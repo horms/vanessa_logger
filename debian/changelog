@@ -1,3 +1,24 @@
+vanessa-logger (0.0.10-1.1) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * Add Replaces field on libvanessa-logger0 (<< 0.0.8-1) for
+    libvanessa-logger-dev package to fix overwrite issues with
+    /usr/share/doc/libvanessa-logger-dev/README file (Closes: #601989).
+
+ -- Luca Falavigna <dktrkranz@debian.org>  Sun, 14 Nov 2010 16:06:16 +0100
+
+vanessa-logger (0.0.10-1) unstable; urgency=low
+
+  * New upstream
+
+ -- Simon Horman <horms@debian.org>  Sat, 24 Jul 2010 14:31:32 +0900
+
+vanessa-logger (0.0.9-1) unstable; urgency=low
+
+  * New upstream
+
+ -- Simon Horman <horms@debian.org>  Tue, 08 Jun 2010 13:42:33 +0900
+
 vanessa-logger (0.0.8-1) unstable; urgency=low
 
   * New upstream
