@@ -1,3 +1,10 @@
+vanessa-logger (0.0.10-2) unstable; urgency=medium
+
+  * Use autoreconf
+    (closes: #735389)
+
+ -- Simon Horman <horms@debian.org>  Wed, 27 Aug 2014 21:09:23 +0900
+
 vanessa-logger (0.0.10-1.1) unstable; urgency=medium
 
   * Non-maintainer upload.
