@@ -1,5 +1,5 @@
 Source: vanessa-logger
-Build-Depends: debhelper (>=7.0.0), dh-autoreconf
+Build-Depends: debhelper (>=7.0.0), dh-autoreconf, libltdl-dev
 Section: libs
 Priority: optional
 Maintainer: Simon Horman <horms@debian.org>
