@@ -4,6 +4,7 @@ Section: libs
 Priority: optional
 Maintainer: Simon Horman <horms@debian.org>
 Standards-Version: 3.8.3
+Homepage: http://horms.net/projects/vanessa/
 
 Package: libvanessa-logger0
 Architecture: any
