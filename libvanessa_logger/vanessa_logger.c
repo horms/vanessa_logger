@@ -136,6 +136,7 @@ typedef struct {
 	size_t buffer_len;
 	int max_priority;
 	unsigned int flag;
+	int option;
 } __vanessa_logger_t;
 
 
@@ -144,13 +145,6 @@ typedef struct {
  **********************************************************************/
 
 #define __VANESSA_LOGGER_BUF_SIZE (size_t)1024
-
-#define __VANESSA_LOGGER_SAFE_FREE(ptr) \
-  if(ptr!=NULL){ \
-    free(ptr); \
-    ptr=NULL; \
-  }
-
 
 /**********************************************************************
  * Prototype of internal functions
@@ -228,7 +222,7 @@ __vanessa_logger_destroy (__vanessa_logger_t * vl)
 	}
 
 	__vanessa_logger_reset(vl);
-	__VANESSA_LOGGER_SAFE_FREE(vl);
+	free(vl);
 }
 
 
@@ -258,7 +252,7 @@ static void __vanessa_logger_reset(__vanessa_logger_t * vl)
 	vl->ready = __vanessa_logger_false;
 
 	/*
-	 * Close filehandles or log facilities as neccessary
+	 * Close filehandles or log facilities as necessary
 	 * Free any memory used in storing data
 	 */
 	switch (vl->type) {
@@ -269,13 +263,12 @@ static void __vanessa_logger_reset(__vanessa_logger_t * vl)
 			}
 		}
 		if (vl->data.d_filename != NULL) {
-			__VANESSA_LOGGER_SAFE_FREE(vl->data.d_filename->
-						   filename);
+			free(vl->data.d_filename-> filename);
 		}
-		__VANESSA_LOGGER_SAFE_FREE(vl->data.d_filename);
+		free(vl->data.d_filename);
 		break;
 	case __vanessa_logger_syslog:
-		__VANESSA_LOGGER_SAFE_FREE(vl->data.d_syslog);
+		free(vl->data.d_syslog);
 		if (vl->ready == __vanessa_logger_true) {
 			closelog();
 		}
@@ -293,12 +286,12 @@ static void __vanessa_logger_reset(__vanessa_logger_t * vl)
 	/*
 	 * Reset ident
 	 */
-	__VANESSA_LOGGER_SAFE_FREE(vl->ident);
+	free(vl->ident);
 
 	/*
 	 * Reset buffer, buffer_len
 	 */
-	__VANESSA_LOGGER_SAFE_FREE(vl->buffer);
+	free(vl->buffer);
 	vl->buffer_len = 0;
 
 	/*
@@ -361,9 +354,10 @@ __vanessa_logger_set(__vanessa_logger_t * vl, const char *ident,
 	vl->buffer_len = __VANESSA_LOGGER_BUF_SIZE;
 
 	/*
-	 * Set type
+	 * Set type and option
 	 */
 	vl->type = type;
+	vl->option = option;
 
 	/*
 	 * Set data
@@ -433,7 +427,7 @@ __vanessa_logger_set(__vanessa_logger_t * vl, const char *ident,
  * __vanessa_logger_reopen
  * Internal function to reopen a logger
  * pre: vl: pointer to logger to reopen
- * post: In the calse of a filename logger the logger is closed
+ * post: In the case of a filename logger the logger is closed
  *       if it was open and then opened regardless of weather it
  *       was originally open or not.
  *       In the case of a none, syslog or filehandle logger or if vl is NULL
@@ -467,6 +461,12 @@ __vanessa_logger_reopen(__vanessa_logger_t * vl)
 			return (-1);
 		}
 		vl->ready = __vanessa_logger_true;
+		break;
+	case __vanessa_logger_syslog:
+		if (vl->ready == __vanessa_logger_true) {
+			closelog();
+		}
+		openlog(vl->ident, LOG_PID | vl->option, *(vl->data.d_syslog));
 		break;
 	default:
 		break;
@@ -522,7 +522,7 @@ int __vanessa_logger_do_fmt(__vanessa_logger_t *vl,
 		const char *prefix, const char *fmt)
 {
 	int len;
-	int offset = 0;
+	size_t offset = 0;
 	int add_colon = 0;
 
 	memset(vl->buffer, 0, vl->buffer_len);
@@ -1000,7 +1000,7 @@ vanessa_logger_logv(vanessa_logger_t * vl, int priority, const char *fmt,
 
 /**********************************************************************
  * _vanessa_logger_log_prefix
- * Exported function used by convienience macros to prefix a message
+ * Exported function used by convenience macros to prefix a message
  * with the function name that the message was generated in
  **********************************************************************/
 
@@ -1020,7 +1020,7 @@ _vanessa_logger_log_prefix(vanessa_logger_t * vl, int priority,
  * vanessa_logger_set_flag
  * Set flags for logger
  * Should only be used on filehandle or filename loggers,
- * ignored otherewise.
+ * ignored otherwise.
  * pre: vl: logger to set flags of
  *      flag: value to set flags to
  *            See "Flags for filehandle or filename loggers"
@@ -1081,7 +1081,7 @@ static char vanessa_logger_strherror_str[34];
  * vanessa_logger_strherror_r
  * Returns a string describing the error code present in errnum
  * according to the errors for h_errno which is set by gethostbyname(3)
- * gethostbyaddr(3) and others. Analagous to strerror_r(3).
+ * gethostbyaddr(3) and others. Analogous to strerror_r(3).
  * pre: errnum: Error to show as a string
  *      buf: buffer to write error string to
  *      n: length of buf in bytes
@@ -1132,10 +1132,10 @@ vanessa_logger_strherror_r(int errnum, char *buf, size_t n)
  * vanessa_logger_strherror
  * Returns a string describing the error code present in errnum
  * according to the errors for h_errno which is set by gethostbyname(3)
- * gethostbyaddr(3) and others. Analagous to strerror_r(3).
+ * gethostbyaddr(3) and others. Analogous to strerror_r(3).
  * pre: errnum: Error to show as a string
  * post: none on success
- *       on invalud input errno is set to -EINVAL
+ *       on invalid input errno is set to -EINVAL
  *       if buf is too short then errno is set to -ERANGE
  * return: error string for errnum on success
  *         error string for newly set errno on error
@@ -1186,9 +1186,9 @@ int vanessa_logger_reopen(vanessa_logger_t * vl)
  * pre: vl: Vanessa logger to log errors to. May be NULL.
  *      buffer: buffer to sanitise
  *      size: number of bytes in buffer to sanitise
- *      flag: If VANESSA_LOGGER_STR_DUMP_HEX then a hexidecimal dump
+ *      flag: If VANESSA_LOGGER_STR_DUMP_HEX then a hexadecimal dump
  *            will be done. Else an octal dump will be done.
- * post: a new buffer is alocated. For each byte in buffer
+ * post: a new buffer is allocated. For each byte in buffer
  *       that is a printable ASCII character it is added to
  *       the new buffer. All other characters are represented
  *       in the new buffer as octal, in the form \xxx.
@@ -1249,30 +1249,19 @@ __vanessa_logger_str_dump_oct(vanessa_logger_t * vl,
 			case '"': 
 			case '\'':
 				*out_pos++ = '\\';
-			case ' ':
 				*out_pos++ = *in_pos;
 				continue;
 		}
 		if (isgraph(*in_pos) || *in_pos == ' ') {
 			*out_pos++ = *in_pos;
 		} 
-	 	else {
-			sprintf(out_pos, "\\%03o", *in_pos);
+		else {
+			snprintf(out_pos, 5, "\\%03o", *in_pos & 0xff);
 			out_pos += 4;
 		}
 	}
 
 	*out_pos++ = '\0';
-
-	/* Srink buffer
-	 * Ew, realloc */
-	out = realloc(out, out_pos - out);
-	if (!out) {
-		vanessa_logger_log(vl, LOG_DEBUG, 
-				"vanessa_logger_str_dump: realloc: %s",
-				strerror(errno));
-		return (NULL);
-	}
 
 	return (out);
 }
@@ -1324,30 +1313,3 @@ vanessa_logger_str_dump(vanessa_logger_t * vl, const char *buffer,
 
 	return(__vanessa_logger_str_dump_oct(vl, buffer, buffer_length));
 }			 
-
-
-/**********************************************************************
- * vanessa_logger_vl_set_filehandle
- * set the logger function to a logger created for the filehandle 
- * No logging will take place using conveineince macros if logger is set to
- * NULL (default). That is you _must_ call one of the vanessa_logger_vl_set
- * functions to enable logging using convenience macros.
- * pre:  fd: filehandle to log to 
- * post: logger for filehandle is created and set as the 
- *       logger for convenience marcros 
- * created for the filehandle return: none
- **********************************************************************/
-
-vanessa_logger_t *
-vanessa_logger_set_filehandle(FILE *fh)
-{
-	vanessa_logger_t *vl;
-	vl = vanessa_logger_openlog_filehandle(stderr, "romocon", LOG_DEBUG,
-					       VANESSA_LOGGER_F_NO_IDENT_PID);
-	if (!vl)
-		return NULL;
-	return vanessa_logger_set(vl);
-}
-
-
-

@@ -277,12 +277,13 @@ vanessa_logger_reopen(vanessa_logger_t * vl);
  * vanessa_logger_strherror_r
  * Returns a string describing the error code present in errnum
  * according to the errors for h_errno which is set by gethostbyname(3)
- * gethostbyaddr(3) and others. Analagous to strerror_r(3).
+ a
+ * gethostbyaddr(3) and others. Analogous to strerror_r(3).
  * pre: errnum: Error to show as a string
  *      buf: buffer to write error string to
  *      n: length of buf in bytes
  * post: on success error string is written to buf
- *       on invalud input errno is set to -EINVAL
+ *       on invalid input errno is set to -EINVAL
  *       if buf is too short then errno is set to -ERANGE
  * return: 0 on success
  *         -1 on error
@@ -313,7 +314,7 @@ vanessa_logger_strherror(int errnum);
  * vanessa_logger_set_flag
  * Set flags for logger
  * Should only be used on filehandle or filename loggers,
- * ignored otherewise.
+ * ignored otherwise.
  * pre: vl: logger to set flags of
  *      flag: value to set flags to
  *            See "Flags for filehandle or filename loggers"
@@ -348,7 +349,7 @@ vanessa_logger_get_flag(vanessa_logger_t * vl);
  * pre: vl: Vanessa logger to log errors to. May be NULL.
  *      buffer: buffer to sanitise
  *      size: number of bytes in buffer to sanitise
- *      flag: If VANESSA_LOGGER_STR_DUMP_HEX then a hexidecimal dump
+ *      flag: If VANESSA_LOGGER_STR_DUMP_HEX then a hexadecimal dump
  *            will be done. Else an octal dump will be done.
  * post: a new buffer is alocated. For each byte in buffer
  *       that is a printable ASCII character it is added to
@@ -381,31 +382,15 @@ extern vanessa_logger_t *__vanessa_logger_vl;
 /**********************************************************************
  * vanessa_logger_vl_set
  * set the logger function to use with convenience macros
- * No logging will take place using conveineince macros if logger is 
+ * No logging will take place using convenience macros if logger is 
  * set to NULL (default). That is you _must_ call this function to 
  * enable logging using convenience macros.
  * pre: logger: pointer to a vanessa_logger
- * post: logger for convenience marcros is set to logger
+ * post: logger for convenience macros is set to logger
  * return: none
  **********************************************************************/
 
 #define vanessa_logger_set(_vl) __vanessa_logger_vl=(_vl)
-
-
-/**********************************************************************
- * vanessa_logger_vl_set_filehandle
- * set the logger function to a logger created for the filehandle 
- * No logging will take place using conveineince macros if logger is set to
- * NULL (default). That is you _must_ call one of the vanessa_logger_vl_set
- * functions to enable logging using convenience macros.
- * pre:  fd: filehandle to log to 
- * post: logger for filehandle is created and set as the 
- *       logger for convenience marcros 
- * created for the filehandle return: none
- **********************************************************************/
-
-vanessa_logger_t *
-vanessa_logger_set_filehandle(FILE *fh);
 
 
 /**********************************************************************
@@ -422,7 +407,7 @@ vanessa_logger_set_filehandle(FILE *fh);
 
 /**********************************************************************
  * vanessa_logger_vl_get
- * retreive the logger function used by convenience macros
+ * retrieve the logger function used by convenience macros
  * pre: none
  * post: none
  * return: logger used by convenience macros
@@ -456,19 +441,19 @@ vanessa_logger_set_filehandle(FILE *fh);
 
 #define VANESSA_LOGGER_DEBUG_UNSAFE(fmt, ...) \
 	_vanessa_logger_log_prefix(__vanessa_logger_vl, LOG_DEBUG, \
-		__FUNCTION__, fmt, __VA_ARGS__)
+		__func__, fmt, __VA_ARGS__)
 
 #define VANESSA_LOGGER_DEBUG(str) \
 	_vanessa_logger_log_prefix(__vanessa_logger_vl, LOG_DEBUG, \
-		__FUNCTION__, "%s", str)
+		__func__, "%s", str)
 
 #define VANESSA_LOGGER_DEBUG_ERRNO(str) \
 	_vanessa_logger_log_prefix(__vanessa_logger_vl, LOG_DEBUG, \
-		__FUNCTION__, "%s: %s", str, strerror(errno))
+		__func__, "%s: %s", str, strerror(errno))
 
 #define VANESSA_LOGGER_DEBUG_HERRNO(str) \
 	_vanessa_logger_log_prefix(__vanessa_logger_vl, LOG_DEBUG, \
-		__FUNCTION__, "%s: %s", str, \
+		__func__, "%s: %s", str, \
 		vanessa_logger_strherror(h_errno))
 
 #define VANESSA_LOGGER_DEBUG_RAW_UNSAFE(fmt, ...) \
