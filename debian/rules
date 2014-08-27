@@ -5,6 +5,9 @@
 pwd:=$(shell pwd)
 cfg:=--prefix=/usr --mandir=/usr/share/man
 
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/buildflags.mk
+
 build: build-arch build-indep
 build-arch: build-stamp
 build-indep: build-stamp
