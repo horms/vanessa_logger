@@ -9,6 +9,7 @@ build: checkbuild build-stamp
 build-stamp:
 	dh_testdir
 
+	dh_autoreconf
 	./configure $(cfg)
 	$(MAKE)
 	touch build-stamp
@@ -20,6 +21,7 @@ clean:
 
 	[ ! -f Makefile ] || $(MAKE) distclean
 
+	dh_autoreconf_clean
 	dh_clean
 
 install: build
