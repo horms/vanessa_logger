@@ -2,6 +2,12 @@ vanessa-logger (0.0.10-2) unstable; urgency=medium
 
   * Use autoreconf
     (closes: #735389)
+  * Include homepage field in debian/control
+    (closes: #594033)
+  * Emptying dependency_libs in .la files
+  * Update to standards version 3.9.5
+  * Provide recommended targets in debian/rules
+  * Harden build flags
 
  -- Simon Horman <horms@debian.org>  Wed, 27 Aug 2014 21:09:23 +0900
 
