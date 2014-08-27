@@ -5,7 +5,9 @@
 pwd:=$(shell pwd)
 cfg:=--prefix=/usr --mandir=/usr/share/man
 
-build: checkbuild build-stamp
+build: build-arch build-indep
+build-arch: build-stamp
+build-indep: build-stamp
 build-stamp:
 	dh_testdir
 
