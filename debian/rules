@@ -49,6 +49,8 @@ install: build
 
 	dh_movefiles --source=debian/tmp
 
+	sed -i "/dependency_libs/ s/'.*'/''/" `find debian/ -name '*.la'`
+
 binary-indep: build install
 
 binary-arch: build install
