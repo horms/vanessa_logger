@@ -1,3 +1,10 @@
+vanessa-logger (0.0.10-3) unstable; urgency=medium
+
+  * Build verbosely (make V=1) so that compiler flags are not hidden
+    See: https://qa.debian.org/bls/bytag/W-compiler-flags-hidden.html
+
+ -- Simon Horman <horms@debian.org>  Thu, 04 Sep 2014 17:05:22 +0900
+
 vanessa-logger (0.0.10-2) unstable; urgency=medium
 
   * Use autoreconf
