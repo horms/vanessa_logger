@@ -17,6 +17,5 @@ version 2.1 of the License, or (at your option) any later version.
 The complete text of the LGPL license can be found in on Debian
 systems at /usr/share/common-licenses/LGPL.
 
-This package is available by FTP from:
-ftp://ftp.vergenet.net/pub/vanessa/vanessa_logger/
-
+This package is available by HTTP from:
+http://horms.net/projects/vanessa/download/vanessa_logger/
